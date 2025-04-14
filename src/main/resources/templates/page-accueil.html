@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
+</head>
+<body>
+<div class="app-container">
+    <!-- Status bar -->
+    <div class="status-bar">
+        <div class="uk-text-right">8:46</div>
+    </div>
+
+    <!-- Header -->
+    <header class="uk-text-center">
+        <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
+        <div class="uk-margin-small-top login-links">
+            <a href="#">S'inscrire</a> - <a href="#">Se connecter</a>
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <main class="uk-margin-top">
+        <!-- Filters section -->
+        <section class="filters uk-margin-medium-bottom">
+            <div class="uk-text-bold uk-margin-small-bottom">Filtres :</div>
+
+            <div class="uk-margin-small-bottom uk-flex uk-flex-middle">
+                <label class="uk-width-small">Catégories</label>
+                <select class="uk-select">
+                    <option>Toutes</option>
+                </select>
+            </div>
+
+            <div class="uk-margin-small-bottom">
+                <input type="text" class="uk-input uk-border-rounded search-box" placeholder="Le nom de l'article contient">
+            </div>
+
+            <button class="uk-button uk-button-default uk-width-1-1 search-button">Rechercher</button>
+        </section>
+
+        <!-- Liste des articles -->
+        <section class="items-list">
+            <!-- Article 1 -->
+            <div class="item-card uk-card uk-card-default uk-margin-bottom">
+                <div class="uk-card-body uk-padding-small">
+                    <div class="uk-flex">
+                        <div class="item-image uk-margin-right">
+                            <div class="image-placeholder">X</div>
+                        </div>
+                        <div class="item-details">
+                            <h4 class="uk-margin-remove-bottom item-title">PC Gamer pour travailler</h4>
+                            <div class="item-info">Prix : 210 points</div>
+                            <div class="item-info">Classement : 2</div>
+                            <div class="item-info">Fin de l'enchère : 10/08/2018</div>
+                            <div class="item-info">Retrait : 10 allée des Alouettes</div>
+                            <div class="item-info uk-margin-remove-top">44800 Saint Herbain</div>
+                            <div class="item-info">Vendeur : jojo44</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles 2 -->
+            <div class="item-card uk-card uk-card-default uk-margin-bottom">
+                <div class="uk-card-body uk-padding-small">
+                    <div class="uk-flex">
+                        <div class="item-image uk-margin-right">
+                            <div class="image-placeholder">X</div>
+                        </div>
+                        <div class="item-details">
+                            <h4 class="uk-margin-remove-bottom item-title">Rocket stove pour riz et pâtes</h4>
+                            <div class="item-info">Prix : 185 points</div>
+                            <div class="item-info">Fin de l'enchère : 09/10/2018</div>
+                            <div class="item-info">Retrait : 5 rue des Pinsons</div>
+                            <div class="item-info uk-margin-remove-top">44000 Nantes</div>
+                            <div class="item-info">Vendeur : NineJea</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
