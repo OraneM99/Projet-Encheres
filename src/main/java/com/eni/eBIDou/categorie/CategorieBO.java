@@ -1,4 +1,4 @@
-package com.eni.encheres.categorie;
+package com.eni.eBIDou.categorie;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
