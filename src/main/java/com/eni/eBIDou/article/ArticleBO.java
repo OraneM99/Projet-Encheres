@@ -1,15 +1,15 @@
-package com.eni.encheres.article;
+package com.eni.eBIDou.article;
 
 
 
 
-import com.eni.encheres.categorie.CategorieBO;
+import com.eni.eBIDou.categorie.CategorieBO;
+import com.eni.eBIDou.retrait.RetraitBO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +27,6 @@ public class ArticleBO {
     private UtilisateurBO vendeur;
     private UtilisateurBO acheteur;
     private CategorieBO categorieArticle;
-    private Retrait lieuRetrait;
+    private RetraitBO lieuRetrait;
 
 }
