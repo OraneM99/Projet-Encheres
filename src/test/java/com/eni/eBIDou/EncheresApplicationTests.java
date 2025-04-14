@@ -1,4 +1,4 @@
-package com.eni.encheres;
+package com.eni.eBIDou;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
