@@ -1,7 +1,7 @@
 package com.eni.eBIDou.utilisateurs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 //@Entity
@@ -15,38 +15,28 @@ public class UtilisateurBO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noUtilisateur;
 
-    @NotBlank
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String pseudo;
 
-    @NotBlank
+    @Column(nullable = false)
     private String nom;
 
-    @NotBlank
+    @Column(nullable = false)
     private String prenom;
 
-    @NotBlank
-    @Email
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank
     private String telephone;
-
-    @NotBlank
     private String rue;
-
-    @NotBlank
     private String codePostal;
-
-    @NotBlank
     private String ville;
 
-    @NotBlank
+    private int credit;
+
+    private boolean administrateur;
+
+    @JsonIgnore
+    @Column(nullable = false)
     private String motDePasse;
-
-    @Min(0)
-    private int credit = 0;
-
-    private boolean administrateur = false;
 }

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/uikit-3.23.6%202/styles.css" />
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- Header -->
+    <header>
+        <div class="uk-flex uk-flex-between uk-flex-middle">
+            <h1 class="uk-margin-remove">ENI-Enchères</h1>
+            <div class="sticky-note">
+                <div class="sticky-header"></div>
+                <div class="sticky-content">NineJea est connectée</div>
+            </div>
+        </div>
+
+        <nav class="user-nav">
+            <a href="page-nouvelle-vente.html">Vendre un article</a>
+            <a href="page-profil.html">Mon profil</a>
+            <a href="#">Déconnexion</a>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main>
+        <!-- Filtres -->
+        <section class="filters-section">
+            <h3 class="filter-title">Filtres :</h3>
+
+            <div class="radio-filters">
+                <div class="radio-group">
+                    <label class="radio-container">
+                        <input type="radio" name="filter-type" value="achats" checked>
+                        <span class="radio-text">Achats</span>
+                    </label>
+
+                    <div class="checkbox-group indent-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="filter-achats" value="encheres-ouvertes" checked>
+                            <span class="checkbox-text">enchères ouvertes</span>
+                        </label>
+
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="filter-achats" value="encheres-en-cours">
+                            <span class="checkbox-text">mes enchères en cours</span>
+                        </label>
+
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="filter-achats" value="encheres-remportees">
+                            <span class="checkbox-text">mes enchères remportées</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="radio-group">
+                    <label class="radio-container">
+                        <input type="radio" name="filter-type" value="ventes">
+                        <span class="radio-text">Mes ventes</span>
+                    </label>
+
+                    <div class="checkbox-group indent-group disabled">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="filter-ventes" value="ventes-en-cours" disabled>
+                            <span class="checkbox-text">mes ventes en cours</span>
+                        </label>
+
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="filter-ventes" value="ventes-non-debutees" disabled>
+                            <span class="checkbox-text">ventes non débutées</span>
+                        </label>
+
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="filter-ventes" value="ventes-terminees" disabled>
+                            <span class="checkbox-text">ventes terminées</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-filters">
+                <div class="category-filter">
+                    <label for="categorie">Catégories</label>
+                    <select id="categorie" class="category-select">
+                        <option>Toutes</option>
+                        <option>Informatique</option>
+                        <option>Ameublement</option>
+                        <option>Vêtement</option>
+                        <option>Sport & Loisirs</option>
+                    </select>
+                </div>
+
+                <div class="search-input-container">
+                    <input type="text" class="search-input" placeholder="Le nom de l'article contient">
+                </div>
+
+                <button class="search-button">Rechercher</button>
+            </div>
+        </section>
+
+        <!-- Liste des articles -->
+        <section class="items-list">
+            <div class="item-card">
+                <div class="item-content">
+                    <div class="item-image">
+                        <div class="image-placeholder">X</div>
+                    </div>
+                    <div class="item-details">
+                        <h4 class="item-title">PC Gamer pour travailler</h4>
+                        <p class="item-info">Prix : 210 points  Classement : 2</p>
+                        <p class="item-info">Fin de l'enchère : 10/08/2018</p>
+                        <p class="item-info">Retrait : 10 allée des Alouettes</p>
+                        <p class="item-info">44800 Saint Herblain</p>
+                        <p class="item-info">Vendeur : <a href="page-profil.html?user=jojo44" class="seller-link">jojo44</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
