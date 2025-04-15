@@ -34,7 +34,7 @@ public class ArticleService {
         Article articheCherche = daoArticle.selectById(id);
 
         //Erreur : 111 (Article non trouvé)
-        if(articheCherche == null){
+        if (articheCherche == null){
             return  ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Article non trouvé par son id", articheCherche);
         }
 
