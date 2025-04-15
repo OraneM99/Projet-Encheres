@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategorieBO {
+public class Categorie {
     private long noCategorie;
     private String libelle;
 
