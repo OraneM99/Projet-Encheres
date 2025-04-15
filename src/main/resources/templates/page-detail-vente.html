@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères - Détail vente</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/uikit-3.23.6%202/styles.css" />
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- Header -->
+    <header class="uk-text-center">
+        <h1>ENI-Enchères</h1>
+        <h2 class="detail-title">Détail vente</h2>
+    </header>
+
+    <!-- Contenu principal -->
+    <main>
+        <h3 class="article-title">PC Gamer pour travailler</h3>
+
+        <!-- Image de l'article -->
+        <div class="photo-container">
+            <div class="photo-x"></div>
+        </div>
+
+        <!-- Détails de l'enchère -->
+        <div class="auction-details">
+            <div class="auction-info-row">
+                <div class="auction-info-label">Description :</div>
+                <div class="auction-info-value description-value">
+                    <span class="description-placeholder"></span>
+                </div>
+            </div>
+
+            <div class="auction-info-row">
+                <div class="auction-info-label">Catégorie</div>
+                <div class="auction-info-value">Informatique</div>
+            </div>
+
+            <div class="auction-info-row">
+                <div class="auction-info-label">Meilleure offre :</div>
+                <div class="auction-info-value">210 pts par Bob</div>
+            </div>
+
+            <div class="auction-info-row">
+                <div class="auction-info-label">Mise à prix :</div>
+                <div class="auction-info-value">185 points</div>
+            </div>
+
+            <div class="auction-info-row">
+                <div class="auction-info-label">Fin de l'enchère :</div>
+                <div class="auction-info-value">09/10/2018</div>
+            </div>
+
+            <div class="auction-info-row">
+                <div class="auction-info-label">Retrait :</div>
+                <div class="auction-info-value">
+                    10 allée des Alouettes<br>
+                    44800 Saint Herblain
+                </div>
+            </div>
+
+            <div class="auction-info-row">
+                <div class="auction-info-label">Vendeur :</div>
+                <div class="auction-info-value">jojo44</div>
+            </div>
+
+            <div class="auction-info-row bid-row">
+                <div class="auction-info-label">Ma proposition :</div>
+                <div class="auction-info-value">
+                    <div class="bid-container">
+                        <div class="bid-input-container">
+                            <input type="number" class="bid-input" value="220">
+                            <div class="bid-controls">
+                                <button class="bid-up" type="button">▲</button>
+                                <button class="bid-down" type="button">▼</button>
+                            </div>
+                        </div>
+                        <button class="eni-button bid-button">Enchérir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton de retour -->
+        <div class="action-buttons single-button-left">
+            <button class="eni-button">Back</button>
+        </div>
+    </main>
+</div>
+</body>
+</html>
