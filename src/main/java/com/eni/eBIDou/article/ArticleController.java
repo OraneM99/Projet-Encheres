@@ -1,5 +1,6 @@
 package com.eni.eBIDou.article;
 
+import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +32,24 @@ public class ArticleController {
     }
 
     @GetMapping("/getArticleByID")
-    public ResponseEntity<ServiceResponse<Article>> getArticleByID(long id) {
-        ServiceResponse<Article> serviceResponse = articleService.getArticle(id);
+    public ResponseEntity<ServiceResponse<Article>> getArticleById(long id) {
+        ServiceResponse<Article> serviceResponse = articleService.getArticleById(id);
         return ResponseEntity.ok(serviceResponse);
     }
 
     @GetMapping("/getArticleByName")
-    public ResponseEntity<ServiceResponse<Article>> getArticleByName(String name) {
-        ServiceResponse<Article> serviceResponse = articleService.getArticleByName(name);
+    public ResponseEntity<ServiceResponse<List<Article>>> getArticlesByName(String name) {
+        ServiceResponse<List<Article>> serviceResponse = articleService.getArticlesByName(name);
         return ResponseEntity.ok(serviceResponse);
     }
+
+    @GetMapping("/getArticleByCate")
+    public ResponseEntity<ServiceResponse<List<Article>>> getArticlesByCategory(Categorie categorie) {
+        ServiceResponse<List<Article>> serviceResponse = articleService.getArticlesByCategorie(categorie);
+        return ResponseEntity.ok(serviceResponse);
+    }
+
+
 
     @PostMapping("/article")
     public ResponseEntity<ServiceResponse<Article>> create(@RequestBody Article article) {
@@ -48,6 +57,8 @@ public class ArticleController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+
 
 
 }

@@ -1,5 +1,7 @@
 package com.eni.eBIDou.article;
 
+import com.eni.eBIDou.categorie.Categorie;
+
 import java.util.List;
 
 public interface ArticleIDAO {
@@ -8,7 +10,9 @@ public interface ArticleIDAO {
 
     Article selectById(long id);
 
-    Article selectByName(String name);
+    List<Article> selectByName(String name);
+
+    List<Article> selectByCategorie(Categorie categorie);
 
     void ajouterArticle(Article article);
 
@@ -16,5 +20,5 @@ public interface ArticleIDAO {
 
     void deleteArticle(long idArticle);
 
-    //List<ArticleBO> selectByVendeur(UtilisateurBO vendeur);
+
 }

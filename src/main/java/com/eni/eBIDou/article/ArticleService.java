@@ -1,5 +1,6 @@
 package com.eni.eBIDou.article;
 
+import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,8 +8,7 @@ import org.springframework.transaction.support.ResourceTransactionManager;
 
 import java.util.List;
 
-import static com.eni.eBIDou.service.ServiceConstant.CD_ERR_NOT_FOUND;
-import static com.eni.eBIDou.service.ServiceConstant.CD_SUCCESS;
+import static com.eni.eBIDou.service.ServiceConstant.*;
 
 @Service
 public class ArticleService {
@@ -34,7 +34,7 @@ public class ArticleService {
     }
 
 
-    public ServiceResponse<Article> getArticle(long id){
+    public ServiceResponse<Article> getArticleById(long id){
         Article articheCherche = daoArticle.selectById(id);
 
         //Erreur : 111 (Article non trouvé)
@@ -47,15 +47,25 @@ public class ArticleService {
     }
 
 
-    public ServiceResponse<Article> getArticleByName(String name){
-        Article articheCherche = daoArticle.selectByName(name);
+    public ServiceResponse<List<Article>> getArticlesByName(String name){
+        List<Article> artichesCherches = daoArticle.selectByName(name);
 
         //Erreur : 111( Article non trouvé)
-        if(articheCherche == null){
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Article non trouvé par son nom", articheCherche);
+        if(artichesCherches == null){
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Article non trouvé par son nom", artichesCherches);
         }
 
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Article récupéré par son nom", articheCherche);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Article récupéré par son nom", artichesCherches);
+    }
+
+    public ServiceResponse<List<Article>> getArticlesByCategorie(Categorie categorie){
+        List<Article>articlesByCategorie = daoArticle.selectByCategorie(categorie);
+
+        if(articlesByCategorie == null){
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun article pour cette catégorie", null);
+        }
+
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Liste d'article par catégorie récupérée avec succès", articlesByCategorie);
     }
 
 
