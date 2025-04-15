@@ -5,6 +5,7 @@ package com.eni.eBIDou.article;
 
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.retrait.Retrait;
+import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ public class Article {
 
     private UtilisateurBO vendeur;
     private UtilisateurBO acheteur;
+
     private Categorie categorieArticle;
     private Retrait lieuRetrait;
 

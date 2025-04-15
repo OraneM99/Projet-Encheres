@@ -10,5 +10,11 @@ public interface ArticleIDAO {
 
     Article selectByName(String name);
 
+    void ajouterArticle(Article article);
+
+    void updateArticle(Article article);
+
+    void deleteArticle(long idArticle);
+
     //List<ArticleBO> selectByVendeur(UtilisateurBO vendeur);
 }

@@ -44,4 +44,30 @@ public class ArticleDAOmock implements ArticleIDAO {
         }
         return null;
     }
+
+    @Override
+    public void ajouterArticle(Article article) {
+        articlesLists.add(article);
+
+    }
+
+    @Override
+    public void updateArticle(Article article) {
+        for(Article oldArticle : articlesLists) {
+            if (oldArticle.getNoArticle() == article.getNoArticle()) {
+                articlesLists.remove(oldArticle);
+                articlesLists.add(article);
+            }
+        }
+    }
+
+    @Override
+    public void deleteArticle(long idArticle) {
+        for(Article oldArticle : articlesLists) {
+            if (oldArticle.getNoArticle() == idArticle) {
+                articlesLists.remove(oldArticle);
+            }
+        }
+    }
+
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-@Entity
+//@Entity
 @Table(name = "utilisateurs")
 @Data
 @NoArgsConstructor
