@@ -17,4 +17,7 @@ public class UtilisateurDTO {
     private String ville;
     private int credit;
     private boolean administrateur;
+    private String motDePasse;
+
+
 }
