@@ -27,7 +27,9 @@ public class EnchereService {
     public Enchere placerEnchere(Long idArticle, Long idUtilisateur, int montant) {
 
         //Récuperer l'article objet de l'enchere
-        ServiceResponse<Article> articleTarget = articleService.getArticle(idArticle);
+        ServiceResponse<Article> articleRecherche = articleService.getArticleById(idArticle);
+
+        Article articleTarget = articleRecherche.data;
 
         //Recuperer l'utilisateur acteur de l'enchere
         UtilisateurBO acheteurPotent = utilisateurMapper.toBo(utilisateurService.findById(idUtilisateur));
@@ -37,7 +39,7 @@ public class EnchereService {
 
 
         //si la date du jour et avant la date de début d'enchere du produit - l'encher n'est pas accessible
-        if (aujourdHui.isBefore(articleTarget.data.getDateDebutEncheres()) || aujourdHui.isAfter(articleTarget.data.getDateFinEncheres())) {
+        if (aujourdHui.isBefore(articleTarget.getDateDebutEncheres()) || aujourdHui.isAfter(articleTarget.getDateFinEncheres())) {
             throw new RuntimeException("Enchères non ouvertes pour cet article");
         }
 
@@ -46,12 +48,16 @@ public class EnchereService {
             throw new RuntimeException("Crédit insuffisant");
         }
 
-        //Trouver l'enchere la plus élevé sur l'article cible.
-        Enchere meilleureEnchere = trouverMeilleureEnchere(articleTarget.data);
+        //Trouver l'enchere la plus élevé sur l'article ciblé.
+        Enchere meilleureEnchere = trouverMeilleureEnchere(articleTarget);
 
 
-        int montantMin = Math.max(articleTarget.data.getMiseAPrix(), meilleureEnchere != null ? meilleureEnchere.getMontant_enchere() + 1 : 0);
+        //montantMin requis pour une nouvelle enchere : si il y a deja un mise : faire + 1 pour la prochaine mise, sinon prend le montant de mise a Prix
+        int montantMin = Math.max(
+                articleTarget.getMiseAPrix(),
+                meilleureEnchere != null ? meilleureEnchere.getMontant_enchere() + 1 : 0);
 
+        // si la somme du montant de l'enchere est trop faible
         if (montant < montantMin) {
             throw new RuntimeException("Montant trop faible, minimum requis : " + montantMin);
         }
@@ -66,12 +72,12 @@ public class EnchereService {
         acheteurPotent.setCredit(acheteurPotent.getCredit() - montant);
 
         Enchere enchere = new Enchere();
-        enchere.setArticleCible(articleTarget.data);
+        enchere.setArticleCible(articleTarget);
         enchere.setCrieur(acheteurPotent);
         enchere.setDateEnchere(LocalDateTime.now());
         enchere.setMontant_enchere(montant);
 
-        articleTarget.data.getEncheres().add(enchere);
+        articleTarget.getEncheres().add(enchere);
         acheteurPotent.getEncheres().add(enchere);
 
         return enchere;

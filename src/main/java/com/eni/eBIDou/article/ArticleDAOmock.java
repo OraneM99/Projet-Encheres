@@ -1,5 +1,6 @@
 package com.eni.eBIDou.article;
 
+import com.eni.eBIDou.categorie.Categorie;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,8 @@ import java.util.List;
 public class ArticleDAOmock implements ArticleIDAO {
 
     public List<Article> articlesLists = new ArrayList<>();
+
+
 
     public ArticleDAOmock() {
 
@@ -36,13 +39,26 @@ public class ArticleDAOmock implements ArticleIDAO {
     }
 
     @Override
-    public Article selectByName(String name) {
+    public List<Article> selectByName(String name) {
+        List<Article> articlesList = new ArrayList<>();
         for (Article article : articlesLists) {
-            if (article.getNomArticle().equals(name)) {
-                return article;
+            if (article.getNomArticle().contains(name)) {
+                articlesLists.add(article);
             }
         }
-        return null;
+        return articlesList;
+    }
+
+    @Override
+    public List<Article> selectByCategorie(Categorie categorie) {
+        List<Article> articleByCate = new ArrayList<>();
+
+        for (Article article : articlesLists) {
+            if (article.getCategorieArticle().equals(categorie)) {
+                articleByCate.add(article);
+            }
+        }
+        return articleByCate;
     }
 
     @Override
