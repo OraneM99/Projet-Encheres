@@ -1,6 +1,5 @@
 package com.eni.eBIDou.utilisateurs;
 
-import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
 import java.util.List;
 
 public interface UtilisateurService {

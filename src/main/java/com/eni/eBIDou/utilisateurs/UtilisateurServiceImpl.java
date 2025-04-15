@@ -1,10 +1,5 @@
 package com.eni.eBIDou.utilisateurs;
 
-import com.eni.eBIDou.utilisateurs.UtilisateurBO;
-import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
-import com.eni.eBIDou.utilisateurs.UtilisateurNotFoundException;
-import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
-import com.eni.eBIDou.utilisateurs.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
