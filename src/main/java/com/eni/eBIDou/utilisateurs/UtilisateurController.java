@@ -14,6 +14,7 @@ public class UtilisateurController {
 
     private final UtilisateurService service;
 
+
     @GetMapping
     public List<UtilisateurDTO> findAll() {
         return service.findAll();
