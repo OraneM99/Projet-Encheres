@@ -37,7 +37,6 @@ public class Article {
 
     private UtilisateurBO vendeur;
     private UtilisateurBO acheteur;
-
     private Categorie categorieArticle;
     private Retrait lieuRetrait;
 
