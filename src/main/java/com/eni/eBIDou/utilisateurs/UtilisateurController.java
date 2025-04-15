@@ -14,7 +14,6 @@ public class UtilisateurController {
 
     private final UtilisateurService service;
 
-
     @GetMapping
     public List<UtilisateurDTO> findAll() {
         return service.findAll();
@@ -40,5 +39,11 @@ public class UtilisateurController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UtilisateurDTO> login(@RequestParam String login, @RequestParam String motDePasse) {
+        UtilisateurDTO utilisateur = service.login(login, motDePasse);
+        return ResponseEntity.ok(utilisateur);
     }
 }

@@ -12,6 +12,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurRepository repository;
     private final UtilisateurMapper mapper;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public List<UtilisateurDTO> findAll() {
@@ -28,7 +29,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public UtilisateurDTO create(UtilisateurDTO dto) {
         UtilisateurBO bo = mapper.toBo(dto);
-        bo.setMotDePasse(new BCryptPasswordEncoder().encode("passwordParDefaut")); // mot de passe à changer après
+        bo.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse())); // mot de passe fourni par l'utilisateur
         return mapper.toDto(repository.save(bo));
     }
 
@@ -56,5 +57,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             throw new UtilisateurNotFoundException(id);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public UtilisateurDTO login(String login, String motDePasse) {
+        UtilisateurBO utilisateur = repository.findByEmailOrPseudo(login, login)
+                .orElseThrow(() -> new UtilisateurNotFoundException("Utilisateur non trouvé avec login : " + login));
+
+        if (!passwordEncoder.matches(motDePasse, utilisateur.getMotDePasse())) {
+            throw new RuntimeException("Mot de passe incorrect");
+        }
+
+        return mapper.toDto(utilisateur);
     }
 }

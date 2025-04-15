@@ -8,4 +8,6 @@ public interface UtilisateurService {
     UtilisateurDTO create(UtilisateurDTO dto);
     UtilisateurDTO update(Long id, UtilisateurDTO dto);
     void delete(Long id);
+
+    UtilisateurDTO login(String login, String motDePasse);
 }
