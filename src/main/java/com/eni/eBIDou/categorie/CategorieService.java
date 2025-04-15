@@ -30,9 +30,7 @@ public class CategorieService {
         // Succès 200
         return ServiceResponse.buildResponse(CD_SUCCESS,"La liste des catégories a été récupérée avec succès", listeCategorie);
     }
-
-
-
+    
     public ServiceResponse<Categorie> selectById(long id) {
         Categorie categorie = daoCategorie.selectById(id);
         // Erreur 111

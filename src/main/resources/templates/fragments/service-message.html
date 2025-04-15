@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Message d'erreurs</title>
+</head>
+<body>
+<!-- Fragment pour afficher les messages de ServiceResponse -->
+<div th:fragment="serviceMessage(response)" class="service-message">
+    <!-- Message de succès -->
+    <div th:if="${response != null && response['code'] == '777'}" class="uk-alert uk-alert-success">
+        <p th:text="${response['message']}">Opération réussie</p>
+    </div>
+
+    <!-- Message d'erreur - Élément non trouvé -->
+    <div th:if="${response != null && response['code'] == '111'}" class="uk-alert uk-alert-warning">
+        <p th:text="${response['message']}">Élément non trouvé</p>
+    </div>
+
+    <!-- Message d'erreur - Erreur technique -->
+    <div th:if="${response != null && response['code'] == '555'}" class="uk-alert uk-alert-danger">
+        <p th:text="${response['message']}">Une erreur technique est survenue</p>
+    </div>
+
+    <!-- Message d'erreur - Erreur réseau -->
+    <div th:if="${response != null && response['code'] == '558'}" class="uk-alert uk-alert-danger">
+        <p th:text="${response['message']}">Une erreur réseau est survenue</p>
+    </div>
+
+    <!-- Message d'erreur - Erreur inconnue -->
+    <div th:if="${response != null && response['code'] == '666'}" class="uk-alert uk-alert-danger">
+        <p th:text="${response['message']}">Une erreur inconnue est survenue</p>
+    </div>
+</div>
+
+<!-- Message d'erreur quand une liste est vide -->
+<div th:fragment="listeVide(liste, message)" class="empty-list-message">
+    <div th:if="${#lists.isEmpty(liste)}" class="uk-alert uk-alert-warning">
+        <p th:text="${message != null} ? ${message} : 'Aucun élément trouvé.'">Aucun élément trouvé.</p>
+    </div>
+</div>
+
+</body>
+</html>

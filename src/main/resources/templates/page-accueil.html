@@ -1,91 +1,63 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="/uikit-3.23.6%202/css/uikit.min.css" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" th:href="@{/uikit/css/uikit.min.css}" />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 
 <body>
 <div class="app-container">
-    <!-- Status bar -->
-    <div class="status-bar">
-        <div class="uk-text-right">8:46</div>
-    </div>
-
-    <!-- Header -->
     <header class="uk-text-center">
         <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
         <div class="uk-margin-small-top login-links">
-            <a href="page-inscription.html">S'inscrire</a> - <a href="page-login.html">Se connecter</a>
+            <a th:href="@{/inscription}">S'inscrire</a> - <a th:href="@{/login}">Se connecter</a>
         </div>
     </header>
 
-    <!-- Contenu principal -->
     <main class="uk-margin-top">
-        <!-- Filters section -->
+        <!-- Filtres simplifiés -->
         <section class="filters uk-margin-medium-bottom">
-            <div class="uk-text-bold uk-margin-small-bottom">Filtres :</div>
-
-            <div class="uk-margin-small-bottom uk-flex uk-flex-middle">
-                <label class="uk-width-small">Catégories</label>
-                <select class="uk-select">
-                    <option>Toutes</option>
-                </select>
-            </div>
-
-            <div class="uk-margin-small-bottom">
-                <input type="text" class="uk-input uk-border-rounded search-box" placeholder="Le nom de l'article contient">
-            </div>
-
-            <button class="uk-button uk-button-default uk-width-1-1 search-button">Rechercher</button>
+            <h3 class="uk-text-bold uk-margin-small-bottom">Filtres :</h3>
+            <form th:action="@{/encheres}" method="get">
+                <div class="uk-margin-small-bottom">
+                    <label for="categorieSelect">Catégories</label>
+                    <select id="categorieSelect" class="uk-select" name="categorieId">
+                        <option value="0">Toutes</option>
+                        <option th:each="categorie : ${categories}"
+                                th:value="${categorie.noCategorie}"
+                                th:text="${categorie.libelle}">Catégorie</option>
+                    </select>
+                </div>
+                <div class="uk-margin-small-bottom">
+                    <label for="nomArticleInput">Le nom de l'article contient</label>
+                    <input type="text" id="nomArticleInput" class="uk-input" name="nomArticle" th:value="${nomArticle}">
+                </div>
+                <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Rechercher</button>
+            </form>
         </section>
 
-        <!-- Liste des articles -->
-        <section class="items-list">
-            <!-- Article 1 -->
-            <div class="item-card uk-card uk-card-default uk-margin-bottom">
-                <div class="uk-card-body uk-padding-small">
-                    <div class="uk-flex">
-                        <div class="item-image uk-margin-right">
-                            <div class="image-placeholder">X</div>
-                        </div>
-                        <div class="item-details">
-                            <h4 class="uk-margin-remove-bottom item-title">PC Gamer pour travailler</h4>
-                            <div class="item-info">Prix : 210 points</div>
-                            <div class="item-info">Classement : 2</div>
-                            <div class="item-info">Fin de l'enchère : 10/08/2018</div>
-                            <div class="item-info">Retrait : 10 allée des Alouettes</div>
-                            <div class="item-info uk-margin-remove-top">44800 Saint Herbain</div>
-                            <div class="item-info">Vendeur : jojo44</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Message si aucun article -->
+        <div th:if="${articles.isEmpty()}" class="uk-alert uk-alert-warning">
+            <p>Aucun article disponible pour le moment.</p>
+        </div>
 
-            <!-- Articles 2 -->
-            <div class="item-card uk-card uk-card-default uk-margin-bottom">
+        <!-- Liste des articles simplifiée -->
+        <div th:if="${!articles.isEmpty()}" class="items-list">
+            <div class="uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
                 <div class="uk-card-body uk-padding-small">
-                    <div class="uk-flex">
-                        <div class="item-image uk-margin-right">
-                            <div class="image-placeholder">X</div>
-                        </div>
-                        <div class="item-details">
-                            <h4 class="uk-margin-remove-bottom item-title">Rocket stove pour riz et pâtes</h4>
-                            <div class="item-info">Prix : 185 points</div>
-                            <div class="item-info">Fin de l'enchère : 09/10/2018</div>
-                            <div class="item-info">Retrait : 5 rue des Pinsons</div>
-                            <div class="item-info uk-margin-remove-top">44000 Nantes</div>
-                            <div class="item-info">Vendeur : NineJea</div>
-                        </div>
-                    </div>
+                    <h4 class="uk-margin-remove-bottom" th:text="${article.nomArticle}"></h4>
+                    <p th:text="${article.description}"></p>
+                    <p th:text="'Prix : ' + ${article.miseAPrix} + ' points'"></p>
+                    <p th:if="${article.categorieArticle != null}"
+                       th:text="'Catégorie : ' + ${article.categorieArticle.libelle}"></p>
+                    <a th:href="@{/encheres/article/{id}(id=${article.noArticle})}"
+                       class="uk-button uk-button-small uk-button-primary">Voir détails</a>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 </div>
 </body>

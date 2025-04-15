@@ -10,13 +10,11 @@ import static com.eni.eBIDou.service.ServiceConstant.*;
 
 @Service
 public class ArticleService {
-
-
+    
     private ArticleIDAO daoArticle;
 
     public ArticleService(ArticleIDAO daoArticle) {
         this.daoArticle = daoArticle;
-
     }
 
     public ServiceResponse<List<Article>> getAll(){
@@ -36,7 +34,7 @@ public class ArticleService {
         Article articheCherche = daoArticle.selectById(id);
 
         //Erreur : 111 (Article non trouvé)
-        if(articheCherche == null){
+        if (articheCherche == null){
             return  ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Article non trouvé par son id", articheCherche);
         }
 

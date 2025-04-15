@@ -22,7 +22,6 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-
     @GetMapping("/getAllArticles")
     public ResponseEntity<ServiceResponse<List<Article>>> getAllArticles() {
         //Appeler le Métier
