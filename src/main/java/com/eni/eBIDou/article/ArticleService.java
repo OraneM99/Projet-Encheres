@@ -2,9 +2,7 @@ package com.eni.eBIDou.article;
 
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.service.ServiceResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.ResourceTransactionManager;
 
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class ArticleService {
             return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Liste vide et invalide", listesArticles);
         }
         // Success : 200
-        return ServiceResponse.buildResponse(CD_SUCCESS, "La liste des personnes a été récupérée avec succès", listesArticles);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "La liste des articles a été récupérée avec succès", listesArticles);
     }
 
 
