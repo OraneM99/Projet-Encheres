@@ -4,99 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <!-- UIkit CSS -->
     <link rel="stylesheet" th:href="@{/uikit/css/uikit.min.css}" />
-    <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 
 <body>
 <div class="app-container">
-    <!-- Header -->
-    <div th:replace="~{fragments/header :: header}"></div>
+    <header class="uk-text-center">
+        <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
+        <div class="uk-margin-small-top login-links">
+            <a th:href="@{/inscription}">S'inscrire</a> - <a th:href="@{/login}">Se connecter</a>
+        </div>
+    </header>
 
-    <!-- Messages d'erreurs -->
-    <div th:replace="~{fragments/service-message :: serviceMessage(${articlesResponse})}"></div>
-    <div th:replace="~{fragments/service-message :: serviceMessage(${categoriesResponse})}"></div>
-
-    <!-- Contenu principal -->
     <main class="uk-margin-top">
-        <!-- Filters section -->
+        <!-- Filtres simplifiés -->
         <section class="filters uk-margin-medium-bottom">
             <h3 class="uk-text-bold uk-margin-small-bottom">Filtres :</h3>
-
-            <form th:action="@{/encheres}" method="get" class="uk-form-stacked">
-                <div class="uk-margin-small">
-                    <label class="uk-form-label" for="categorieSelect">Catégories</label>
-                    <div class="uk-form-controls">
-                        <select id="categorieSelect" class="uk-select" name="categorieId" aria-label="Sélectionner une catégorie">
-                            <option value="0">Toutes</option>
-                            <option th:each="categorie : ${categories}"
-                                    th:value="${categorie['noCategorie']}"
-                                    th:text="${categorie['libelle']}"
-                                    th:selected="${categorieId != null && categorieId == categorie['noCategorie']}">Catégorie</option>
-                        </select>
-                    </div>
+            <form th:action="@{/encheres}" method="get">
+                <div class="uk-margin-small-bottom">
+                    <label for="categorieSelect">Catégories</label>
+                    <select id="categorieSelect" class="uk-select" name="categorieId">
+                        <option value="0">Toutes</option>
+                        <option th:each="categorie : ${categories}"
+                                th:value="${categorie.noCategorie}"
+                                th:text="${categorie.libelle}">Catégorie</option>
+                    </select>
                 </div>
-
-                <div class="uk-margin-small">
-                    <label class="uk-form-label" for="nomArticleInput">Le nom de l'article contient</label>
-                    <div class="uk-form-controls">
-                        <input type="text"
-                               id="nomArticleInput"
-                               class="uk-input uk-border-rounded"
-                               placeholder="Rechercher un article"
-                               name="nomArticle"
-                               th:value="${nomArticle}"
-                               aria-label="Rechercher par nom d'article">
-                    </div>
+                <div class="uk-margin-small-bottom">
+                    <label for="nomArticleInput">Le nom de l'article contient</label>
+                    <input type="text" id="nomArticleInput" class="uk-input" name="nomArticle" th:value="${nomArticle}">
                 </div>
-
-                <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-top">Rechercher</button>
+                <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Rechercher</button>
             </form>
         </section>
 
-        <!-- Liste des articles -->
-        <section class="items-list">
-            <!-- Message si aucun article -->
-            <div th:replace="~{fragments/errors-response :: listeVide(${articles}, 'Aucun article ne correspond à votre recherche.')}"></div>
+        <!-- Message si aucun article -->
+        <div th:if="${articles.isEmpty()}" class="uk-alert uk-alert-warning">
+            <p>Aucun article disponible pour le moment.</p>
+        </div>
 
-            <!-- Articles trouvés -->
-            <div class="item-card uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
+        <!-- Liste des articles simplifiée -->
+        <div th:if="${!articles.isEmpty()}" class="items-list">
+            <div class="uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
                 <div class="uk-card-body uk-padding-small">
-                    <div class="uk-flex uk-flex-column uk-flex-row@s">
-                        <div class="item-image uk-margin-right uk-flex-none">
-                            <div class="image-placeholder">X</div>
-                        </div>
-                        <div class="item-details uk-flex-1">
-                            <h4 class="uk-margin-remove-bottom item-title" th:text="${article['nomArticle']}"></h4>
-                            <div class="item-info" th:text="'N° Article : ' + ${article['noArticle']}"></div>
-                            <div class="item-info" th:text="'Description : ' + ${article['description']}"></div>
-                            <div class="item-info" th:text="'Prix : ' + ${article['miseAPrix']} + ' points'"></div>
-                            <div class="item-info" th:if="${article['prixVente'] > 0}" th:text="'Prix de vente : ' + ${article['prixVente']} + ' points'"></div>
-                            <div class="item-info" th:if="${article['dateFinEncheres'] != null}" th:text="'Fin de l\'enchère : ' + ${#temporals.format(article['dateFinEncheres'], 'dd/MM/yyyy')}"></div>
-                            <div class="item-info" th:if="${article['categorieArticle'] != null}" th:text="'Catégorie : ' + ${article['categorieArticle']['libelle']}"></div>
-
-                            <!-- Lieu de retrait -->
-                            <div th:if="${article['lieuRetrait'] != null}">
-                                <div class="item-info" th:text="'Retrait : ' + ${article['lieuRetrait']['rue']}"></div>
-                                <div class="item-info uk-margin-remove-top" th:text="${article['lieuRetrait']['codePostal'] + ' ' + article['lieuRetrait']['ville']}"></div>
-                            </div>
-
-                            <div class="item-info" th:if="${article['vendeur'] != null}" th:text="'Vendeur : ' + ${article['vendeur']['pseudo']}"></div>
-
-                            <!-- Actions -->
-                            <div class="uk-margin-small-top">
-                                <a th:href="@{/encheres/article/{id}(id=${article['noArticle']})}"
-                                   class="uk-button uk-button-small uk-button-primary">
-                                    Voir détails
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <h4 class="uk-margin-remove-bottom" th:text="${article.nomArticle}"></h4>
+                    <p th:text="${article.description}"></p>
+                    <p th:text="'Prix : ' + ${article.miseAPrix} + ' points'"></p>
+                    <p th:if="${article.categorieArticle != null}"
+                       th:text="'Catégorie : ' + ${article.categorieArticle.libelle}"></p>
+                    <a th:href="@{/encheres/article/{id}(id=${article.noArticle})}"
+                       class="uk-button uk-button-small uk-button-primary">Voir détails</a>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 </div>
 </body>

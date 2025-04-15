@@ -6,7 +6,7 @@
 </head>
 <body>
 <!-- Fragment pour afficher les messages de ServiceResponse -->
-<div th:fragment="serviceConstant(response)" class="service-message">
+<div th:fragment="serviceMessage(response)" class="service-message">
     <!-- Message de succès -->
     <div th:if="${response != null && response['code'] == '777'}" class="uk-alert uk-alert-success">
         <p th:text="${response['message']}">Opération réussie</p>

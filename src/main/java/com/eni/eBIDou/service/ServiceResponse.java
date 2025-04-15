@@ -1,5 +1,8 @@
 package com.eni.eBIDou.service;
 
+import lombok.Data;
+
+@Data
 public class ServiceResponse <T>{
     public String code;
     public String message;
