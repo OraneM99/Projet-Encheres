@@ -18,6 +18,11 @@ public class Categorie {
     private long noCategorie;
     private String libelle;
 
+    public Categorie(long noCategorie, String libelle) {
+        this.noCategorie = noCategorie;
+        this.libelle = libelle;
+    }
+
     //@OneToMany(mappedBy = "categorie")
     private List<Article> articles;
 
