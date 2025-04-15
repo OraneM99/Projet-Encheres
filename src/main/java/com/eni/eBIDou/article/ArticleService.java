@@ -10,13 +10,11 @@ import static com.eni.eBIDou.service.ServiceConstant.*;
 
 @Service
 public class ArticleService {
-
-
+    
     private ArticleIDAO daoArticle;
 
     public ArticleService(ArticleIDAO daoArticle) {
         this.daoArticle = daoArticle;
-
     }
 
     public ServiceResponse<List<Article>> getAll(){

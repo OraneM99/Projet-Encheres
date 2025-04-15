@@ -1,27 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
     <!-- UIkit CSS -->
-    <link rel="stylesheet" href="/uikit-3.23.6%202/css/uikit.min.css" />
+    <link rel="stylesheet" href="/uikit-3.23.6%202/css/uikit.min.css" th:href="@{/uikit-3.23.6%202/css/uikit.min.css}" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css" th:href="@{/styles.css}" />
 </head>
 
 <body>
 <div class="app-container">
-    <!-- Status bar -->
-    <div class="status-bar">
-        <div class="uk-text-right">8:46</div>
-    </div>
 
     <!-- Header -->
     <header class="uk-text-center">
         <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
         <div class="uk-margin-small-top login-links">
-            <a href="page-inscription.html">S'inscrire</a> - <a href="page-login.html">Se connecter</a>
+            <a href="page-inscription.html" th:href="@{/inscription}">S'inscrire</a> - <a href="page-login.html" th:href="@{/login}">Se connecter</a>
         </div>
     </header>
 
@@ -33,13 +29,18 @@
 
             <div class="uk-margin-small-bottom uk-flex uk-flex-middle">
                 <label class="uk-width-small">Catégories</label>
-                <select class="uk-select">
-                    <option>Toutes</option>
+                <select class="uk-select" th:name="categorie">
+                    <option value="0">Toutes</option>
+                    <option th:each="categorie : ${categories}"
+                            th:value="${categorie.noCategorie}"
+                            th:text="${categorie.libelle}">Catégorie</option>
                 </select>
             </div>
 
             <div class="uk-margin-small-bottom">
-                <input type="text" class="uk-input uk-border-rounded search-box" placeholder="Le nom de l'article contient">
+                <input type="text" class="uk-input uk-border-rounded search-box"
+                       placeholder="Le nom de l'article contient"
+                       th:name="nomArticle">
             </div>
 
             <button class="uk-button uk-button-default uk-width-1-1 search-button">Rechercher</button>
@@ -47,43 +48,34 @@
 
         <!-- Liste des articles -->
         <section class="items-list">
-            <!-- Article 1 -->
-            <div class="item-card uk-card uk-card-default uk-margin-bottom">
+            <!-- Boucle sur la liste des articles -->
+            <div class="item-card uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
                 <div class="uk-card-body uk-padding-small">
                     <div class="uk-flex">
                         <div class="item-image uk-margin-right">
                             <div class="image-placeholder">X</div>
                         </div>
                         <div class="item-details">
-                            <h4 class="uk-margin-remove-bottom item-title">PC Gamer pour travailler</h4>
-                            <div class="item-info">Prix : 210 points</div>
-                            <div class="item-info">Classement : 2</div>
-                            <div class="item-info">Fin de l'enchère : 10/08/2018</div>
-                            <div class="item-info">Retrait : 10 allée des Alouettes</div>
-                            <div class="item-info uk-margin-remove-top">44800 Saint Herbain</div>
-                            <div class="item-info">Vendeur : jojo44</div>
+                            <h4 class="uk-margin-remove-bottom item-title" th:text="${article.nomArticle}">PC Gamer pour travailler</h4>
+                            <div class="item-info" th:text="'Prix : ' + ${article.miseAPrix} + ' points'">Prix : 210 points</div>
+                            <!-- Afficher prix de vente si disponible -->
+                            <div class="item-info" th:if="${article.prixVente > 0}" th:text="'Prix de vente : ' + ${article.prixVente} + ' points'">Prix de vente : 250 points</div>
+                            <div class="item-info" th:text="'Fin de l\'enchère : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Fin de l'enchère : 10/08/2018</div>
+                            <!-- Affichage du lieu de retrait -->
+                            <div class="item-info" th:if="${article.lieuRetrait != null}" th:text="${article.lieuRetrait.rue}">Retrait : 10 allée des Alouettes</div>
+                            <div class="item-info uk-margin-remove-top" th:if="${article.lieuRetrait != null}" th:text="${article.lieuRetrait.codePostal + ' ' + article.lieuRetrait.ville}">44800 Saint Herbain</div>
+                            <!-- Affichage du vendeur -->
+                            <div class="item-info" th:if="${article.vendeur != null}" th:text="'Vendeur : ' + ${article.vendeur.pseudo}">Vendeur : jojo44</div>
+                            <!-- Lien vers la page détaillée de l'article -->
+                            <a th:href="@{/encheres/article/{id}(id=${article.noArticle})}" class="uk-button uk-button-small uk-button-default uk-margin-small-top">Voir détails</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Articles 2 -->
-            <div class="item-card uk-card uk-card-default uk-margin-bottom">
-                <div class="uk-card-body uk-padding-small">
-                    <div class="uk-flex">
-                        <div class="item-image uk-margin-right">
-                            <div class="image-placeholder">X</div>
-                        </div>
-                        <div class="item-details">
-                            <h4 class="uk-margin-remove-bottom item-title">Rocket stove pour riz et pâtes</h4>
-                            <div class="item-info">Prix : 185 points</div>
-                            <div class="item-info">Fin de l'enchère : 09/10/2018</div>
-                            <div class="item-info">Retrait : 5 rue des Pinsons</div>
-                            <div class="item-info uk-margin-remove-top">44000 Nantes</div>
-                            <div class="item-info">Vendeur : NineJea</div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Message si aucun article -->
+            <div th:if="${#lists.isEmpty(articles)}" class="uk-alert uk-alert-warning">
+                <p>Aucun article disponible pour le moment.</p>
             </div>
         </section>
     </main>
