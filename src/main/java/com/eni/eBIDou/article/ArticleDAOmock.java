@@ -1,6 +1,7 @@
 package com.eni.eBIDou.article;
 
 import com.eni.eBIDou.categorie.Categorie;
+import com.eni.eBIDou.categorie.CategorieIDAO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -10,16 +11,34 @@ import java.util.List;
 @Component
 public class ArticleDAOmock implements ArticleIDAO {
 
+    private CategorieIDAO daoCategorie;
+
     public List<Article> articlesLists = new ArrayList<>();
 
 
+    public ArticleDAOmock(CategorieIDAO daoCategorie) {
+        this.daoCategorie = daoCategorie;
 
-    public ArticleDAOmock() {
+        List<Categorie> listCategorieMock = daoCategorie.selectAll();
 
-        articlesLists.add(new Article(1L, "Trombone", "Ca permet de pas regrouper des feuilles", LocalDateTime.of(2025,04,01,10,05) , 5));
-        articlesLists.add(new Article(2L, "bout de scotch", "Peut encore servir", LocalDateTime.of(2025,04,01,10,05), 2));
-        articlesLists.add(new Article(3L, "Cuillère cassée", "Faudra la laver", LocalDateTime.of(2025,04,01,10,05), 1));
-        articlesLists.add(new Article(4L, "éponge salle", "On ne sait jamais", LocalDateTime.of(2025,04,01,10,05) , 1));
+        Article article1 = new Article(1L, "Trombone", "Ca permet de pas regrouper des feuilles", LocalDateTime.of(2025,04,01,10,05) , 5);
+        article1.setCategorieArticle(listCategorieMock.get(2));
+
+        Article article2 = new Article(2L, "bout de scotch", "Peut encore servir", LocalDateTime.of(2025,04,01,10,05 ),1);
+        article2.setCategorieArticle(listCategorieMock.get(2));
+
+        Article article3 = new Article(3L, "Cuillère cassée", "Faudra la laver", LocalDateTime.of(2025,04,01,10,05), 1);
+        article3.setCategorieArticle(listCategorieMock.get(0));
+
+        Article article4 = new Article(4L, "éponge salle", "On ne sait jamais", LocalDateTime.of(2025,04,01,10,05) , 1);
+        article4.setCategorieArticle(listCategorieMock.get(0));
+
+        articlesLists.add(article1);
+        articlesLists.add(article2);
+        articlesLists.add(article3);
+        articlesLists.add(article4);
+
+
 
     }
 
