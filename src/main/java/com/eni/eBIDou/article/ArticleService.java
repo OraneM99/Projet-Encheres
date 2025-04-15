@@ -13,12 +13,12 @@ import static com.eni.eBIDou.service.ServiceConstant.CD_SUCCESS;
 @Service
 public class ArticleService {
 
-    private final ResourceTransactionManager resourceTransactionManager;
+
     private ArticleIDAO daoArticle;
 
-    public ArticleService(ArticleIDAO daoArticle, ResourceTransactionManager resourceTransactionManager) {
+    public ArticleService(ArticleIDAO daoArticle) {
         this.daoArticle = daoArticle;
-        this.resourceTransactionManager = resourceTransactionManager;
+
     }
 
     public ServiceResponse<List<Article>> getAll(){
