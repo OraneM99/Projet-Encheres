@@ -20,4 +20,8 @@ public class Retrait {
     private String codePostal;
     private String ville;
 
+    @OneToOne
+    private Article article;
+
+
 }

@@ -4,7 +4,6 @@ package com.eni.eBIDou.article;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.enchere.Enchere;
-import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,9 +40,6 @@ public class Article {
     @JoinColumn(name="categorie_noCategorie")
     private Categorie categorieArticle;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name= "retrait_id")
-    private Retrait lieuRetrait;
 
     @OneToMany(mappedBy = "articleCible")
     private List<Enchere> encheres;

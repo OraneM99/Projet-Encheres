@@ -17,6 +17,9 @@ public class ArticleService {
         this.daoArticle = daoArticle;
     }
 
+
+
+    // ############################       GET ALL #####################################
     public ServiceResponse<List<Article>> getAll(){
         List<Article> listesArticles = daoArticle.selectAll();
 
@@ -73,9 +76,13 @@ public class ArticleService {
     }
 
     public ServiceResponse<Article> updateArticle(Article article) {
+        Article articleAModifier = daoArticle.selectById(article.getNoArticle());
+
+        if (articleAModifier == null){
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "La modification de l'article n'a pas été réalisé, il n'a pas été recupéré", null);
+        }
 
         daoArticle.updateArticle(article);
-
         return ServiceResponse.buildResponse(CD_SUCCESS, "Article mis à jour avec succes",article );
 
     }
