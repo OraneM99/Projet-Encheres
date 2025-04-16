@@ -15,9 +15,9 @@ public class AuthController {
         if (authentication != null && authentication.isAuthenticated() &&
                 !(authentication.getPrincipal() instanceof String &&
                         "anonymousUser".equals(authentication.getPrincipal()))) {
-            return "redirect:/";
+            return "redirect:/accueil";
         }
-        
+
         return "page-login";
     }
 }

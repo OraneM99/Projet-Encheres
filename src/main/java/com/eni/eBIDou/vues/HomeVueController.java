@@ -4,7 +4,9 @@ import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.article.ArticleDAOmock;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieDAOmock;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class EncheresVueController {
+public class HomeVueController {
 
     private final ArticleDAOmock articleDAOmock;
     private final CategorieDAOmock categorieDAOmock;
 
     @Autowired
-    public EncheresVueController(ArticleDAOmock articleDAOmock, CategorieDAOmock categorieDAOmock) {
+    public HomeVueController(ArticleDAOmock articleDAOmock, CategorieDAOmock categorieDAOmock) {
         this.articleDAOmock = articleDAOmock;
         this.categorieDAOmock = categorieDAOmock;
     }
@@ -55,5 +57,13 @@ public class EncheresVueController {
         model.addAttribute("categorieId", categorieId);
 
         return "page-accueil";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, Model model) {
+        SecurityContextHolder.clearContext();
+        request.getSession().invalidate();
+        model.addAttribute("message", "Vous êtes déconnecté");
+        return "redirect:/accueil";
     }
 }

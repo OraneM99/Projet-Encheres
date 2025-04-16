@@ -24,21 +24,24 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/register","/login", "/register", "/logout", "/css/**", "/js/**", "/uikit/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/register", "/login", "/logout", "/css/**", "/js/**", "/uikit/**", "/images/**").permitAll()  // Permet l'accès aux pages sans authentification
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/accueil")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .permitAll()
                 );
 
         return http.build();
     }
+
 }
 
