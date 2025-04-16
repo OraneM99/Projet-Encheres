@@ -1,13 +1,17 @@
-package com.eni.eBIDou.enchere;
+package com.eni.eBIDou.ihm.enchere;
 
 import com.eni.eBIDou.article.Article;
+import com.eni.eBIDou.enchere.Enchere;
+import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.service.ServiceResponse;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Profile("mock")
 public class EnchereRestController {
     private final EnchereService service;
 

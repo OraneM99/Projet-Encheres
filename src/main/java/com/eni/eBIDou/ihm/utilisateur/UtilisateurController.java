@@ -1,5 +1,7 @@
-package com.eni.eBIDou.utilisateurs;
+package com.eni.eBIDou.ihm.utilisateur;
 
+import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
+import com.eni.eBIDou.utilisateurs.UtilisateurService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;

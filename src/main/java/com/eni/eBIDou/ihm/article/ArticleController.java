@@ -1,5 +1,7 @@
-package com.eni.eBIDou.article;
+package com.eni.eBIDou.ihm.article;
 
+import com.eni.eBIDou.article.Article;
+import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +17,7 @@ import java.util.List;
 
 
 @Controller
-@Profile("mock")
+@Profile("jpa")
 public class ArticleController {
 
     private final ArticleService articleService;
