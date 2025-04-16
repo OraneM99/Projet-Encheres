@@ -1,11 +1,13 @@
 package com.eni.eBIDou.categorie;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Profile("mock")
 public class CategorieDAOmock implements CategorieIDAO{
 
     List<Categorie> categorieList = new ArrayList<>();

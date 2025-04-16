@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 @Profile("mock")
 @Primary
-public class UtilisateurRepositoryMock implements UtilisateurRepository {
+public class UtilisateurRepositoryMock {
 
     private final Map<Long, UtilisateurBO> utilisateurs = new HashMap<>();
     private final AtomicLong idGenerator = new AtomicLong(1);
@@ -29,46 +29,38 @@ public class UtilisateurRepositoryMock implements UtilisateurRepository {
         save(new UtilisateurBO(null, "tata", "Tata", "Titi", "tata@mail.com", null, null, null, null, 100, false, "pass"));
     }
 
-    @Override
     public List<UtilisateurBO> findAll() {
         return new ArrayList<>(utilisateurs.values());
     }
 
-    @Override
     public Optional<UtilisateurBO> findById(Long id) {
         return Optional.ofNullable(utilisateurs.get(id));
     }
 
-    @Override
     public Optional<UtilisateurBO> findByPseudo(String pseudo) {
         return utilisateurs.values().stream()
                 .filter(u -> u.getPseudo().equalsIgnoreCase(pseudo))
                 .findFirst();
     }
 
-    @Override
     public Optional<UtilisateurBO> findByEmailOrPseudo(String email, String pseudo) {
         return utilisateurs.values().stream()
                 .filter(u -> u.getEmail().equalsIgnoreCase(email) || u.getPseudo().equalsIgnoreCase(pseudo))
                 .findFirst();
     }
 
-    @Override
     public boolean existsByPseudo(String pseudo) {
         return utilisateurs.values().stream().anyMatch(u -> u.getPseudo().equalsIgnoreCase(pseudo));
     }
 
-    @Override
     public boolean existsByEmail(String email) {
         return utilisateurs.values().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
     }
 
-    @Override
     public boolean existsById(Long id) {
         return utilisateurs.containsKey(id);
     }
 
-    @Override
     public UtilisateurBO save(UtilisateurBO utilisateur) {
         if (utilisateur.getNoUtilisateur() == null) {
             utilisateur.setNoUtilisateur(idGenerator.getAndIncrement());
@@ -77,7 +69,6 @@ public class UtilisateurRepositoryMock implements UtilisateurRepository {
         return utilisateur;
     }
 
-    @Override
     public void deleteById(Long id) {
         utilisateurs.remove(id);
     }
