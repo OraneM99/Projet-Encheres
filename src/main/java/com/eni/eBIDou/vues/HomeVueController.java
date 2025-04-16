@@ -27,15 +27,13 @@ public class HomeVueController {
         this.categorieDAOmock = categorieDAOmock;
     }
 
-    @GetMapping({"/", "/accueil", "/encheres"})
+    @GetMapping({"/", "/accueil"})
     public String pageAccueil(Model model,
                               @RequestParam(required = false) String nomArticle,
                               @RequestParam(required = false) Long categorieId) {
 
-        // Récupération des articles
         List<Article> articles = articleDAOmock.selectAll();
-
-        // Filtrage si nécessaire
+        
         if (nomArticle != null && !nomArticle.isEmpty()) {
             articles = articles.stream()
                     .filter(a -> a.getNomArticle().toLowerCase().contains(nomArticle.toLowerCase()))
@@ -46,11 +44,9 @@ public class HomeVueController {
                             a.getCategorieArticle().getNoCategorie() == categorieId)
                     .collect(Collectors.toList());
         }
-
-        // Récupération des catégories
+        
         List<Categorie> categories = categorieDAOmock.selectAll();
-
-        // Ajout au modèle
+        
         model.addAttribute("articles", articles);
         model.addAttribute("categories", categories);
         model.addAttribute("nomArticle", nomArticle);

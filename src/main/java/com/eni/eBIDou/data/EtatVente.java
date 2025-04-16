@@ -1,4 +1,4 @@
-package com.eni.eBIDou;
+package com.eni.eBIDou.data;
 
 public enum EtatVente {
     CREEE,

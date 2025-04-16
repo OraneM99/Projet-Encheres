@@ -1,47 +1,38 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/uikit/styles.css" />
+    <link rel="stylesheet" th:href="@{css/styles.css}" />
 </head>
-
 <body>
 <div class="app-container uk-container uk-container-small">
 
     <!-- Header -->
-    <header class="uk-text-center uk-margin-medium-top uk-margin-medium-bottom">
-        <h1 class="uk-margin-remove-bottom eni-title">ENI-Enchères</h1>
-        <h2 class="uk-margin-small-top eni-subtitle">Nouvelle vente</h2>
-    </header>
+    <div th:replace="~{fragments/header :: header}"></div>
 
     <!-- Contenu principal -->
     <main>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 eni-card">
-            <form class="uk-form-stacked">
+            <form class="uk-form-stacked" th:action="@{/vente}" th:object="${article}" method="post" enctype="multipart/form-data">
                 <!-- Article -->
                 <div class="uk-margin">
-                    <label class="uk-form-label eni-form-label" for="article">Article :</label>
+                    <label class="uk-form-label eni-form-label" for="nomArticle">Article :</label>
                     <div class="uk-form-controls">
-                        <input class="uk-input eni-input" type="text" id="article" name="article">
+                        <input class="uk-input eni-input" type="text" th:field="*{nomArticle}" id="nomArticle" name="nomArticle" required>
                     </div>
                 </div>
 
                 <!-- Catégorie -->
                 <div class="uk-margin">
-                    <label class="uk-form-label eni-form-label" for="categorie">Catégorie</label>
+                    <label class="uk-form-label eni-form-label" for="categorieArticle">Catégorie</label>
                     <div class="uk-form-controls">
                         <div class="uk-inline uk-width-1-1">
-                            <select class="uk-select eni-input" id="categorie" name="categorie">
-                                <option value="">Sélectionnez une catégorie</option>
-                                <option value="informatique">Informatique</option>
-                                <option value="ameublement">Ameublement</option>
-                                <option value="vetement">Vêtement</option>
-                                <option value="sport">Sport & Loisirs</option>
+                            <select class="uk-select eni-input" th:field="*{categorieArticle}" id="categorieArticle" name="categorieArticle" required>
+                                <option value="" disabled selected>Sélectionnez une catégorie</option>
+                                <option th:each="categorie : ${categories}" th:value="${categorie.id}" th:text="${categorie.nom}"></option>
                             </select>
                         </div>
                     </div>
@@ -51,7 +42,7 @@
                 <div class="uk-margin">
                     <label class="uk-form-label eni-form-label" for="description">Description :</label>
                     <div class="uk-form-controls">
-                        <textarea class="uk-textarea eni-textarea" id="description" name="description" rows="4"></textarea>
+                        <textarea class="uk-textarea eni-textarea" th:field="*{description}" id="description" name="description" rows="4" required></textarea>
                     </div>
                 </div>
 
@@ -72,10 +63,10 @@
 
                 <!-- Prix -->
                 <div class="uk-margin">
-                    <label class="uk-form-label eni-form-label" for="prix">Prix initial :</label>
+                    <label class="uk-form-label eni-form-label" for="miseAPrix">Prix initial :</label>
                     <div class="uk-form-controls">
                         <div class="uk-flex prix-container">
-                            <input class="uk-input eni-input" type="number" id="prix" name="prix" value="150">
+                            <input class="uk-input eni-input" type="number" th:field="*{miseAPrix}" id="miseAPrix" name="miseAPrix" value="150" required>
                             <div class="prix-controls">
                                 <button class="prix-up" type="button" uk-icon="icon: chevron-up; ratio: 0.8"></button>
                                 <button class="prix-down" type="button" uk-icon="icon: chevron-down; ratio: 0.8"></button>
@@ -86,10 +77,10 @@
 
                 <!-- Début enchère -->
                 <div class="uk-margin">
-                    <label class="uk-form-label eni-form-label" for="debut">Début de l'enchère</label>
+                    <label class="uk-form-label eni-form-label" for="dateDebutEncheres">Début de l'enchère</label>
                     <div class="uk-form-controls">
                         <div class="uk-inline uk-width-1-1 date-group">
-                            <input class="uk-input eni-input date-input" type="text" id="debut" name="debut" placeholder="/ /">
+                            <input class="uk-input eni-input date-input" th:field="*{dateDebutEncheres}" type="datetime-local" id="dateDebutEncheres" name="dateDebutEncheres" required>
                             <button class="uk-button uk-button-default calendar-button" type="button">
                                 <span uk-icon="icon: calendar"></span>
                             </button>
@@ -99,10 +90,10 @@
 
                 <!-- Fin enchère -->
                 <div class="uk-margin">
-                    <label class="uk-form-label eni-form-label" for="fin">Fin de l'enchère :</label>
+                    <label class="uk-form-label eni-form-label" for="dateFinEncheres">Fin de l'enchère :</label>
                     <div class="uk-form-controls">
                         <div class="uk-inline uk-width-1-1 date-group">
-                            <input class="uk-input eni-input date-input" type="text" id="fin" name="fin" placeholder="/ /">
+                            <input class="uk-input eni-input date-input" th:field="*{dateFinEncheres}" type="datetime-local" id="dateFinEncheres" name="dateFinEncheres" required>
                             <button class="uk-button uk-button-default calendar-button" type="button">
                                 <span uk-icon="icon: calendar"></span>
                             </button>

@@ -12,7 +12,10 @@
         <nav class="nav-links">
             <!-- Si l'utilisateur est connecté -->
             <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/encheres}">Enchères</a>
+                <a th:href="@{/vente}">Vendre un article</a>
                 <a th:href="@{/profile}">Mon profil</a>
+                <a th:href="@{/admin}">ADMIN</a>
                 <a th:href="@{/logout}">Se déconnecter</a>
             </div>
 
