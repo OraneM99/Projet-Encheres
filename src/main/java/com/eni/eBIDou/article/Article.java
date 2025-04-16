@@ -1,7 +1,8 @@
 package com.eni.eBIDou.article;
 
-import com.eni.eBIDou.EtatVente;
+
 import com.eni.eBIDou.categorie.Categorie;
+import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.enchere.Enchere;
 import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
