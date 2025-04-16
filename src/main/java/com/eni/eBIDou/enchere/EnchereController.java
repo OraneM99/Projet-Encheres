@@ -4,16 +4,21 @@ import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@RestController
-@Profile("mock")
-public class EnchereRestController {
+@Controller
+@Profile("jpa")
+public class EnchereController {
+
     private final EnchereService service;
 
-    public EnchereRestController(EnchereService service) {
+    public EnchereController(EnchereService service) {
         this.service = service;
     }
 
@@ -49,5 +54,6 @@ public class EnchereRestController {
         ServiceResponse<Enchere> serviceResponse = service.supprimerEnchere(idEnchere);
         return ResponseEntity.ok(serviceResponse);
     }
+
 
 }

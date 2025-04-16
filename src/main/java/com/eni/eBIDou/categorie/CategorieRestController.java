@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Profile("jpa")
+@Profile("mock")
 public class CategorieRestController {
 
     private final CategorieService categorieService;

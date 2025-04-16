@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @Controller
-@Profile("mock")
+@Profile("jpa")
 public class ArticleController {
 
     private final ArticleService articleService;
