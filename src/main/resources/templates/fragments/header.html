@@ -8,27 +8,32 @@
 <header th:fragment="header" class="uk-text-center">
     <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
 
-    <!-- Menu pour utilisateur connecté -->
-<!--    <div class="uk-margin-small-top user-menu" th:if="${session.utilisateur != null}">-->
-        <div class="uk-flex uk-flex-center uk-flex-middle">
-                <span class="uk-margin-small-right">
-<!--                    <i class="uk-icon-user"></i> Bonjour, <span th:text="${session.utilisateur.pseudo}">Utilisateur</span>-->
-                </span>
-            <div class="uk-button-group">
-                <a th:href="@{/encheres/mes-encheres}" class="uk-button uk-button-small uk-button-default">Mes enchères</a>
-                <a th:href="@{/encheres/vendre}" class="uk-button uk-button-small uk-button-default">Vendre un article</a>
-                <a th:href="@{/profil}" class="uk-button uk-button-small uk-button-default">Mon profil</a>
-                <a th:href="@{/logout}" class="uk-button uk-button-small uk-button-danger">Déconnexion</a>
-            </div>
-        </div>
-<!--    </div>-->
 
-    <!-- Liens pour utilisateur non connecté -->
-<!--    <div class="uk-margin-small-top login-links" th:unless="${session.utilisateur != null}">-->
-        <a th:href="@{/inscription}" class="uk-button uk-button-small uk-button-default">S'inscrire</a>
-        <a th:href="@{/login}" class="uk-button uk-button-small uk-button-primary">Se connecter</a>
-<!--    </div>-->
+    <!-- Onglets de navigation -->
+    <nav class="nav-links">
+        <a href="page-nouvelle-vente.html">Vendre</a>
+        <a href="page-profil.html">Profil</a>
+    </nav>
+
+    <!-- Icônes à droite (ex: contact, login/logout) -->
+    <div class="right-icons">
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M2 3h20v18H2z" fill="none" stroke="black"/>
+            </svg>
+        </a>
+        <a th:if="${session.utilisateur == null}" href="login.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M2 22h20v-2c0-4-4-6-10-6S2 16 2 20z"/>
+            </svg>
+        </a>
+        <a th:if="${session.utilisateur != null}" th:href="@{/logout}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M5 12h14M13 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </div>
 </header>
-
 </body>
 </html>

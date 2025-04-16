@@ -10,53 +10,51 @@
 
 <body>
 <div class="app-container">
-    <header class="uk-text-center">
-        <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
-        <div class="uk-margin-small-top login-links">
-            <a th:href="@{/inscription}">S'inscrire</a> - <a th:href="@{/login}">Se connecter</a>
-        </div>
-    </header>
+    <div th:replace="~{fragments/header :: header}"></div>
 
     <main class="uk-margin-top">
-        <!-- Filtres simplifiés -->
-        <section class="filters uk-margin-medium-bottom">
-            <h3 class="uk-text-bold uk-margin-small-bottom">Filtres :</h3>
-            <form th:action="@{/encheres}" method="get">
-                <div class="uk-margin-small-bottom">
-                    <label for="categorieSelect">Catégories</label>
-                    <select id="categorieSelect" class="uk-select" name="categorieId">
-                        <option value="0">Toutes</option>
-                        <option th:each="categorie : ${categories}"
-                                th:value="${categorie.noCategorie}"
-                                th:text="${categorie.libelle}">Catégorie</option>
-                    </select>
-                </div>
-                <div class="uk-margin-small-bottom">
-                    <label for="nomArticleInput">Le nom de l'article contient</label>
-                    <input type="text" id="nomArticleInput" class="uk-input" name="nomArticle" th:value="${nomArticle}">
-                </div>
-                <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Rechercher</button>
-            </form>
-        </section>
+        <div class="grid-container">
+            <!-- Colonne Filtres -->
+            <section class="filters">
+                <h3 class="uk-text-bold uk-margin-small-bottom">Filtres :</h3>
+                <form th:action="@{/encheres}" method="get">
+                    <div class="uk-margin-small-bottom">
+                        <label for="categorieSelect">Catégories</label>
+                        <select id="categorieSelect" class="uk-select" name="categorieId">
+                            <option value="0">Toutes</option>
+                            <option th:each="categorie : ${categories}"
+                                    th:value="${categorie.noCategorie}"
+                                    th:text="${categorie.libelle}">Catégorie</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-bottom">
+                        <label for="nomArticleInput">Le nom de l'article contient</label>
+                        <input type="text" id="nomArticleInput" class="uk-input" name="nomArticle" th:value="${nomArticle}">
+                    </div>
+                    <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Rechercher</button>
+                </form>
+            </section>
 
-        <!-- Message si aucun article -->
-        <div th:if="${articles.isEmpty()}" class="uk-alert uk-alert-warning">
-            <p>Aucun article disponible pour le moment.</p>
-        </div>
-
-        <!-- Liste des articles simplifiée -->
-        <div th:if="${!articles.isEmpty()}" class="items-list">
-            <div class="uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
-                <div class="uk-card-body uk-padding-small">
-                    <h4 class="uk-margin-remove-bottom" th:text="${article.nomArticle}"></h4>
-                    <p th:text="${article.description}"></p>
-                    <p th:text="'Prix : ' + ${article.miseAPrix} + ' points'"></p>
-                    <p th:if="${article.categorieArticle != null}"
-                       th:text="'Catégorie : ' + ${article.categorieArticle.libelle}"></p>
-                    <a th:href="@{/encheres/article/{id}(id=${article.noArticle})}"
-                       class="uk-button uk-button-small uk-button-primary">Voir détails</a>
+            <!-- Colonne Articles -->
+            <section class="items-list">
+                <div th:if="${#lists.isEmpty(articles)}" class="uk-alert uk-alert-warning">
+                    <p th:text="${message}">Aucun article</p>
                 </div>
-            </div>
+
+                <div th:if="${!articles.isEmpty()}">
+                    <div class="uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
+                        <div class="uk-card-body uk-padding-small">
+                            <h4 class="uk-margin-remove-bottom" th:text="${article.nomArticle}"></h4>
+                            <p th:text="${article.description}"></p>
+                            <p th:text="'Prix : ' + ${article.miseAPrix} + ' points'"></p>
+                            <p th:if="${article.categorieArticle != null}"
+                               th:text="'Catégorie : ' + ${article.categorieArticle.libelle}"></p>
+                            <a th:href="@{/encheres/article/{id}(id=${article.noArticle})}"
+                               class="uk-button uk-button-small uk-button-primary">Voir détails</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 </div>
