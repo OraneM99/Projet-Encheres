@@ -1,62 +1,88 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <link rel="stylesheet" th:href="@{/uikit/css/uikit.min.css}" />
-    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <link rel="stylesheet" th:href="@{css/styles.css}" />
 </head>
-
 <body>
 <div class="app-container">
+    <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
 
-    <main class="uk-margin-top">
-        <div class="grid-container">
-            <!-- Colonne Filtres -->
-            <section class="filters">
-                <h3 class="uk-text-bold uk-margin-small-bottom">Filtres :</h3>
-                <form th:action="@{/encheres}" method="get">
-                    <div class="uk-margin-small-bottom">
-                        <label for="categorieSelect">Catégories</label>
-                        <select id="categorieSelect" class="uk-select" name="categorieId">
-                            <option value="0">Toutes</option>
-                            <option th:each="categorie : ${categories}"
-                                    th:value="${categorie.noCategorie}"
-                                    th:text="${categorie.libelle}">Catégorie</option>
-                        </select>
-                    </div>
-                    <div class="uk-margin-small-bottom">
-                        <label for="nomArticleInput">Le nom de l'article contient</label>
-                        <input type="text" id="nomArticleInput" class="uk-input" name="nomArticle" th:value="${nomArticle}">
-                    </div>
-                    <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Rechercher</button>
-                </form>
-            </section>
+    <!-- Titre principal -->
+    <h2 class="uk-text-center uk-margin-medium-top">Liste des enchères</h2>
 
-            <!-- Colonne Articles -->
-            <section class="items-list">
-                <div th:if="${#lists.isEmpty(articles)}" class="uk-alert uk-alert-warning">
-                    <p th:text="${message}">Aucun article</p>
+    <div class="page-content">
+        <!-- Filtres -->
+        <aside class="filters">
+            <h3 class="uk-text-bold uk-margin-small-bottom">Filtres :</h3>
+            <form th:action="@{/encheres}" method="get">
+                <!-- Champ recherche -->
+                <div class="uk-margin-small-bottom">
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: search"></span>
+                        <input class="uk-input" type="text" placeholder="Le nom de l'article contient"
+                               name="nomArticle" th:value="${nomArticle}">
+                    </div>
                 </div>
 
-                <div th:if="${!articles.isEmpty()}">
-                    <div class="uk-card uk-card-default uk-margin-bottom" th:each="article : ${articles}">
-                        <div class="uk-card-body uk-padding-small">
-                            <h4 class="uk-margin-remove-bottom" th:text="${article.nomArticle}"></h4>
-                            <p th:text="${article.description}"></p>
-                            <p th:text="'Prix : ' + ${article.miseAPrix} + ' points'"></p>
-                            <p th:if="${article.categorieArticle != null}"
-                               th:text="'Catégorie : ' + ${article.categorieArticle.libelle}"></p>
-                            <a th:href="@{/encheres/article/{id}(id=${article.noArticle})}"
-                               class="uk-button uk-button-small uk-button-primary">Voir détails</a>
+                <!-- Catégories -->
+                <div class="uk-margin-small-bottom">
+                    <label for="categorieSelect">Catégorie :</label>
+                    <select id="categorieSelect" class="uk-select" name="categorieId">
+                        <option value="0">Toutes</option>
+                        <option th:each="categorie : ${categories}"
+                                th:value="${categorie.noCategorie}"
+                                th:text="${categorie.libelle}"
+                                th:selected="${categorieId != null && categorieId == categorie.noCategorie}">
+                            Catégorie
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Bouton -->
+                <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-top">Rechercher</button>
+            </form>
+        </aside>
+
+        <!-- Liste des articles -->
+        <main class="main-content">
+            <section class="items-list">
+                <!-- Message si aucune enchère -->
+                <div th:if="${articles == null || articles.isEmpty()}" class="uk-alert uk-alert-warning">
+                    <p>Aucune enchère ne correspond à votre recherche</p>
+                </div>
+
+                <!-- Enchères en cours -->
+                <section class="encheres-container">
+                    <h3 class="uk-heading-bullet">Enchères en cours</h3>
+                    <div class="encheres-grid">
+                        <div class="enchere-card" th:each="article : ${articles}">
+                            <div class="uk-card uk-card-default uk-card-body">
+                                <h4 th:text="${article.nomArticle}">Nom de l'article</h4>
+                                <p th:text="${article.description}">Description</p>
+                                <p>
+                                    <strong>Catégorie :</strong>
+                                    <span th:text="${article.categorieArticle.libelle}">Catégorie</span>
+                                </p>
+                                <p>
+                                    <strong>Date fin :</strong>
+                                    <span th:text="${#dates.format(article.dateFinEncheres, 'dd/MM/yyyy')}"></span>
+                                </p>
+                                <p>
+                                    <strong>Prix initial :</strong>
+                                    <span th:text="${article.miseAPrix} + ' €'"></span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </section>
-        </div>
-    </main>
+        </main>
+    </div>
 </div>
 </body>
 </html>
