@@ -23,34 +23,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .formLogin(AbstractHttpConfigurer::disable)  // disable form login
-                .httpBasic(AbstractHttpConfigurer::disable); // disable basic auth
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/", "/register","/login", "/register", "/logout", "/css/**", "/js/**", "/uikit/**", "/images/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                );
 
         return http.build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(authz -> authz
-//                        .requestMatchers("/login", "/logout", "/css/**", "/js/**").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")        // Ton template personnalisé
-//                        .defaultSuccessUrl("/")     // Redirection après login
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login?logout")
-//                        .permitAll()
-//                );
-//
-//        return http.build();
-//    }
-
-
 }
 
