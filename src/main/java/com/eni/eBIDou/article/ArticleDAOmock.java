@@ -2,6 +2,7 @@ package com.eni.eBIDou.article;
 
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieIDAO;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Profile("mock")
 public class ArticleDAOmock implements ArticleIDAO {
 
     private CategorieIDAO daoCategorie;
@@ -37,8 +39,6 @@ public class ArticleDAOmock implements ArticleIDAO {
         articlesLists.add(article2);
         articlesLists.add(article3);
         articlesLists.add(article4);
-
-
 
     }
 

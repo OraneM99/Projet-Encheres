@@ -7,27 +7,27 @@ import lombok.*;
 
 import java.util.List;
 
-//@Entity
-//@Table(name = "utilisateurs")
+@Entity
+@Table(name = "utilisateurs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UtilisateurBO {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noUtilisateur;
 
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String pseudo;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String nom;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String prenom;
 
-//    @Column(nullable = false, unique = true)
+   @Column(nullable = false, unique = true)
     private String email;
 
     private String telephone;
@@ -38,26 +38,9 @@ public class UtilisateurBO {
     private int credit;
 
     private boolean administrateur;
-    
-    private List<Enchere> encheres;
 
-
-//  @JsonIgnore
-//  @Column(nullable = false)
+    @JsonIgnore
+    @Column(nullable = false)
     private String motDePasse;
 
-    public UtilisateurBO(Long noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, int credit, boolean administrateur, String motDePasse) {
-        this.noUtilisateur = noUtilisateur;
-        this.pseudo = pseudo;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.telephone = telephone;
-        this.rue = rue;
-        this.codePostal = codePostal;
-        this.ville = ville;
-        this.credit = credit;
-        this.administrateur = administrateur;
-        this.motDePasse = motDePasse;
-    }
 }
