@@ -1,4 +1,4 @@
-package com.eni.eBIDou.vues;
+package com.eni.eBIDou.ihm.home;
 
 import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.article.ArticleDAOmock;

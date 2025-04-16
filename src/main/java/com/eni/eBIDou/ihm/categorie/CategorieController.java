@@ -1,25 +1,27 @@
-package com.eni.eBIDou.categorie;
+package com.eni.eBIDou.ihm.categorie;
 
+import com.eni.eBIDou.categorie.Categorie;
+import com.eni.eBIDou.categorie.CategorieService;
 import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@Profile("mock")
-public class CategorieRestController {
+@Controller
+@Profile("jpa")
+public class CategorieController {
 
     private final CategorieService categorieService;
 
-    public CategorieRestController(CategorieService categorieService) {
+    public CategorieController(CategorieService categorieService) {
         this.categorieService = categorieService;
+
     }
+
 
     @GetMapping("/getAllCategories")
     public ResponseEntity<ServiceResponse<List<Categorie>>> getAllCategories() {
