@@ -13,6 +13,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private final UtilisateurRepository repository;
     private final UtilisateurMapper mapper;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UtilisateurRepository utilisateurRepository;
 
     @Override
     public List<UtilisateurDTO> findAll() {
@@ -25,7 +26,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 .orElseThrow(() -> new UtilisateurNotFoundException(id));
         return mapper.toDto(bo);
     }
-
+    
+    @Override
+    public boolean pseudoExiste(String pseudo) {
+        return utilisateurRepository.existsByPseudo(pseudo);
+    }
+    
+    @Override
+    public boolean emailExiste(String email) {
+        return utilisateurRepository.existsByEmail(email);
+    }
+    
     @Override
     public UtilisateurDTO create(UtilisateurDTO dto) {
         UtilisateurBO bo = mapper.toBo(dto);

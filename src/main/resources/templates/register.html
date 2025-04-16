@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/uikit/styles.css" />
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
 <body>
@@ -16,85 +15,90 @@
     <!-- Header -->
     <header class="uk-text-center">
         <h1 class="uk-margin-remove-bottom">ENI-Enchères</h1>
-        <h2 class="uk-margin-small-top">Créer un compte</h2>
     </header>
+
+    <!-- Message d'erreur -->
+    <div th:if="${error}" class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p th:text="${error}"></p>
+    </div>
 
     <!-- Contenu principal -->
     <main class="uk-margin-top">
-        <form class="uk-form-stacked uk-width-1-1">
+        <form class="uk-form-stacked uk-width-1-1" th:action="@{/register}" method="post" th:object="${utilisateurDTO}">
             <div class="uk-margin-small">
                 <label class="uk-form-label" for="pseudo">Pseudo :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" id="pseudo" name="pseudo">
+                    <input class="uk-input" type="text" id="pseudo" th:field="*{pseudo}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
                 <label class="uk-form-label" for="nom">Nom :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" id="nom" name="nom">
+                    <input class="uk-input" type="text" id="nom" th:field="*{nom}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
                 <label class="uk-form-label" for="prenom">Prénom :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" id="prenom" name="prenom">
+                    <input class="uk-input" type="text" id="prenom" th:field="*{prenom}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
                 <label class="uk-form-label" for="email">Email :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="email" id="email" name="email">
+                    <input class="uk-input" type="email" id="email" th:field="*{email}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
                 <label class="uk-form-label" for="telephone">Téléphone :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="tel" id="telephone" name="telephone">
+                    <input class="uk-input" type="tel" id="telephone" th:field="*{telephone}">
                 </div>
             </div>
 
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="rue">Rue</label>
+                <label class="uk-form-label" for="rue">Rue :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" id="rue" name="rue">
+                    <input class="uk-input" type="text" id="rue" th:field="*{rue}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="codepostal">Code postal</label>
+                <label class="uk-form-label" for="codePostal">Code postal :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" id="codepostal" name="codepostal">
+                    <input class="uk-input" type="text" id="codePostal" th:field="*{codePostal}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="ville">Ville</label>
+                <label class="uk-form-label" for="ville">Ville :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" id="ville" name="ville">
+                    <input class="uk-input" type="text" id="ville" th:field="*{ville}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="password">Mot de passe :</label>
+                <label class="uk-form-label" for="motDePasse">Mot de passe :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="password" id="password" name="password">
+                    <input class="uk-input" type="password" id="motDePasse" th:field="*{motDePasse}" required>
                 </div>
             </div>
 
             <div class="uk-margin-small">
                 <label class="uk-form-label" for="confirmation">Confirmation :</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="password" id="confirmation" name="confirmation">
+                    <input class="uk-input" type="password" id="confirmation" name="confirmation" required>
                 </div>
             </div>
 
             <div class="uk-flex uk-flex-between uk-margin-medium-top">
-                <button class="uk-button uk-button-default search-button" type="submit">Créer</button>
-                <button class="uk-button uk-button-default" type="button">Annuler</button>
+                <button class="uk-button uk-button-primary" type="submit">Créer</button>
+                <a class="uk-button uk-button-default" th:href="@{/}">Annuler</a>
             </div>
         </form>
     </main>

@@ -18,6 +18,6 @@ public class AuthController {
             return "redirect:/accueil";
         }
 
-        return "page-login";
+        return "login";
     }
 }

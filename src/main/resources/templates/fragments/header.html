@@ -1,29 +1,32 @@
 <div th:fragment="header">
-    <header class="header-container">
-        <!-- Logo -->
-        <div class="logo">
-            <a th:href="@{/}">
-                <img th:src="@{/images/logo.png}" alt="Logo ENI-Enchères">
-                <span>ENI - Enchères</span>
-            </a>
+    <header class="header">
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a th:href="@{/}">
+                    <img th:src="@{/images/logo.png}" alt="Logo ENI-Enchères">
+                    <span class="logo-text">ENI - Enchères</span>
+                </a>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <!-- Si l'utilisateur est connecté -->
+                    <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
+                        <li class="nav-item"><a th:href="@{/vente}" class="nav-link">Vendre un article</a></li>
+                        <li class="nav-item"><a th:href="@{/profile}" class="nav-link">Mon profil</a></li>
+                        <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Se déconnecter</a></li>
+                    </th:block>
+
+                    <!-- Si l'utilisateur n'est pas connecté -->
+                    <th:block th:if="${#authorization.expression('isAnonymous()')}">
+                        <li class="nav-item"><a th:href="@{/login}" class="nav-link">Se connecter</a></li>
+                        <li class="nav-item"><a th:href="@{/register}" class="nav-link">S'inscrire</a></li>
+                    </th:block>
+                </ul>
+            </nav>
         </div>
-
-        <!-- Navigation -->
-        <nav class="nav-links">
-            <!-- Si l'utilisateur est connecté -->
-            <div th:if="${#authorization.expression('isAuthenticated()')}">
-                <a th:href="@{/encheres}">Enchères</a>
-                <a th:href="@{/vente}">Vendre un article</a>
-                <a th:href="@{/profile}">Mon profil</a>
-                <a th:href="@{/admin}">ADMIN</a>
-                <a th:href="@{/logout}">Se déconnecter</a>
-            </div>
-
-            <!-- Si l'utilisateur n'est pas connecté -->
-            <div th:if="${#authorization.expression('isAnonymous()')}">
-                <a th:href="@{/login}">Se connecter</a>
-                <a th:href="@{/register}">S'inscrire</a>
-            </div>
-        </nav>
     </header>
 </div>

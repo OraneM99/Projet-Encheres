@@ -1,12 +1,10 @@
 package com.eni.eBIDou.ihm.home;
 
 import com.eni.eBIDou.article.Article;
-import com.eni.eBIDou.article.ArticleDAOmock;
+import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.categorie.Categorie;
-import com.eni.eBIDou.categorie.CategorieDAOmock;
+import com.eni.eBIDou.categorie.CategorieService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@Profile("mock")
 public class HomeVueController {
 
-    private final ArticleDAOmock articleDAOmock;
-    private final CategorieDAOmock categorieDAOmock;
+    private final ArticleService articleService;
+    private final CategorieService categorieService;
 
-    @Autowired
-    public HomeVueController(ArticleDAOmock articleDAOmock, CategorieDAOmock categorieDAOmock) {
-        this.articleDAOmock = articleDAOmock;
-        this.categorieDAOmock = categorieDAOmock;
+    public HomeVueController(ArticleService articleService, CategorieService categorieService) {
+        this.articleService = articleService;
+        this.categorieService = categorieService;
     }
 
     @GetMapping({"/", "/accueil"})
@@ -34,7 +30,7 @@ public class HomeVueController {
                               @RequestParam(required = false) String nomArticle,
                               @RequestParam(required = false) Long categorieId) {
 
-        List<Article> articles = articleDAOmock.selectAll();
+        List<Article> articles = articleService.getAll().getData();
         
         if (nomArticle != null && !nomArticle.isEmpty()) {
             articles = articles.stream()
@@ -47,14 +43,14 @@ public class HomeVueController {
                     .collect(Collectors.toList());
         }
         
-        List<Categorie> categories = categorieDAOmock.selectAll();
+        List<Categorie> categories = categorieService.selectAll().getData();
         
         model.addAttribute("articles", articles);
         model.addAttribute("categories", categories);
         model.addAttribute("nomArticle", nomArticle);
         model.addAttribute("categorieId", categorieId);
 
-        return "page-accueil";
+        return "accueil";
     }
 
     @GetMapping("/logout")

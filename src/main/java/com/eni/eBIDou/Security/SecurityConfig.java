@@ -20,25 +20,41 @@ public class SecurityConfig {
         return new ProviderManager(List.of(new eBIDouAuthentificationProvider()));
     }
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests(authz -> authz
+//                        .requestMatchers("/", "/register", "/login", "/logout", "/css/**", "/js/**", "/uikit/**", "/images/**").permitAll()  // Permet l'accès aux pages sans authentification
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/", true)
+//                        .permitAll()
+//                )
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/accueil")
+//                        .invalidateHttpSession(true)
+//                        .clearAuthentication(true)
+//                        .permitAll()
+//                );
+//
+//        return http.build();
+//    }
+
+    // Permet toutes les requêtes temporairement
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/register", "/login", "/logout", "/css/**", "/js/**", "/uikit/**", "/images/**").permitAll()  // Permet l'accès aux pages sans authentification
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/accueil")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .permitAll()
-                );
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
