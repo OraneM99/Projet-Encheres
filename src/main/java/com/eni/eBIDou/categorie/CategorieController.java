@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@Profile("mock")
+@Profile("jpa")
 public class CategorieController {
 
     private final CategorieService categorieService;
