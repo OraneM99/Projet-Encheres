@@ -35,10 +35,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return mapper.toDto(bo);
     }
 
-    @Override
-    public Optional<UtilisateurBO> findByPseudo(String pseudo) {
-        return utilisateurRepository.findByPseudo(pseudo);
-    }
     
     @Override
     public boolean pseudoExiste(String pseudo) {
