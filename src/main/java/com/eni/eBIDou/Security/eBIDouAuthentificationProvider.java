@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -42,7 +46,7 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
         System.out.println("Mot de passe stocké : " + utilisateur.getMotDePasse());
 
         // Vérifier le mot de passe 
-        if (!password.equals(utilisateur.getMotDePasse())) {
+        if (!passwordEncoder.matches(password, utilisateur.getMotDePasse())) {
             throw new BadCredentialsException("Mot de passe incorrect");
         }
 
