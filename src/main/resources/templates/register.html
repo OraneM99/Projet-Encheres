@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - ENI-Enchères</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/register.css}" />
+</head>
+<body>
+<div class="page-container">
+    <!-- Navigation du fil d'Ariane -->
+    <div class="breadcrumb">
+        <a th:href="@{/}" class="breadcrumb-link">Accueil</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Inscription</span>
+    </div>
+
+    <!-- Titre de la page -->
+    <h1 class="page-title">Inscription<span class="accent-dot">.</span></h1>
+
+    <!-- Contenu principal -->
+    <div class="register-container">
+        <!-- Message d'erreur -->
+        <div th:if="${error}" class="alert-message error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div class="register-form-container">
+            <h2 class="form-title">Créez votre compte</h2>
+            <p class="form-description">Remplissez le formulaire ci-dessous pour vous inscrire et commencer à enchérir ou vendre vos articles.</p>
+
+            <form class="register-form" th:action="@{/register}" method="post" th:object="${utilisateurDTO}">
+                <div class="form-grid">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="pseudo">Pseudo<span class="required">*</span></label>
+                            <input type="text" id="pseudo" th:field="*{pseudo}" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nom">Nom<span class="required">*</span></label>
+                            <input type="text" id="nom" th:field="*{nom}" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prenom">Prénom<span class="required">*</span></label>
+                            <input type="text" id="prenom" th:field="*{prenom}" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" th:field="*{telephone}" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="rue">Rue<span class="required">*</span></label>
+                            <input type="text" id="rue" th:field="*{rue}" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="codePostal">Code postal<span class="required">*</span></label>
+                            <input type="text" id="codePostal" th:field="*{codePostal}" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ville">Ville<span class="required">*</span></label>
+                            <input type="text" id="ville" th:field="*{ville}" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email<span class="required">*</span></label>
+                            <input type="email" id="email" th:field="*{email}" class="form-input" required>
+                        </div>
+
+                        <div class="password-row">
+                            <div class="form-group password-field">
+                                <label for="motDePasse">Mot de passe<span class="required">*</span></label>
+                                <div class="password-container">
+                                    <input type="password" id="motDePasse" th:field="*{motDePasse}" class="form-input" required>
+                                    <button type="button" class="password-toggle" id="togglePassword">Voir</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group password-field">
+                                <label for="confirmation">Confirmation<span class="required">*</span></label>
+                                <div class="password-container">
+                                    <input type="password" id="confirmation" name="confirmation" class="form-input" required>
+                                    <button type="button" class="password-toggle" id="toggleConfirmation">Voir</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group forgot-password-container">
+                            <a href="#" class="forgot-password-link">Mot de passe oublié ?</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="remember-me">
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="remember-me">
+                        <span class="checkmark"></span>
+                        Se souvenir de moi
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="register-button">
+                        Créer mon compte
+                        <span class="button-icon">→</span>
+                    </button>
+                    <a th:href="@{/}" class="cancel-button">Annuler</a>
+                </div>
+            </form>
+
+            <div class="login-link-container">
+                <p>Vous avez déjà un compte ? <a th:href="@{/login}" class="login-link">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <p>© ENI-Enchères</p>
+    </footer>
+</div>
+
+<!-- Scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmation = document.getElementById('toggleConfirmation');
+        const password = document.getElementById('motDePasse');
+        const confirmation = document.getElementById('confirmation');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            togglePassword.textContent = type === 'password' ? 'Voir' : 'Cacher';
+        });
+
+        toggleConfirmation.addEventListener('click', function() {
+            const type = confirmation.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmation.setAttribute('type', type);
+            toggleConfirmation.textContent = type === 'password' ? 'Voir' : 'Cacher';
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
+</body>
+</html>
