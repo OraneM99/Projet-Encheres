@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         UtilisateurBO bo = repository.findById(id)
                 .orElseThrow(() -> new UtilisateurNotFoundException(id));
         return mapper.toDto(bo);
+    }
+    
+    @Override
+    public Optional<UtilisateurBO> findByPseudo(String pseudo) {
+        return utilisateurRepository.findByPseudo(pseudo);
     }
     
     @Override

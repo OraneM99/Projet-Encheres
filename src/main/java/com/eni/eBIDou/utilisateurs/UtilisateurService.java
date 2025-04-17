@@ -1,9 +1,12 @@
 package com.eni.eBIDou.utilisateurs;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UtilisateurService {
     List<UtilisateurDTO> findAll();
+
+    Optional<UtilisateurBO> findByPseudo(String pseudo);
 
     boolean pseudoExiste(String pseudo);
 
