@@ -7,6 +7,7 @@ import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,13 @@ public class EnchereController {
 
     public EnchereController(EnchereService service) {
         this.service = service;
+    }
+
+    @GetMapping("/encheres")
+    public String getAll(Model model) {
+        List<Enchere> enchereList = service.getAll().getData();
+        model.addAttribute("encheres", enchereList);
+        return "encheres";
     }
 
     @GetMapping("/getAll")
