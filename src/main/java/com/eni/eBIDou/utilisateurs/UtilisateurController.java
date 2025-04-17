@@ -2,6 +2,7 @@ package com.eni.eBIDou.utilisateurs;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -14,11 +15,13 @@ public class UtilisateurController {
 
     private final UtilisateurService service;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<UtilisateurDTO> findAll() {
         return service.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public UtilisateurDTO findById(@PathVariable Long id) {
         return service.findById(id);
@@ -35,6 +38,7 @@ public class UtilisateurController {
         return service.update(id, dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);

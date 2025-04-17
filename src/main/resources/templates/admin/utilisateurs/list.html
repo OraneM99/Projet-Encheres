@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Utilisateurs</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/uikit.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/list-admin.css}" />
+
+</head>
+<body>
+<div class="uk-container uk-container-large">
+    <h1 class="uk-heading-divider">Gestion des utilisateurs</h1>
+
+    <table class="uk-table uk-table-divider uk-table-striped uk-table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Pseudo</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${utilisateurs}">
+            <td th:text="${u.noUtilisateur}">1</td>
+            <td th:text="${u.pseudo}">pseudo</td>
+            <td th:text="${u.email}">email</td>
+            <td>
+                    <span class="uk-label" th:classappend="${u.administrateur} ? 'uk-label-success' : 'uk-label-warning'"
+                          th:text="${u.administrateur} ? 'Oui' : 'Non'">
+                        Non
+                    </span>
+            </td>
+            <td>
+                <a class="uk-button uk-button-primary uk-button-small"
+                   th:href="@{'/admin/utilisateurs/edit/' + ${u.noUtilisateur}}">
+                    Modifier
+                </a>
+                <a class="uk-button uk-button-danger uk-button-small"
+                   th:href="@{'/admin/utilisateurs/delete/' + ${u.noUtilisateur}}"
+                   onclick="return confirm('Confirmer la suppression ?')">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

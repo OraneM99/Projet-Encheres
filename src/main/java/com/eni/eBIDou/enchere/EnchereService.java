@@ -78,7 +78,7 @@ public class EnchereService {
         enchere.setMontant_enchere(montant);
 
         articleTarget.getEncheres().add(enchere);
-        acheteurPotent.getEncheres().add(enchere);
+
 
         return enchere;
     }

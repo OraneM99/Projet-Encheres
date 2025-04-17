@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier utilisateur</title>
+
+    <!-- UIkit & style -->
+    <link rel="stylesheet" th:href="@{/css/admin/uikit.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/edit-admin.css}" />
+
+</head>
+<body>
+
+<div class="uk-card uk-card-default">
+    <h1>Modifier un utilisateur</h1>
+
+    <form class="uk-form-stacked"
+          th:action="@{'/admin/utilisateurs/edit/' + ${utilisateur.noUtilisateur}}"
+          th:object="${utilisateur}"
+          method="post">
+
+        <div class="uk-margin">
+            <label class="uk-form-label">Pseudo</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" type="text" th:field="*{pseudo}" />
+            </div>
+        </div>
+
+        <div class="uk-grid uk-child-width-1-2@s" uk-grid>
+            <div>
+                <label class="uk-form-label">Nom</label>
+                <input class="uk-input" type="text" th:field="*{nom}" />
+            </div>
+            <div>
+                <label class="uk-form-label">Prénom</label>
+                <input class="uk-input" type="text" th:field="*{prenom}" />
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label">Email</label>
+            <input class="uk-input" type="email" th:field="*{email}" />
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label">Téléphone</label>
+            <input class="uk-input" type="text" th:field="*{telephone}" />
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label">Rue</label>
+            <input class="uk-input" type="text" th:field="*{rue}" />
+        </div>
+
+        <div class="uk-grid uk-child-width-1-2@s" uk-grid>
+            <div>
+                <label class="uk-form-label">Code Postal</label>
+                <input class="uk-input" type="text" th:field="*{codePostal}" />
+            </div>
+            <div>
+                <label class="uk-form-label">Ville</label>
+                <input class="uk-input" type="text" th:field="*{ville}" />
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label">Crédit</label>
+            <input class="uk-input" type="number" th:field="*{credit}" />
+        </div>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+            <label><input class="uk-checkbox" type="checkbox" th:field="*{administrateur}" /> Admin</label>
+        </div>
+
+        <button class="uk-button uk-button-primary" type="submit">Enregistrer</button>
+    </form>
+</div>
+
+</body>
+</html>
