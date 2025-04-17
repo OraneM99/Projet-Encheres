@@ -21,7 +21,7 @@
                     <!-- Si l'utilisateur est connecté -->
                     <th:block th:if="${#authorization.expression('isAuthenticated()')}">
                         <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
-                        <li class="nav-item"><a th:href="@{/vente}" class="nav-link">Vendre un article</a></li>
+                        <li class="nav-item"><a th:href="@{/nouvelle-vente}" class="nav-link">Vendre un article</a></li>
                         <li class="nav-item"><a th:href="@{/profil}" class="nav-link">Mon profil</a></li>
                         <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Se déconnecter</a></li>
                     </th:block>
