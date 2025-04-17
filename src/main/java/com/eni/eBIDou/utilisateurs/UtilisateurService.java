@@ -13,6 +13,7 @@ public interface UtilisateurService {
     boolean emailExiste(String email);
 
     UtilisateurDTO findById(Long id);
+    UtilisateurDTO findByPseudo(String pseudo);
     UtilisateurDTO create(UtilisateurDTO dto);
     UtilisateurDTO update(Long id, UtilisateurDTO dto);
     void delete(Long id);

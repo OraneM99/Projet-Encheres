@@ -1,67 +1,70 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères - Profil</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/uikit/styles.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
 <body>
-<div class="app-container">
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- Header -->
-    <header class="uk-text-center">
-        <h1>ENI-Enchères</h1>
-        <h2 class="profile-title">Profil de NineJea</h2>
-    </header>
-
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-content">
     <!-- Contenu principal -->
-    <main>
-        <div class="profile-view">
-            <div class="profile-item">
-                <div class="profile-label">Nom :</div>
-                <div class="profile-value">Crobert</div>
-            </div>
+            <main>
+                <h2 class="profile-title" th:text="${utilisateurDTO.getPseudo()}">Pseudo Utilisateur</h2>
+                <div class="profile-view">
+                    <div class="profile-item">
+                        <div class="profile-label">Nom :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.nom}">Crobert</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Prénom :</div>
-                <div class="profile-value">Jeanine</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Prénom :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.prenom}">Jeanine</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Email :</div>
-                <div class="profile-value">j.crobert@bmail.fr</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Email :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.email}">j.crobert@bmail.fr</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Téléphone :</div>
-                <div class="profile-value">0645250412</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Téléphone :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.telephone}">0645250412</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Rue :</div>
-                <div class="profile-value">rue des goélands</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Rue :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.rue}">rue des goélands</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Code postal :</div>
-                <div class="profile-value">44800</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Code postal :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.codePostal}">44800</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Ville :</div>
-                <div class="profile-value">Saint Herblain</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Ville :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.ville}">Saint Herblain</div>
+                    </div>
+                </div>
+
+                <div class="profile-actions uk-margin-medium-top">
+                    <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour</button></a>
+                </div>
+            </main>
         </div>
 
-        <div class="profile-actions uk-margin-medium-top">
-            <button type="button" class="eni-button">Retour</button>
-        </div>
-    </main>
-</div>
+    </div>
+</section>
 </body>
 </html>

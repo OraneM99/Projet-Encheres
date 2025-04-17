@@ -27,7 +27,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 .orElseThrow(() -> new UtilisateurNotFoundException(id));
         return mapper.toDto(bo);
     }
-    
+
+    @Override
+    public UtilisateurDTO findByPseudo(String pseudo) {
+        UtilisateurBO bo = repository.findByPseudo(pseudo)
+                .orElseThrow(() -> new UtilisateurNotFoundException(pseudo));
+        return mapper.toDto(bo);
+    }
+
     @Override
     public Optional<UtilisateurBO> findByPseudo(String pseudo) {
         return utilisateurRepository.findByPseudo(pseudo);
