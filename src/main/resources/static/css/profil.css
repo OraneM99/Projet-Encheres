@@ -44,8 +44,17 @@
     text-align: center;
 
 }
+.button-wrapper{
+    width: 100%;
+    max-width: 300px;
+}
+
+.button-wrapper > * {
+    width: 100%;
+}
 
 .eni-button {
+    display: block;
     background-color: #1e87f0;
     color: white;
     border: none;
@@ -54,7 +63,10 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
 }
 
 .delete {

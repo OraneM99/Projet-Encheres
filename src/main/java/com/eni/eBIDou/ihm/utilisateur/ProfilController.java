@@ -5,9 +5,12 @@ import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
 import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
 import com.eni.eBIDou.utilisateurs.UtilisateurService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,13 +51,18 @@ public class ProfilController {
 
     }
 
-    @PostMapping("/profil/{id}")
-    public String supprimerProfil(@PathVariable long id, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+    @PostMapping("/profil/supprimer/{id}")
+    public String supprimerProfil(@PathVariable long id, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte, HttpServletRequest request, HttpServletResponse response) {
+
         // empêcher de supprimer un autre compte que le sien
         if (utilisateurConnecte.getNoUtilisateur() != id) {
+            System.out.println("Erreur : tentative de suppression d'un autre compte.");
             throw new AccessDeniedException("Action non autorisée");
         }
         utilisateurService.delete(id);
+        // forcer la déconnexion
+        new SecurityContextLogoutHandler().logout(request, response, null);
+
         // Redirection vers une page d'accueil
         return "redirect:/accueil";
     }

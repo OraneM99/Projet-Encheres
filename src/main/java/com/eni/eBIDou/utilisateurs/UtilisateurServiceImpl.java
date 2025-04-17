@@ -66,6 +66,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         bo.setCodePostal(dto.getCodePostal());
         bo.setVille(dto.getVille());
         bo.setCredit(dto.getCredit());
+        //profil modifier mot de pass
+        bo.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
+
         bo.setAdministrateur(dto.isAdministrateur());
 
         return mapper.toDto(repository.save(bo));

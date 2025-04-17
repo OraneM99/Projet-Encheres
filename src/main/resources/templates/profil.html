@@ -62,75 +62,87 @@
                 </div>
 
                 <!-- Bloc edition -->
-                <form class="profile-view" th:if="${editMode}" th:action="@{/profil}" method="post">
+                <form class="profile-view" th:if="${editMode}" th:action="@{/profil}" method="post" th:object="${utilisateurDTO}">
                     <div class="profile-item">
                         <label class="profile-label">Nom :</label>
-                        <input class="uk-input profile-value" type="text" name="nom" th:value="${utilisateurDTO.nom}" required />
+                        <input class="uk-input profile-value" type="text" name="nom" th:value="${utilisateurDTO.nom}" th:field="*{nom}" required />
                     </div>
 
                     <div class="profile-item">
                         <label class="profile-label">Prénom :</label>
-                        <input class="uk-input profile-value" type="text" name="prenom" th:value="${utilisateurDTO.prenom}" required />
+                        <input class="uk-input profile-value" type="text" name="prenom" th:value="${utilisateurDTO.prenom}" th:field="*{prenom}" required />
                     </div>
 
                     <div class="profile-item">
                         <label class="profile-label">Email :</label>
-                        <input class="uk-input profile-value" type="text" name="email" th:value="${utilisateurDTO.email}" required />
+                        <input class="uk-input profile-value" type="text" name="email" th:value="${utilisateurDTO.email}" th:field="*{email}" required />
                     </div>
 
                     <div class="profile-item">
                         <label class="profile-label">Téléphone :</label>
-                        <input class="uk-input profile-value" type="text" name="telephone" th:value="${utilisateurDTO.telephone}" required />
+                        <input class="uk-input profile-value" type="text" name="telephone" th:value="${utilisateurDTO.telephone}" th:field="*{telephone}" required />
                     </div>
 
                     <div class="profile-item">
                         <label class="profile-label">Rue :</label>
-                        <input class="uk-input profile-value" type="text" name="rue" th:value="${utilisateurDTO.rue}" required />
+                        <input class="uk-input profile-value" type="text" name="rue" th:value="${utilisateurDTO.rue}"  th:field="*{rue}" required />
                     </div>
 
                     <div class="profile-item">
                         <label class="profile-label">Code postal :</label>
-                        <input class="uk-input profile-value" type="text" name="codePostal" th:value="${utilisateurDTO.codePostal}" required />
+                        <input class="uk-input profile-value" type="text" name="codePostal" th:value="${utilisateurDTO.codePostal}" th:field="*{codePostal}" required />
                     </div>
 
                     <div class="profile-item">
                         <label class="profile-label">Ville :</label>
-                        <input class="uk-input profile-value" type="text" name="ville" th:value="${utilisateurDTO.ville}" required />
+                        <input class="uk-input profile-value" type="text" name="ville" th:value="${utilisateurDTO.ville}" th:field="*{ville}" required />
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Mot de passe :</div>
-                        <input type="password" class="uk-input profile-value" name="motDePasse" th:value="${utilisateurDTO.motDePasse}" required />
+                        <input type="password" class="uk-input profile-value" name="motDePasse" th:value="${utilisateurDTO.motDePasse}" th:field="*{motDePasse}" required />
+
                     </div>
                     <div class="profile-item">
                         <div class="profile-label">Confirmation :</div>
-                        <input type="password" class="uk-input profile-value"  name="confirmation" th:value="${utilisateurDTO.motDePasse}" required />
+                        <input type="password" class="uk-input profile-value"  name="confirmation"  required />
+
                     </div>
                     <div class="profile-item">
                         <div class="profile-label">Crédit :</div>
                         <div class="profile-value" th:text="${utilisateurDTO.credit}">1 milion baby</div>
                     </div>
 
-                    <!-- Répète pour les autres champs : email, téléphone, rue, codePostal, ville -->
-
                     <div class="profile-actions uk-margin-medium-top">
-                        <button type="submit" class="eni-button">Enregistrer</button>
-                        <a th:href="@{/profil}">
-                            <button type="button" class="eni-button" style="background-color: #aaa;">Annuler</button>
-                        </a>
-                        <form th:action="@{/profil/{id}(id=${utilisateurDTO.noUtilisateur})}" method="post" onsubmit="return confirm('Es-tu sûr de vouloir supprimer ton compte ?')">
-                            <button type="submit" class="eni-button delete">Supprimer mon compte</button>
-                        </form>
+                        <div class="button-wrapper">
+                            <button type="submit" class="eni-button">Enregistrer</button>
+                        </div>
+                        <div class="button-wrapper">
+                            <a th:href="@{/profil}">
+                                <button type="button" class="eni-button" style="background-color: #aaa;">Annuler</button>
+                            </a>
+                        </div>
+
                     </div>
                 </form>
 
 
                 <div class="profile-actions uk-margin-medium-top">
-                    <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour</button></a>
+                    <div class="button-wrapper">
+                        <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour</button></a>
+                    </div>
                     <!-- Modifier -->
-                    <a th:href="@{'/profil?edit=true'}" th:if="${!editMode}">
-                        <button type="button" class="eni-button">Modifier</button>
-                    </a>
+                    <div class="button-wrapper">
+                        <a th:href="@{'/profil?edit=true'}" th:if="${!editMode}">
+                            <button type="button" class="eni-button">Modifier</button>
+                        </a>
+                    </div>
+                    <div class="button-wrapper" th:if="${editMode}">
+                        <form th:action="@{/profil/supprimer/{id}(id=${utilisateurDTO.noUtilisateur})}"
+                              method="post" onsubmit="return confirm('Es-tu sûr de vouloir supprimer ton compte ?')">
+                            <button type="submit" class="eni-button delete">Supprimer mon compte</button>
+                        </form>
+                    </div>
                 </div>
 
 
