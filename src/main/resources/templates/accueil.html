@@ -13,97 +13,44 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- Artciles Section -->
+<!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-container">
         <div class="hero-content">
             <h1>Trouvez des <span class="accent">trésors</span> aux enchères</h1>
             <p class="hero-description">Plateforme d'enchères en ligne pour objets de seconde main</p>
+            <div class="search-container">
+                <form th:action="@{/encheres}" method="get" class="search-form">
+                    <div class="search-input-container">
+                        <input type="text" name="nomArticle" placeholder="Rechercher un article..." class="search-input">
+                        <select name="categorieId" class="search-category">
+                            <option value="0">Toutes catégories</option>
+                            <option value="1">Maison</option>
+                            <option value="2">Ameublement</option>
+                            <option value="3">Vêtements</option>
+                            <!-- Ajoutez d'autres catégories si nécessaire -->
+                        </select>
+                        <button type="submit" class="search-button">
+                            <span uk-icon="search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
             <div class="hero-cta">
                 <a th:href="@{/encheres}" class="cta-button primary">Voir les enchères</a>
                 <a th:href="@{/register}" class="cta-button secondary">S'inscrire</a>
             </div>
         </div>
         <div class="hero-image">
-            <img th:src="@{/images/hero-auction.png}" alt="Enchères en ligne" />
+            <img th:src="@{/images/tresor.png}" alt="Enchères en ligne" />
         </div>
     </div>
 </section>
 
-<!-- Featured Categories -->
-<section class="categories-section">
+<!-- Enchères en cours -->
+<section class="encheres-current-section">
     <div class="section-container">
-        <h2 class="section-title">Nos catégories populaires</h2>
-        <div class="categories-grid">
-            <!-- Carte de catégorie 1 -->
-            <div class="category-card">
-                <div class="category-icon">
-                    <span uk-icon="icon: laptop; ratio: 2"></span>
-                </div>
-                <h3 class="category-title">Informatique</h3>
-                <p class="category-description">Ordinateurs, tablettes et accessoires</p>
-                <a th:href="@{/encheres?categorieId=1}" class="category-link">Découvrir</a>
-            </div>
-
-            <!-- Carte de catégorie 2 -->
-            <div class="category-card">
-                <div class="category-icon">
-                    <span uk-icon="icon: home; ratio: 2"></span>
-                </div>
-                <h3 class="category-title">Ameublement</h3>
-                <p class="category-description">Meubles et décoration pour votre intérieur</p>
-                <a th:href="@{/encheres?categorieId=2}" class="category-link">Découvrir</a>
-            </div>
-
-            <!-- Carte de catégorie 3 -->
-            <div class="category-card">
-                <div class="category-icon">
-                    <span uk-icon="icon: paint-bucket; ratio: 2"></span>
-                </div>
-                <h3 class="category-title">Vêtements</h3>
-                <p class="category-description">Mode et accessoires de qualité</p>
-                <a th:href="@{/encheres?categorieId=3}" class="category-link">Découvrir</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- How it Works -->
-<section class="how-section">
-    <div class="section-container">
-        <h2 class="section-title">Comment ça marche</h2>
-        <div class="steps-container">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3 class="step-title">Inscrivez-vous</h3>
-                <p class="step-description">Créez un compte gratuit en quelques clics</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3 class="step-title">Parcourez les enchères</h3>
-                <p class="step-description">Trouvez des articles qui vous intéressent</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3 class="step-title">Enchérissez</h3>
-                <p class="step-description">Faites votre offre et suivez les enchères</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3 class="step-title">Gagnez et récupérez</h3>
-                <p class="step-description">Payez et récupérez votre article</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Featured Auctions -->
-<section class="featured-section">
-    <div class="section-container">
-        <h2 class="section-title">Enchères à la une</h2>
+        <h2 class="section-title">Enchères en cours</h2>
         <div class="encheres-grid">
             <!-- Les cartes d'enchères peuvent être générées dynamiquement avec Thymeleaf -->
             <div class="enchere-card" th:each="article : ${articlesEnVedette}">
@@ -161,6 +108,76 @@
         </div>
         <div class="view-all-container">
             <a th:href="@{/encheres}" class="view-all-link">Voir toutes les enchères <span uk-icon="arrow-right"></span></a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="categories-section">
+    <div class="section-container">
+        <h2 class="section-title">Nos catégories populaires</h2>
+        <div class="categories-grid">
+            <!-- Carte de catégorie 1 -->
+            <div class="category-card">
+                <div class="category-icon">
+                    <span uk-icon="icon: laptop; ratio: 2"></span>
+                </div>
+                <h3 class="category-title">Maison</h3>
+                <p class="category-description">Ordinateurs, tablettes et accessoires</p>
+                <a th:href="@{/encheres?categorieId=1}" class="category-link">Découvrir</a>
+            </div>
+
+            <!-- Carte de catégorie 2 -->
+            <div class="category-card">
+                <div class="category-icon">
+                    <span uk-icon="icon: home; ratio: 2"></span>
+                </div>
+                <h3 class="category-title">Ameublement</h3>
+                <p class="category-description">Meubles et décoration pour votre intérieur</p>
+                <a th:href="@{/encheres?categorieId=2}" class="category-link">Découvrir</a>
+            </div>
+
+            <!-- Carte de catégorie 3 -->
+            <div class="category-card">
+                <div class="category-icon">
+                    <span uk-icon="icon: paint-bucket; ratio: 2"></span>
+                </div>
+                <h3 class="category-title">Vêtements</h3>
+                <p class="category-description">Mode et accessoires de qualité</p>
+                <a th:href="@{/encheres?categorieId=3}" class="category-link">Découvrir</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How it Works -->
+<section class="how-section">
+    <div class="section-container">
+        <h2 class="section-title">Comment ça marche</h2>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Inscrivez-vous</h3>
+                <p class="step-description">Créez un compte gratuit en quelques clics</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Parcourez les enchères</h3>
+                <p class="step-description">Trouvez des articles qui vous intéressent</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Enchérissez</h3>
+                <p class="step-description">Faites votre offre et suivez les enchères</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3 class="step-title">Gagnez et récupérez</h3>
+                <p class="step-description">Payez et récupérez votre article</p>
+            </div>
         </div>
     </div>
 </section>
