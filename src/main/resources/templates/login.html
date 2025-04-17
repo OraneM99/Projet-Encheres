@@ -8,8 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
 </head>
 <body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
 <div class="page-container">
     <!-- Navigation du fil d'Ariane -->
     <div class="breadcrumb">
@@ -73,11 +77,6 @@
             </form>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="page-footer">
-        <p>© ENI-Enchères</p>
-    </footer>
 </div>
 </body>
 </html>
