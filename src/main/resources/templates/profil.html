@@ -1,67 +1,156 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères - Profil</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/uikit/styles.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/profil.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
 </head>
 
 <body>
-<div class="app-container">
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- Header -->
-    <header class="uk-text-center">
-        <h1>ENI-Enchères</h1>
-        <h2 class="profile-title">Profil de NineJea</h2>
-    </header>
-
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-content">
     <!-- Contenu principal -->
-    <main>
-        <div class="profile-view">
-            <div class="profile-item">
-                <div class="profile-label">Nom :</div>
-                <div class="profile-value">Crobert</div>
-            </div>
+            <main>
+                <h2 class="profile-title" th:text="${utilisateurDTO.getPseudo()}">Pseudo Utilisateur</h2>
+                <div class="profile-view" th:if="${!editMode}">
+                    <div class="profile-item">
+                        <div class="profile-label">Nom :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.nom}">Crobert</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Prénom :</div>
-                <div class="profile-value">Jeanine</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Prénom :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.prenom}">Jeanine</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Email :</div>
-                <div class="profile-value">j.crobert@bmail.fr</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Email :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.email}">j.crobert@bmail.fr</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Téléphone :</div>
-                <div class="profile-value">0645250412</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Téléphone :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.telephone}">0645250412</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Rue :</div>
-                <div class="profile-value">rue des goélands</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Rue :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.rue}">rue des goélands</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Code postal :</div>
-                <div class="profile-value">44800</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Code postal :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.codePostal}">44800</div>
+                    </div>
 
-            <div class="profile-item">
-                <div class="profile-label">Ville :</div>
-                <div class="profile-value">Saint Herblain</div>
-            </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Ville :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.ville}">Saint Herblain</div>
+                    </div>
+                </div>
+
+                <!-- Bloc edition -->
+                <form class="profile-view" th:if="${editMode}" th:action="@{/profil}" method="post" th:object="${utilisateurDTO}">
+                    <div class="profile-item">
+                        <label class="profile-label">Nom :</label>
+                        <input class="uk-input profile-value" type="text" name="nom" th:value="${utilisateurDTO.nom}" th:field="*{nom}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Prénom :</label>
+                        <input class="uk-input profile-value" type="text" name="prenom" th:value="${utilisateurDTO.prenom}" th:field="*{prenom}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Email :</label>
+                        <input class="uk-input profile-value" type="text" name="email" th:value="${utilisateurDTO.email}" th:field="*{email}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Téléphone :</label>
+                        <input class="uk-input profile-value" type="text" name="telephone" th:value="${utilisateurDTO.telephone}" th:field="*{telephone}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Rue :</label>
+                        <input class="uk-input profile-value" type="text" name="rue" th:value="${utilisateurDTO.rue}"  th:field="*{rue}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Code postal :</label>
+                        <input class="uk-input profile-value" type="text" name="codePostal" th:value="${utilisateurDTO.codePostal}" th:field="*{codePostal}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Ville :</label>
+                        <input class="uk-input profile-value" type="text" name="ville" th:value="${utilisateurDTO.ville}" th:field="*{ville}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Mot de passe :</div>
+                        <input type="password" class="uk-input profile-value" name="motDePasse" th:value="${utilisateurDTO.motDePasse}" th:field="*{motDePasse}" required />
+
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Confirmation :</div>
+                        <input type="password" class="uk-input profile-value"  name="confirmation"  required />
+
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-label">Crédit :</div>
+                        <div class="profile-value" th:text="${utilisateurDTO.credit}">1 milion baby</div>
+                    </div>
+
+                    <div class="profile-actions uk-margin-medium-top">
+                        <div class="button-wrapper">
+                            <button type="submit" class="eni-button">Enregistrer</button>
+                        </div>
+                        <div class="button-wrapper">
+                            <a th:href="@{/profil}">
+                                <button type="button" class="eni-button" style="background-color: #aaa;">Annuler</button>
+                            </a>
+                        </div>
+
+                    </div>
+                </form>
+
+
+                <div class="profile-actions uk-margin-medium-top">
+                    <div class="button-wrapper">
+                        <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour</button></a>
+                    </div>
+                    <!-- Modifier -->
+                    <div class="button-wrapper">
+                        <a th:href="@{'/profil?edit=true'}" th:if="${!editMode}">
+                            <button type="button" class="eni-button">Modifier</button>
+                        </a>
+                    </div>
+                    <div class="button-wrapper" th:if="${editMode}">
+                        <form th:action="@{/profil/supprimer/{id}(id=${utilisateurDTO.noUtilisateur})}"
+                              method="post" onsubmit="return confirm('Es-tu sûr de vouloir supprimer ton compte ?')">
+                            <button type="submit" class="eni-button delete">Supprimer mon compte</button>
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </main>
         </div>
 
-        <div class="profile-actions uk-margin-medium-top">
-            <button type="button" class="eni-button">Retour</button>
-        </div>
-    </main>
-</div>
+    </div>
+</section>
 </body>
 </html>

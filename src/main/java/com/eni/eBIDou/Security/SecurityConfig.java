@@ -36,7 +36,7 @@ public class SecurityConfig {
                         // Ressources statiques accessibles à tous
                         .requestMatchers("/css/**", "/js/**", "/uikit/**", "/images/**").permitAll()
                         // Pages publiques accessibles à tous
-                        .requestMatchers("/", "/accueil", "/login").permitAll()
+                        .requestMatchers("/", "/accueil", "/login", "/register").permitAll()
                         // Pages nécessitant une authentification
                         .requestMatchers("/vente/**", "/profil/**", "/nouvelle-vente/**").authenticated()
                         // Toutes les autres requêtes nécessitent une authentification

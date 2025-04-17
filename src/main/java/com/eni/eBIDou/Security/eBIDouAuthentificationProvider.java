@@ -61,7 +61,7 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
         System.out.println("Connexion réussie pour : " + utilisateur.getPseudo());
         
         return new UsernamePasswordAuthenticationToken(
-                utilisateur.getPseudo(), 
+                utilisateur,
                 null,                   
                 authorities
         );

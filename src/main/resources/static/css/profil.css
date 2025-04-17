@@ -1,0 +1,133 @@
+/* === Profil utilisateur - profil.css === */
+
+/* Mobile First */
+.profile-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 2rem 1rem 1.5rem;
+    color: #333;
+}
+
+.profile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.profile-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 0.2rem;
+}
+
+.profile-value {
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Bouton retour */
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:1rem;
+    padding: 1rem;
+    text-align: center;
+
+}
+.button-wrapper{
+    width: 100%;
+    max-width: 300px;
+}
+
+.button-wrapper > * {
+    width: 100%;
+}
+
+.eni-button {
+    display: block;
+    background-color: #1e87f0;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.delete {
+    background-color: red;
+}
+
+.eni-button:hover {
+    background-color: #0f7ae5;
+}
+
+input.profile-value {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Tablette (≥768px) */
+@media (min-width: 768px) {
+    .profile-title {
+        font-size: 2.2rem;
+    }
+
+    .profile-view {
+        padding: 0 2rem;
+    }
+
+    .profile-item {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .profile-label {
+        min-width: 120px;
+        text-align: right;
+    }
+
+    .profile-actions {
+        padding: 0 2rem;
+    }
+}
+
+/* Desktop (≥1024px) */
+@media (min-width: 1024px) {
+    .profile-view {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .profile-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 800px;
+        margin: 2rem auto 0;
+    }
+
+    .profile-title {
+        font-size: 2.5rem;
+    }
+}
