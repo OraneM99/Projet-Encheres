@@ -106,16 +106,37 @@ label {
 .password-toggle {
     position: absolute;
     right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--light-text);
     font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition);
+    z-index: 2;
 }
 
 .password-toggle:hover {
     color: var(--secondary-color);
+}
+
+/* Lien mot de passe oublié */
+.forgot-password-container {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.forgot-password-link {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.forgot-password-link:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
 }
 
 .arrow {
@@ -123,9 +144,9 @@ label {
     transition: var(--transition);
 }
 
-/* Checkbox personnalisé */
+/* Se souvenir de moi */
 .remember-me {
-    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 .checkbox-container {
