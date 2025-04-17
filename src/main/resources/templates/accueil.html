@@ -6,6 +6,7 @@
     <title>ENI-Enchères</title>
     <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/css/uikit/css/uikit.css/uikit.min.css}" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/accueil.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
@@ -22,138 +23,168 @@
         <div class="hero-content">
             <h1>Trouvez des <span class="accent">trésors</span> aux enchères</h1>
             <p class="hero-description">Plateforme d'enchères en ligne pour objets de seconde main</p>
+
+            <!-- Formulaire de recherche -->
             <div class="search-container">
-                <form th:action="@{/encheres}" method="get" class="search-form">
-                    <div class="search-input-container">
-                        <input type="text" name="nomArticle" placeholder="Rechercher un article..." class="search-input">
-                        <select name="categorieId" class="search-category">
+                <form th:action="@{/accueil}" method="get" class="unified-search-form">
+                    <div class="unified-search-wrapper">
+                        <input type="text" name="nomArticle" th:value="${nomArticle}" placeholder="Que recherchez-vous ?" class="unified-search-input">
+
+                        <div class="search-divider"></div>
+
+                        <select name="categorieId" class="unified-search-select">
                             <option value="0">Toutes catégories</option>
-                            <option value="1">Maison</option>
-                            <option value="2">Ameublement</option>
-                            <option value="3">Vêtements</option>
-                            <!-- Ajoutez d'autres catégories si nécessaire -->
+                            <option th:each="categorie : ${categories}"
+                                    th:value="${categorie.noCategorie}"
+                                    th:text="${categorie.libelle}"
+                                    th:selected="${categorieId != null && categorieId == categorie.noCategorie}">
+                                Nom de la catégorie
+                            </option>
                         </select>
-                        <button type="submit" class="search-button">
-                            <img th:src="@{/images/loupe.png}" alt="Rechercher" class="search-icon" />
+
+                        <button type="submit" class="unified-search-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
                         </button>
                     </div>
                 </form>
             </div>
+
             <div class="hero-cta">
                 <a th:href="@{/encheres}" class="cta-button primary">Voir les enchères</a>
                 <a th:href="@{/register}" class="cta-button secondary">S'inscrire</a>
             </div>
         </div>
+
         <div class="hero-image">
             <img th:src="@{/images/tresor.png}" alt="Enchères en ligne" />
         </div>
     </div>
+    <!-- Diviseur de forme personnalisé -->
+    <div class="custom-shape-divider-bottom-1744897630">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+        </svg>
+    </div>
 </section>
 
-<!-- Enchères en cours -->
-<section class="encheres-current-section">
-    <div class="section-container">
-        <h2 class="section-title">Enchères en cours</h2>
-        <div class="encheres-grid">
-            <!-- Les cartes d'enchères peuvent être générées dynamiquement avec Thymeleaf -->
-            <div class="enchere-card" th:each="article : ${articlesEnVedette}">
-                <div class="enchere-image">
-                    <img th:src="${article.urlImage != null ? article.urlImage : '/images/default-auction.jpg'}" alt="Image de l'article" />
-                </div>
-                <div class="enchere-content">
-                    <h3 th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="enchere-category" th:text="${article.categorieArticle.libelle}">Catégorie</p>
-                    <p class="enchere-price" th:text="${article.miseAPrix} + ' €'">Prix</p>
-                    <p class="enchere-end" th:text="'Fin : ' + ${#dates.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</p>
-                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="enchere-link">Voir l'enchère</a>
-                </div>
-            </div>
-
-            <!-- Si vous n'avez pas de données dynamiques, vous pouvez utiliser des placeholders -->
-            <div class="enchere-card" th:if="${articlesEnVedette == null || articlesEnVedette.isEmpty()}">
-                <div class="enchere-image">
-                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />
-                </div>
-                <div class="enchere-content">
-                    <h3>Console de jeux vintage</h3>
-                    <p class="enchere-category">Informatique</p>
-                    <p class="enchere-price">120 €</p>
-                    <p class="enchere-end">Fin : 25/05/2023</p>
-                    <a th:href="@{/encheres}" class="enchere-link">Voir l'enchère</a>
-                </div>
-            </div>
-
-            <div class="enchere-card" th:if="${articlesEnVedette == null || articlesEnVedette.isEmpty()}">
-                <div class="enchere-image">
-                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />
-                </div>
-                <div class="enchere-content">
-                    <h3>Table basse en bois</h3>
-                    <p class="enchere-category">Ameublement</p>
-                    <p class="enchere-price">85 €</p>
-                    <p class="enchere-end">Fin : 28/05/2023</p>
-                    <a th:href="@{/encheres}" class="enchere-link">Voir l'enchère</a>
-                </div>
-            </div>
-
-            <div class="enchere-card" th:if="${articlesEnVedette == null || articlesEnVedette.isEmpty()}">
-                <div class="enchere-image">
-                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />
-                </div>
-                <div class="enchere-content">
-                    <h3>Manteau d'hiver</h3>
-                    <p class="enchere-category">Vêtements</p>
-                    <p class="enchere-price">45 €</p>
-                    <p class="enchere-end">Fin : 30/05/2023</p>
-                    <a th:href="@{/encheres}" class="enchere-link">Voir l'enchère</a>
-                </div>
-            </div>
+<!-- Résultats de recherche -->
+<section class="search-results-section" th:if="${nomArticle != null || (categorieId != null && categorieId > 0)}">
+    <div class="search-results-container">
+        <div class="search-results-header">
+            <h2 class="search-results-title">
+                <span th:if="${nomArticle != null && !nomArticle.isEmpty()}" th:text="'Résultats pour : ' + ${nomArticle}"></span>
+                <span th:if="${categorieId != null && categorieId > 0 && categorieNom != null}" th:text="'Catégorie : ' + ${categorieNom}"></span>
+                <span class="results-count" th:text="${articles.size()}"></span>
+            </h2>
         </div>
-        <div class="view-all-container">
-            <a th:href="@{/encheres}" class="view-all-link">Voir toutes les enchères <span uk-icon="arrow-right"></span></a>
+
+        <!-- Message si aucun résultat -->
+        <div th:if="${articles.isEmpty()}" class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <p class="no-results-text">Aucun article ne correspond à votre recherche</p>
+            <p class="no-results-suggestion">Essayez avec d'autres termes ou parcourez nos catégories</p>
+        </div>
+
+        <!-- Grille de résultats -->
+        <div class="modern-grid" th:if="${!articles.isEmpty()}">
+            <div class="modern-card" th:each="article : ${articles}">
+                <div class="modern-card-image">
+                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />
+                </div>
+                <div class="modern-card-content">
+                    <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
+                    <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
+                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' €'">Prix</p>
+                    <div class="modern-card-info">
+                        <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
+                        <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
+                    </div>
+                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+<!--&lt;!&ndash; Enchères en cours &ndash;&gt;-->
+<!--<section class="encheres-current-section">-->
+<!--    <div class="section-container">-->
+<!--        <h2 class="section-title">Enchères en cours</h2>-->
+<!--        <div class="modern-grid">-->
+<!--            &lt;!&ndash; Les cartes d'enchères avec articles en vedette &ndash;&gt;-->
+<!--            <div class="modern-card" th:each="article : ${articlesEnVedette}">-->
+<!--                <div class="modern-card-image">-->
+<!--                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />-->
+<!--                </div>-->
+<!--                <div class="modern-card-content">-->
+<!--                    <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>-->
+<!--                    <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>-->
+<!--                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' €'">Prix</p>-->
+<!--                    <div class="modern-card-info">-->
+<!--                        <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>-->
+<!--                        <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>-->
+<!--                    </div>-->
+<!--                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Si aucun article en vedette &ndash;&gt;-->
+<!--            <div class="modern-card" th:if="${articlesEnVedette == null || articlesEnVedette.isEmpty()}" th:each="i : ${#numbers.sequence(1, 3)}">-->
+<!--                <div class="modern-card-image">-->
+<!--                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />-->
+<!--                </div>-->
+<!--                <div class="modern-card-content">-->
+<!--                    <span class="modern-card-category">Non disponible</span>-->
+<!--                    <h3 class="modern-card-title">Article non disponible</h3>-->
+<!--                    <p class="modern-card-price">0 €</p>-->
+<!--                    <div class="modern-card-info">-->
+<!--                        <span>Aucune enchère en cours</span>-->
+<!--                    </div>-->
+<!--                    <a th:href="@{/encheres}" class="modern-card-button">Voir les enchères</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="view-all-container">-->
+<!--            <a th:href="@{/encheres}" class="view-all-link">Voir toutes les enchères <span uk-icon="arrow-right"></span></a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 <!-- Featured Categories -->
 <section class="categories-section">
     <div class="section-container">
         <h2 class="section-title">Nos catégories populaires</h2>
         <div class="categories-grid">
-            <!-- Carte de catégorie 1 -->
-            <div class="category-card">
+            <div class="category-card" th:each="categorie, categoryStat : ${categories}" th:if="${categoryStat.index < 3}">
                 <div class="category-icon">
-                    <span uk-icon="icon: laptop; ratio: 2"></span>
+                    <span th:if="${categorie.libelle == 'Informatique'}">
+                        <img th:src="@{/images/informatique.svg}" alt="Informatique" width="60" height="40">
+                    </span>
+                    <span th:if="${categorie.libelle == 'Ameublement'}">
+                        <img th:src="@{/images/ameublement.svg}" alt="Ameublement" width="70" height="40">
+                    </span>
+                    <span th:if="${categorie.libelle == 'Vêtement'}" uk-icon="icon: paint-bucket; ratio: 2">
+                        <img th:src="@{/images/vetement.svg}" alt="Vêtement" width="50" height="40">
+                    </span>
+                    <span th:if="${categorie.libelle == 'Sport & Loisirs'}" uk-icon="icon: lifesaver; ratio: 2">
+                        <img th:src="@{/images/sport.svg}" alt="Sport & Loisirs" width="50" height="40">
+                    </span>
+                    <span th:unless="${categorie.libelle == 'Informatique' || categorie.libelle == 'Ameublement' || categorie.libelle == 'Vêtement' || categorie.libelle == 'Sport & Loisirs'}" uk-icon="icon: tag; ratio: 2"></span>
                 </div>
-                <h3 class="category-title">Maison</h3>
-                <p class="category-description">Ordinateurs, tablettes et accessoires</p>
-                <a th:href="@{/encheres?categorieId=1}" class="category-link">Découvrir</a>
-            </div>
-
-            <!-- Carte de catégorie 2 -->
-            <div class="category-card">
-                <div class="category-icon">
-                    <span uk-icon="icon: home; ratio: 2"></span>
-                </div>
-                <h3 class="category-title">Ameublement</h3>
-                <p class="category-description">Meubles et décoration pour votre intérieur</p>
-                <a th:href="@{/encheres?categorieId=2}" class="category-link">Découvrir</a>
-            </div>
-
-            <!-- Carte de catégorie 3 -->
-            <div class="category-card">
-                <div class="category-icon">
-                    <span uk-icon="icon: paint-bucket; ratio: 2"></span>
-                </div>
-                <h3 class="category-title">Vêtements</h3>
-                <p class="category-description">Mode et accessoires de qualité</p>
-                <a th:href="@{/encheres?categorieId=3}" class="category-link">Découvrir</a>
+                <h3 class="category-title" th:text="${categorie.libelle}">Nom de la catégorie</h3>
+                <p class="category-description">Articles de qualité à prix avantageux</p>
+                <a th:href="@{/accueil?categorieId={id}(id=${categorie.noCategorie})}" class="category-link">Découvrir</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- How it Works -->
+<!-- How it works -->
 <section class="how-section">
     <div class="section-container">
         <h2 class="section-title">Comment ça marche</h2>
@@ -185,7 +216,6 @@
     </div>
 </section>
 
-<!-- CTA Section -->
 <section class="cta-section">
     <div class="cta-container">
         <h2 class="cta-title">Prêt à vendre vos objets ?</h2>
@@ -193,7 +223,9 @@
         <a th:href="@{/vente}" class="cta-button primary">Créer une vente</a>
     </div>
 </section>
-    <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>
