@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/register.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
 </head>
 <body>
 <div class="page-container">
@@ -32,6 +33,7 @@
             <h2 class="form-title">Créez votre compte</h2>
             <p class="form-description">Remplissez le formulaire ci-dessous pour vous inscrire et commencer à enchérir ou vendre vos articles.</p>
 
+            <!-- Structure modifiée pour repositionner les champs de mot de passe -->
             <form class="register-form" th:action="@{/register}" method="post" th:object="${utilisateurDTO}">
                 <div class="form-grid">
                     <div class="form-column">
@@ -53,6 +55,14 @@
                         <div class="form-group">
                             <label for="telephone">Téléphone</label>
                             <input type="tel" id="telephone" th:field="*{telephone}" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="motDePasse">Mot de passe<span class="required">*</span></label>
+                            <div class="password-container">
+                                <input type="password" id="motDePasse" th:field="*{motDePasse}" class="form-input" required>
+                                <button type="button" class="password-toggle" id="togglePassword">Voir</button>
+                            </div>
                         </div>
                     </div>
 
@@ -77,26 +87,12 @@
                             <input type="email" id="email" th:field="*{email}" class="form-input" required>
                         </div>
 
-                        <div class="password-row">
-                            <div class="form-group password-field">
-                                <label for="motDePasse">Mot de passe<span class="required">*</span></label>
-                                <div class="password-container">
-                                    <input type="password" id="motDePasse" th:field="*{motDePasse}" class="form-input" required>
-                                    <button type="button" class="password-toggle" id="togglePassword">Voir</button>
-                                </div>
+                        <div class="form-group">
+                            <label for="confirmation">Confirmation<span class="required">*</span></label>
+                            <div class="password-container">
+                                <input type="password" id="confirmation" name="confirmation" class="form-input" required>
+                                <button type="button" class="password-toggle" id="toggleConfirmation">Voir</button>
                             </div>
-
-                            <div class="form-group password-field">
-                                <label for="confirmation">Confirmation<span class="required">*</span></label>
-                                <div class="password-container">
-                                    <input type="password" id="confirmation" name="confirmation" class="form-input" required>
-                                    <button type="button" class="password-toggle" id="toggleConfirmation">Voir</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group forgot-password-container">
-                            <a href="#" class="forgot-password-link">Mot de passe oublié ?</a>
                         </div>
                     </div>
                 </div>
