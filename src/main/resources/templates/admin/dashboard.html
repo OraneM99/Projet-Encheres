@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UI Admin - Clean and responsive administration panel</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/admin/uikit.min.css}" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/notyf.min.css}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>        <script src="js/uikit.min.js" ></script>
+    <script th:src="@{/js/admin/uikit-icons.min.js}" ></script>
+</head>
+<body>
+
+<div th:replace="~{fragments/admin/header :: header-admin}"></div>
+
+
+
+    <div class="uk-section-small">
+        <div class="uk-container uk-container-large">
+            <div uk-grid class="uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-4@xl uk-grid-medium">
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <h3 class="uk-card-title">Utilisateurs</h3>
+                        <p>Gérer les utilisateurs de la plateforme.</p>
+                        <a th:href="@{utilisateurs}" class="uk-button uk-button-primary">Voir les utilisateurs</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <h3 class="uk-card-title">Catégories</h3>
+                        <p>Gérer les catégories disponibles pour les enchères.</p>
+                        <a th:href="@{categories/list}" class="uk-button uk-button-secondary">Voir les catégories</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Load More Javascript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js" integrity="sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js" integrity="sha256-rqEXy4JTnKZom8mLVQpvni3QHbynfjPmPxQVsPZgmJY=" crossorigin="anonymous"></script>
+<script src="js/notyf.min.js"></script>
+<!-- Required Overall Script -->
+<script src="js/script.js"></script>
+<!-- Status Updater -->
+<script src="js/status.js"></script>
+<!-- Sample Charts -->
+<script src="js/charts.js"></script>
+<!-- Sample Notifications -->
+<script src="js/notification.js"></script>
+
+</body>
+</html>
