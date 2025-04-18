@@ -66,11 +66,6 @@ public class VenteController {
         //sauvegardé l'article dans la base de donnée et générer son id
         ServiceResponse<Article> articleSauvegarde = articleService.addArticle(article);
 
-        //lié le retrait à un article
         retrait.setArticle(articleSauvegarde.getData());
         retraitService.ajouterRetrait(retrait);
-
-        return "redirect:/accueil";
-    }
-}
 
