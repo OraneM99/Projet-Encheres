@@ -1,6 +1,7 @@
 package com.eni.eBIDou.ihm.article;
 
 import com.eni.eBIDou.article.ArticleFormDTO;
+import com.eni.eBIDou.images.AzureBlobStorageService;
 import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.article.ArticleService;
@@ -14,7 +15,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -24,16 +27,20 @@ public class VenteController {
     private final ArticleService articleService;
     private final UtilisateurMapper utilisateurMapper;
     private final RetraitService retraitService;
+    private final AzureBlobStorageService azureBlobStorageService;
 
     public VenteController(CategorieService categorieService,
                            ArticleService articleService,
                            UtilisateurMapper utilisateurMapper,
-                           RetraitService retraitService) {
+                           RetraitService retraitService,
+                           AzureBlobStorageService azureBlobStorageService) {
         this.categorieService = categorieService;
         this.articleService = articleService;
         this.utilisateurMapper = utilisateurMapper;
         this.retraitService = retraitService;
+        this.azureBlobStorageService = azureBlobStorageService;
     }
+
 
     @GetMapping("/nouvelle-vente")
     public String afficherNewVentes(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
@@ -55,21 +62,35 @@ public class VenteController {
     }
 
     @PostMapping("/creer")
-    public String creerVente(@ModelAttribute ArticleFormDTO articleForm, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+    public String creerVente(@ModelAttribute ArticleFormDTO articleForm,
+                             @RequestParam("image") MultipartFile image,
+                             @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
 
         Article article = articleForm.getArticle();
         Retrait retrait = articleForm.getRetrait();
 
-        //lié l'article à l'utilisateur qui créé la vente
+        // Lier l'article à l'utilisateur connecté
         article.setVendeur(utilisateurConnecte);
 
-        //sauvegardé l'article dans la base de donnée et générer son id
+        // 🖼️ Gérer l'upload de l'image
+        if (image != null && !image.isEmpty()) {
+            try {
+                String imageUrl = azureBlobStorageService.uploadFile(image);
+                article.setUrlImage(imageUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // tu peux ajouter un message d'erreur dans le modèle ici si besoin
+            }
+        }
+
+        // Sauvegarder l'article
         ServiceResponse<Article> articleSauvegarde = articleService.addArticle(article);
 
+        // Associer et enregistrer le retrait
         retrait.setArticle(articleSauvegarde.getData());
         retraitService.ajouterRetrait(retrait);
 
         return "redirect:/accueil";
-
     }
+
 }
