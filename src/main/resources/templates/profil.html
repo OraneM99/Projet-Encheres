@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères - Profil</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="icon" type="image/x-icon" th:href="@{images/favicon.svg}">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <!-- Custom CSS -->
@@ -21,54 +21,49 @@
 <section class="hero-section">
     <div class="hero-container">
         <div class="hero-content">
-            <!-- Contenu principal -->
             <main>
-                <div class="uk-alert-success" uk-alert th:if="${successMessage}">
-                    <p th:text="${successMessage}">Profil mis à jour avec succès.</p>
-                </div>
-
-                <h2 class="profile-title" th:text="${utilisateurDTO.getPseudo()}">Pseudo Utilisateur</h2>
+                <h2 class="profile-title" th:if="${utilisateurConnecte != null}" th:text="${utilisateurConnecte.pseudo}">Pseudo Utilisateur</h2>
+                <h2 class="profile-title" th:if="${utilisateurConnecte == null}">Utilisateur inconnu</h2>
 
                 <div class="profile-view">
                     <div class="profile-item">
                         <div class="profile-label">Nom :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.nom}">Crobert</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.nom}"></div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Prénom :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.prenom}">Jeanine</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.prenom}">Prénom</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Email :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.email}">j.crobert@bmail.fr</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.email}">Email</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Téléphone :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.telephone}">0645250412</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.telephone}">Téléphone</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Rue :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.rue}">rue des goélands</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.rue}">Rue</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Code postal :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.codePostal}">44800</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.codePostal}">Code postal</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Ville :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.ville}">Saint Herblain</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.ville}">Ville</div>
                     </div>
 
-                    <!-- Crédit visible uniquement pour l'utilisateur connecté -->
-                    <div class="profile-item" th:if="${isSelfProfile}">
+                    <div class="profile-item">
                         <div class="profile-label">Crédit :</div>
-                        <div class="profile-value" th:text="${utilisateurDTO.credit}">100</div>
+                        <div class="profile-value" th:text="${utilisateurConnecte.credit}">0</div>
                     </div>
                 </div>
 
@@ -77,17 +72,70 @@
                         <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour</button></a>
                     </div>
 
-                    <!-- Bouton Modifier visible uniquement pour l'utilisateur connecté -->
-                    <div class="button-wrapper" th:if="${isSelfProfile}">
-                        <a th:href="@{/modifier-profil}">
-                            <button type="button" class="eni-button">Modifier</button>
-                        </a>
+                    <div class="uk-flex uk-flex-middle">
+                        <div class="button-wrapper uk-margin-right">
+                            <a th:href="@{/modifier-profil}">
+                                <button type="button" class="eni-button">Modifier</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Modal personnalisée de confirmation de suppression -->
+                <div id="modal-supprimer-compte" class="custom-modal">
+                    <div class="custom-modal-dialog">
+                        <div class="custom-modal-header">
+                            <h2 class="custom-modal-title">Confirmation de suppression</h2>
+                            <button type="button" class="custom-modal-close" onclick="closeModal()">&times;</button>
+                        </div>
+                        <div class="custom-modal-body">
+                            <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+                        </div>
+                        <div class="custom-modal-footer">
+                            <button class="custom-button default-button" type="button" onclick="closeModal()">Annuler</button>
+                            <form th:action="@{/profil/supprimer/{id}(id=${utilisateurConnecte.noUtilisateur})}" method="post" class="inline-form">
+                                <button class="custom-button danger-button" type="submit">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton pour supprimer le compte -->
+                <div class="button-wrapper">
+                    <button type="button" class="eni-button uk-button-danger" onclick="openModal()">
+                        Supprimer mon compte
+                    </button>
+                </div>
+
             </main>
         </div>
     </div>
 </section>
+
+<script>
+    function openModal() {
+        document.getElementById('modal-supprimer-compte').style.display = 'flex';
+        // Empêcher le défilement du body
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-supprimer-compte').style.display = 'none';
+        // Restaurer le défilement du body
+        document.body.style.overflow = 'auto';
+    }
+
+    // Fermer la modal si on clique en dehors
+    window.onclick = function(event) {
+        var modal = document.getElementById('modal-supprimer-compte');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/accueil.css}" />
@@ -93,7 +93,7 @@
         <div class="modern-grid" th:if="${!articles.isEmpty()}">
             <div class="modern-card" th:each="article : ${articles}">
                 <div class="modern-card-image">
-                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />
+<!--                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />-->
                 </div>
                 <div class="modern-card-content">
                     <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
@@ -110,49 +110,49 @@
     </div>
 </section>
 
-<!--&lt;!&ndash; Enchères en cours &ndash;&gt;-->
-<!--<section class="encheres-current-section">-->
-<!--    <div class="section-container">-->
-<!--        <h2 class="section-title">Enchères en cours</h2>-->
-<!--        <div class="modern-grid">-->
-<!--            &lt;!&ndash; Les cartes d'enchères avec articles en vedette &ndash;&gt;-->
-<!--            <div class="modern-card" th:each="article : ${articlesEnVedette}">-->
-<!--                <div class="modern-card-image">-->
+<!-- Enchères en cours -->
+<section class="encheres-current-section">
+    <div class="section-container">
+        <h2 class="section-title">Enchères en cours</h2>
+        <div class="modern-grid">
+            <!-- Les cartes d'enchères avec articles en vedette -->
+            <div class="modern-card" th:each="article : ${articlesEnVedette}">
+                <div class="modern-card-image">
 <!--                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />-->
-<!--                </div>-->
-<!--                <div class="modern-card-content">-->
-<!--                    <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>-->
-<!--                    <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>-->
-<!--                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' €'">Prix</p>-->
-<!--                    <div class="modern-card-info">-->
-<!--                        <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>-->
-<!--                        <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>-->
-<!--                    </div>-->
-<!--                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>-->
-<!--                </div>-->
-<!--            </div>-->
+                </div>
+                <div class="modern-card-content">
+                    <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
+                    <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
+                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' €'">Prix</p>
+                    <div class="modern-card-info">
+                        <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
+                        <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
+                    </div>
+                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>
+                </div>
+            </div>
 
-<!--            &lt;!&ndash; Si aucun article en vedette &ndash;&gt;-->
-<!--            <div class="modern-card" th:if="${articlesEnVedette == null || articlesEnVedette.isEmpty()}" th:each="i : ${#numbers.sequence(1, 3)}">-->
-<!--                <div class="modern-card-image">-->
+            <!-- Si aucun article en vedette -->
+            <div class="modern-card" th:if="${articlesEnVedette == null || articlesEnVedette.isEmpty()}" th:each="i : ${#numbers.sequence(1, 3)}">
+                <div class="modern-card-image">
 <!--                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />-->
-<!--                </div>-->
-<!--                <div class="modern-card-content">-->
-<!--                    <span class="modern-card-category">Non disponible</span>-->
-<!--                    <h3 class="modern-card-title">Article non disponible</h3>-->
-<!--                    <p class="modern-card-price">0 €</p>-->
-<!--                    <div class="modern-card-info">-->
-<!--                        <span>Aucune enchère en cours</span>-->
-<!--                    </div>-->
-<!--                    <a th:href="@{/encheres}" class="modern-card-button">Voir les enchères</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="view-all-container">-->
-<!--            <a th:href="@{/encheres}" class="view-all-link">Voir toutes les enchères <span uk-icon="arrow-right"></span></a>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
+                </div>
+                <div class="modern-card-content">
+                    <span class="modern-card-category">Non disponible</span>
+                    <h3 class="modern-card-title">Article non disponible</h3>
+                    <p class="modern-card-price">0 €</p>
+                    <div class="modern-card-info">
+                        <span>Aucune enchère en cours</span>
+                    </div>
+                    <a th:href="@{/encheres}" class="modern-card-button">Voir les enchères</a>
+                </div>
+            </div>
+        </div>
+        <div class="view-all-container">
+            <a th:href="@{/encheres}" class="view-all-link">Voir toutes les enchères <span uk-icon="arrow-right"></span></a>
+        </div>
+    </div>
+</section>
 
 <!-- Featured Categories -->
 <section class="categories-section">

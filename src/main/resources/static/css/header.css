@@ -1,4 +1,6 @@
-/* Header */
+/* ===========================
+   HEADER
+=========================== */
 .header {
     width: 100%;
     background-color: var(--white);
@@ -19,7 +21,9 @@
     align-items: center;
 }
 
-/* Logo */
+/* ===========================
+   LOGO
+=========================== */
 .logo a {
     display: flex;
     align-items: center;
@@ -37,7 +41,9 @@
     color: var(--primary-color);
 }
 
-/* Navigation */
+/* ===========================
+   NAVIGATION
+=========================== */
 .main-nav {
     height: 100%;
 }
@@ -46,6 +52,8 @@
     display: flex;
     list-style: none;
     height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .nav-item {
@@ -63,8 +71,8 @@
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--primary-color);
-    transition: color 0.3s ease;
     position: relative;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
@@ -83,20 +91,18 @@
     transition: transform 0.3s ease;
 }
 
-.nav-link:hover::after {
-    transform: scaleX(1);
-}
-
-/* Ajout d'un indicateur pour le lien actif */
-.nav-link.active {
-    color: var(--secondary-color);
-}
-
+.nav-link:hover::after,
 .nav-link.active::after {
     transform: scaleX(1);
 }
 
-/* Bouton hamburger pour mobile */
+.nav-link.active {
+    color: var(--secondary-color);
+}
+
+/* ===========================
+   MENU BURGER (Mobile)
+=========================== */
 .menu-toggle {
     display: none;
     background: none;
@@ -109,7 +115,6 @@
 .hamburger {
     display: block;
     position: relative;
-    justify-content: end;
     width: 24px;
     height: 2px;
     background-color: var(--primary-color);
@@ -134,7 +139,6 @@
     transform: translateY(8px);
 }
 
-/* État actif du bouton hamburger */
 .menu-toggle.active .hamburger {
     background-color: transparent;
 }
@@ -147,10 +151,17 @@
     transform: rotate(-45deg);
 }
 
-/* Responsive design */
+/* ===========================
+   RESPONSIVE
+=========================== */
 @media (max-width: 768px) {
+    .header-container {
+        flex-direction: row;
+    }
+
     .menu-toggle {
         display: block;
+        order: 2; /* Met le burger après le logo */
     }
 
     .main-nav {
@@ -169,6 +180,10 @@
 
     .main-nav.open {
         right: 0;
+    }
+
+    .logo img {
+        height: 60px;
     }
 
     .nav-links {
@@ -193,7 +208,6 @@
         display: none;
     }
 
-    /* Overlay quand le menu est ouvert */
     .overlay {
         display: none;
         position: fixed;
@@ -217,6 +231,6 @@
     }
 
     .logo img {
-        height: 20px;
+        height: 50px;
     }
 }
