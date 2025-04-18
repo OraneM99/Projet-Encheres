@@ -1,11 +1,13 @@
 package com.eni.eBIDou.ihm.article;
 
+import com.eni.eBIDou.article.ArticleFormDTO;
 import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieService;
 import com.eni.eBIDou.retrait.RetraitService;
+import com.eni.eBIDou.service.ServiceResponse;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,30 +38,37 @@ public class VenteController {
     @GetMapping("/nouvelle-vente")
     public String afficherNewVentes(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
 
-        //recuperer l'utilisateur Connecte
+        //récupérer l'utilisateur Connecte
         model.addAttribute("utilisateur", utilisateurMapper.toDto(utilisateurConnecte));
 
-        model.addAttribute("article", new Article());
+        ArticleFormDTO articleForm = new ArticleFormDTO();
+        articleForm.setArticle(new Article());
+        articleForm.setRetrait(new Retrait());
 
-        //recuperer la liste des categories
+        model.addAttribute("articleForm", articleForm);
+
+        //récupérer la liste des categories
         List<Categorie> categories = categorieService.selectAll().getData();
         model.addAttribute("categories", categories);
-
-        //recupérer la liste des points de retrait
-        List<Retrait> retraitList = retraitService.getAll().getData();
-        model.addAttribute("retraits", retraitList);
 
         return "nouvelle-vente";
     }
     
     @PostMapping("/creer")
-    public String creerVente(@ModelAttribute Article article, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+    public String creerVente(@ModelAttribute ArticleFormDTO articleForm, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+
+        Article article = articleForm.getArticle();
+        Retrait retrait = articleForm.getRetrait();
 
         //lié l'article à l'utilisateur qui créé la vente
         article.setVendeur(utilisateurConnecte);
 
-        //sauvegardé l'article dans la base de donnée
-        articleService.addArticle(article);
+        //sauvegardé l'article dans la base de donnée et générer son id
+        ServiceResponse<Article> articleSauvegarde = articleService.addArticle(article);
+
+        //lié le retrait à un article
+        retrait.setArticle(articleSauvegarde.getData());
+        retraitService.ajouterRetrait(retrait);
 
         return "redirect:/accueil";
     }
