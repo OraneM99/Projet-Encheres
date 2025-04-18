@@ -6,12 +6,10 @@ import java.util.Optional;
 public interface UtilisateurService {
     List<UtilisateurDTO> findAll();
 
-
-
     boolean pseudoExiste(String pseudo);
 
     boolean emailExiste(String email);
-
+    void toggleActivation(long id);
     UtilisateurDTO findById(Long id);
     UtilisateurDTO findByPseudo(String pseudo);
     UtilisateurDTO create(UtilisateurDTO dto);

@@ -5,6 +5,7 @@ import com.eni.eBIDou.utilisateurs.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,7 +22,7 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -30,7 +31,6 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
         String loginOrEmail = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        System.out.println("Tentative de connexion avec : " + loginOrEmail);
 
         // Recherche de l'utilisateur par pseudo ou email
         Optional<UtilisateurBO> utilisateurOpt = utilisateurRepository.findByEmailOrPseudo(loginOrEmail, loginOrEmail);
@@ -41,16 +41,18 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
 
         UtilisateurBO utilisateur = utilisateurOpt.get();
 
-        System.out.println("Utilisateur trouvé : " + utilisateur.getPseudo());
-        System.out.println("Mot de passe fourni : " + password);
-        System.out.println("Mot de passe stocké : " + utilisateur.getMotDePasse());
 
-        // Vérifier le mot de passe 
+        // ✅ Vérifier si le compte est actif
+        if (!utilisateur.isActif()) {
+            throw new DisabledException("Le compte est désactivé.");
+        }
+
+        // ✅ Vérifier le mot de passe
         if (!passwordEncoder.matches(password, utilisateur.getMotDePasse())) {
             throw new BadCredentialsException("Mot de passe incorrect");
         }
 
-        // Création des autorités/rôles
+        // ✅ Création des rôles
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
@@ -58,11 +60,10 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
-        System.out.println("Connexion réussie pour : " + utilisateur.getPseudo());
-        
+
         return new UsernamePasswordAuthenticationToken(
                 utilisateur,
-                null,                   
+                null,
                 authorities
         );
     }
