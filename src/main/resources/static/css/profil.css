@@ -1,133 +1,399 @@
-/* === Profil utilisateur - profil.css === */
-
-/* Mobile First */
+/* === TITRE DU PROFIL === */
 .profile-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 25px;
     text-align: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 2rem 1rem 1.5rem;
-    color: #333;
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 10px;
 }
 
+.profile-title::before {
+    content: "Bonjour, ";
+}
+
+.profile-title::after {
+    content: '.';
+    color: var(--secondary-color);
+    position: relative;
+}
+
+/* === CONTAINER DE PROFIL === */
 .profile-view {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0 1rem;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin: 0 auto 30px auto;
+    max-width: 650px;
 }
 
+/* === ÉLÉMENTS DU PROFIL === */
 .profile-item {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.profile-item:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .profile-label {
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 0.2rem;
+    flex: 0 0 120px;
+    font-weight: 600;
+    color: var(--primary-color);
 }
 
 .profile-value {
-    color: #333;
-    font-size: 1rem;
+    flex: 1;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    word-break: break-word;
 }
 
-/* Bouton retour */
+/* === CHAMPS DE SAISIE === */
+.profile-input-container {
+    flex: 1;
+    position: relative;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.profile-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(108, 110, 255, 0.1);
+    outline: none;
+}
+
+.profile-input::placeholder {
+    color: #aaa;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* === BOUTONS === */
 .profile-actions {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap:1rem;
-    padding: 1rem;
-    text-align: center;
-
-}
-.button-wrapper{
-    width: 100%;
-    max-width: 300px;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 40px;
+    margin-top: 30px;
 }
 
-.button-wrapper > * {
-    width: 100%;
+.button-wrapper {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.uk-flex.uk-flex-middle {
+    display: flex;
+    justify-content: center;
 }
 
 .eni-button {
-    display: block;
-    background-color: #1e87f0;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 5px;
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
     font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 0.5rem;
-    width: 100%;
-    max-width: 300px;
     text-align: center;
-}
-
-.delete {
-    background-color: red;
+    transition: var(--transition);
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
 }
 
 .eni-button:hover {
-    background-color: #0f7ae5;
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(108, 110, 255, 0.3);
 }
 
-input.profile-value {
+.eni-button.uk-button-danger {
+    background-color: var(--error-color);
+    color: var(--white);
+    border-color: var(--error-color);
+}
+
+.eni-button.uk-button-danger:hover {
+    background-color: #e03e3e;
+    box-shadow: 0 10px 20px rgba(255, 76, 76, 0.3);
+}
+
+/* === MODAL DE CONFIRMATION === */
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 400px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
-/* Tablette (≥768px) */
-@media (min-width: 768px) {
+.custom-modal-dialog {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.custom-modal-header {
+    padding: 20px 20px 10px;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.custom-modal-title {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.custom-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s ease;
+}
+
+.custom-modal-close:hover {
+    color: var(--primary-color);
+}
+
+.custom-modal-body {
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.custom-modal-footer {
+    padding: 15px 20px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Boutons personnalisés */
+.custom-button {
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.default-button {
+    background-color: #f5f5f5;
+    color: var(--text-color);
+}
+
+.default-button:hover {
+    background-color: #e0e0e0;
+}
+
+.danger-button {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.danger-button:hover {
+    background-color: #e03e3e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 76, 76, 0.2);
+}
+
+.inline-form {
+    display: inline;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === MESSAGES === */
+.success-message {
+    background-color: var(--success-color) !important;
+    color: white !important;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.input-error {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 30px 0;
+    }
+
+    .hero-container {
+        padding: 0 15px;
+    }
+
     .profile-title {
-        font-size: 2.2rem;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        padding-top: 10px;
+        padding-bottom: 5px;
     }
 
     .profile-view {
-        padding: 0 2rem;
+        padding: 20px 15px;
+        max-width: 100%;
+        margin-bottom: 20px;
     }
 
     .profile-item {
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 1rem;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
     }
 
     .profile-label {
-        min-width: 120px;
-        text-align: right;
+        flex: 0 0 100px;
+        font-size: 0.9rem;
+    }
+
+    .profile-value {
+        font-size: 0.9rem;
+    }
+
+    .profile-input {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+        height: 38px;
+    }
+
+    .profile-input::placeholder {
+        font-size: 0.8rem;
+    }
+
+    .eni-button {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+        min-height: 40px;
     }
 
     .profile-actions {
-        padding: 0 2rem;
+        padding-bottom: 20px;
+        margin-top: 20px;
+        gap: 12px;
+    }
+
+    .button-wrapper {
+        margin: 0 5px;
+    }
+
+    .custom-modal-dialog {
+        width: 95%;
+        max-width: 400px;
+    }
+
+    .custom-modal-title {
+        font-size: 1.3rem;
+    }
+
+    .custom-modal-body {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+
+    .custom-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .success-message {
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 }
 
-/* Desktop (≥1024px) */
-@media (min-width: 1024px) {
-    .profile-view {
-        max-width: 800px;
-        margin: 0 auto;
+@media (max-width: 480px) {
+    .custom-modal-dialog {
+        width: 95%;
     }
 
-    .profile-actions {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        max-width: 800px;
-        margin: 2rem auto 0;
+    .custom-modal-footer {
+        flex-direction: column;
+    }
+
+    .custom-button,
+    .inline-form,
+    .inline-form button {
+        width: 100%;
+        margin: 5px 0;
     }
 
     .profile-title {
-        font-size: 2.5rem;
+        font-size: 1.3rem;
+    }
+
+    .profile-view {
+        padding: 15px 12px;
+    }
+
+    .profile-item {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+
+    .profile-label {
+        flex: 0 0 90px;
+        font-size: 0.85rem;
+    }
+
+    .profile-value,
+    .profile-input {
+        font-size: 0.85rem;
+    }
+
+    .eni-button {
+        padding: 7px 15px;
+        font-size: 0.85rem;
+        min-height: 36px;
+    }
+
+    .button-wrapper {
+        margin: 0 3px;
     }
 }

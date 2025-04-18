@@ -33,6 +33,7 @@
 
                     <!-- Si l'utilisateur n'est pas connecté -->
                     <th:block th:if="${#authorization.expression('isAnonymous()')}">
+                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
                         <li class="nav-item"><a th:href="@{/login}" class="nav-link">Se connecter</a></li>
                         <li class="nav-item"><a th:href="@{/register}" class="nav-link">S'inscrire</a></li>
                     </th:block>

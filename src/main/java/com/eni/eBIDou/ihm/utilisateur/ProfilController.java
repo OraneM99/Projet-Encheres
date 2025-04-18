@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -29,45 +30,40 @@ public class ProfilController {
     }
 
     @GetMapping("/profil")
-    public String afficherProfil(Model model, @RequestParam(value="edit", required = false) Boolean editMode, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
-
-        //recuperer l'utilisateur Connecte
-        model.addAttribute("utilisateurDTO", utilisateurMapper.toDto(utilisateurConnecte));
-
-        //pour gérer l'action d'appui sur le bouton modifier
-        model.addAttribute("editMode", Boolean.TRUE.equals(editMode));
+    public String afficherProfil(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+        // Ajouter l'utilisateur connecté au modèle
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         return "profil";
     }
 
-    @PostMapping("/profil")
-    public String modifierProfil(@ModelAttribute UtilisateurDTO utilisateurDTO, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
-        //récupère l'id utilisateur du profil connecte
+    @GetMapping("/modifier-profil")
+    public String afficherFormulaireModification(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+        return "modifier-profil";
+    }
+
+    @PostMapping("/modifier-profil")
+    public String modifierProfil(@ModelAttribute UtilisateurDTO utilisateurDTO,
+                                 @AuthenticationPrincipal UtilisateurBO utilisateurConnecte,
+                                 RedirectAttributes redirectAttributes) {
         long idUtilisateurAmodifier = utilisateurConnecte.getNoUtilisateur();
-
-        //envoie la modification avec l'id du profilCo' et le form utilisateurDTO avec les nouvelles valeurs
         utilisateurService.update(idUtilisateurAmodifier, utilisateurDTO);
-
+        redirectAttributes.addFlashAttribute("successMessage", "Votre profil a été mis à jour avec succès");
         return "redirect:/profil";
-
     }
 
     @PostMapping("/profil/supprimer/{id}")
-    public String supprimerProfil(@PathVariable long id, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte, HttpServletRequest request, HttpServletResponse response) {
-
-        // empêcher de supprimer un autre compte que le sien
+    public String supprimerProfil(@PathVariable long id,
+                                  @AuthenticationPrincipal UtilisateurBO utilisateurConnecte,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
         if (utilisateurConnecte.getNoUtilisateur() != id) {
             System.out.println("Erreur : tentative de suppression d'un autre compte.");
             throw new AccessDeniedException("Action non autorisée");
         }
-        utilisateurService.delete(id);
-        // forcer la déconnexion
-        new SecurityContextLogoutHandler().logout(request, response, null);
 
-        // Redirection vers une page d'accueil
+        utilisateurService.delete(id);
+        new SecurityContextLogoutHandler().logout(request, response, null);
         return "redirect:/accueil";
     }
-
-
-
-
 }

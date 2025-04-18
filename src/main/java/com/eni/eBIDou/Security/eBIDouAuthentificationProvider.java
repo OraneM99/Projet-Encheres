@@ -31,7 +31,6 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
         String loginOrEmail = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-
         // Recherche de l'utilisateur par pseudo ou email
         Optional<UtilisateurBO> utilisateurOpt = utilisateurRepository.findByEmailOrPseudo(loginOrEmail, loginOrEmail);
 
@@ -62,7 +61,7 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
 
 
         return new UsernamePasswordAuthenticationToken(
-                utilisateur.getPseudo(),
+                utilisateur,
                 null,
                 authorities
         );
