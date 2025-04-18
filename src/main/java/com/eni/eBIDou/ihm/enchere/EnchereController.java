@@ -89,10 +89,10 @@ public class EnchereController {
     }
 
     @GetMapping("/api/encheres/article/{articleId}")
-    public ResponseEntity<ServiceResponse<List<Enchere>>> getEnchereByArticle(@PathVariable Long articleId) {
+    public ResponseEntity<ServiceResponse<Enchere>> getEnchereByArticle(@PathVariable Long articleId) {
         Article article = new Article();
         article.setNoArticle(articleId);
-        ServiceResponse<List<Enchere>> serviceResponse = enchereService.getByArticleCible(article);
+        ServiceResponse<Enchere> serviceResponse = enchereService.getByArticleCible(article);
         return ResponseEntity.ok(serviceResponse);
     }
 

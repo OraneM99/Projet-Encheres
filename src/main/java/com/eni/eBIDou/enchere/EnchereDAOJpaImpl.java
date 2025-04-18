@@ -29,7 +29,7 @@ public class EnchereDAOJpaImpl implements EnchereIDAO{
     }
 
     @Override
-    public List<Enchere> findByArticleCible(Article article) {
+    public Enchere findByArticleCible(Article article) {
         return repository.findByArticleCible(article);
     }
 

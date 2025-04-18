@@ -51,13 +51,13 @@ public class EnchereService {
         return ServiceResponse.buildResponse(CD_SUCCESS, "Enchere récupérée", enchere);
     }
 
-    public ServiceResponse<List<Enchere>> getByArticleCible(Article articleCible) {
-        List<Enchere> listeEncheres = daoEnchere.findByArticleCible(articleCible);
+    public ServiceResponse<Enchere> getByArticleCible(Article articleCible) {
+        Enchere enchere = daoEnchere.findByArticleCible(articleCible);
 
-        if(listeEncheres.isEmpty()) {
+        if(enchere == null) {
             return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "La liste d'enchere pour un article est vide", null);
         }
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Liste d'enchere pour relatif à un article recupérée", listeEncheres);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Liste d'enchere pour relatif à un article recupérée", enchere );
     }
 
 

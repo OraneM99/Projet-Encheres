@@ -10,7 +10,7 @@ public interface EnchereIDAO {
 
     Enchere findById(long id);
 
-    List<Enchere> findByArticleCible(Article article);
+    Enchere findByArticleCible(Article article);
 
     void nouvelleEnchere(Enchere enchere);
 
