@@ -39,8 +39,13 @@ public class UtilisateurBO {
 
     private boolean administrateur;
 
+
     @JsonIgnore
     @Column(nullable = false)
     private String motDePasse;
+
+ @Column(nullable = false)
+ private boolean actif = true;
+
 
 }

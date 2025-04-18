@@ -56,5 +56,13 @@ public class AdminController {
         return "redirect:/admin/utilisateurs";
     }
 
+    @PostMapping("/utilisateurs/toggle/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String toggleUtilisateur(@PathVariable int id) {
+        utilisateurService.toggleActivation(id);
+        return "redirect:/admin/utilisateurs";
+    }
+
+
 
 }

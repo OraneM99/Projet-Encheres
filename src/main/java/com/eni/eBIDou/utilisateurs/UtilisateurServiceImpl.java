@@ -3,6 +3,7 @@ package com.eni.eBIDou.utilisateurs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,24 +56,27 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public UtilisateurDTO update(Long id, UtilisateurDTO dto) {
-        UtilisateurBO bo = repository.findById(id)
+        UtilisateurBO existing = repository.findById(id)
                 .orElseThrow(() -> new UtilisateurNotFoundException(id));
 
-        bo.setNom(dto.getNom());
-        bo.setPrenom(dto.getPrenom());
-        bo.setEmail(dto.getEmail());
-        bo.setTelephone(dto.getTelephone());
-        bo.setRue(dto.getRue());
-        bo.setCodePostal(dto.getCodePostal());
-        bo.setVille(dto.getVille());
-        bo.setCredit(dto.getCredit());
-        //profil modifier mot de pass
-        bo.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
+        existing.setNom(dto.getNom());
+        existing.setPrenom(dto.getPrenom());
+        existing.setEmail(dto.getEmail());
+        existing.setTelephone(dto.getTelephone());
+        existing.setRue(dto.getRue());
+        existing.setCodePostal(dto.getCodePostal());
+        existing.setVille(dto.getVille());
+        existing.setAdministrateur(dto.isAdministrateur());
+        existing.setActif(dto.isActif());
 
-        bo.setAdministrateur(dto.isAdministrateur());
+        // Optionnel : mise à jour du mot de passe uniquement s’il est fourni
+        if (dto.getMotDePasse() != null && !dto.getMotDePasse().isBlank()) {
+            existing.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
+        }
 
-        return mapper.toDto(repository.save(bo));
+        return mapper.toDto(repository.save(existing));
     }
+
 
     @Override
     public void delete(Long id) {
@@ -93,4 +97,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         return mapper.toDto(utilisateur);
     }
+
+    @Transactional
+    public void toggleActivation(long id) {
+        UtilisateurBO user = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new UtilisateurNotFoundException("Utilisateur introuvable"));
+        user.setActif(!user.isActif());
+        utilisateurRepository.save(user);
+    }
+
 }
