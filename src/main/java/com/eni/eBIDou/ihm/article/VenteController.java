@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 public class VenteController {
-    
+
     private final CategorieService categorieService;
     private final ArticleService articleService;
     private final UtilisateurMapper utilisateurMapper;
@@ -53,7 +53,7 @@ public class VenteController {
 
         return "nouvelle-vente";
     }
-    
+
     @PostMapping("/creer")
     public String creerVente(@ModelAttribute ArticleFormDTO articleForm, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
 
@@ -69,3 +69,7 @@ public class VenteController {
         retrait.setArticle(articleSauvegarde.getData());
         retraitService.ajouterRetrait(retrait);
 
+        return "redirect:/accueil";
+
+    }
+}
