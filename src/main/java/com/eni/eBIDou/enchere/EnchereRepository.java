@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface EnchereRepository extends JpaRepository<Enchere, Long> {
 
-    List<Enchere> findByArticleCible(Article articleCible);
+    Enchere findByArticleCible(Article articleCible);
 }
