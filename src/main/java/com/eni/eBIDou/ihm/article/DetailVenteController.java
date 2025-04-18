@@ -40,6 +40,7 @@ public class DetailVenteController {
 
         //Récupérer le retrait lié à l'article
         ServiceResponse<Retrait> retrait = retraitService.selectByArticleId(id);
+        Retrait retraitData = retrait.getData();
 
         //Récupérer l'enchère l'enchère liée à l'article
         ServiceResponse<Enchere> enchere = enchereService.getByArticleCible(articleAVendre);
@@ -52,7 +53,7 @@ public class DetailVenteController {
 
 
         model.addAttribute("article", articleAVendre);
-        model.addAttribute("retrait", retrait.data);
+        model.addAttribute("retrait", retraitData);
         model.addAttribute("vendeur", vendeur);
         model.addAttribute("enchere", enchereData);
         model.addAttribute("encherisseur", encherisseur);
