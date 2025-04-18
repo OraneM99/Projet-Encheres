@@ -36,26 +36,6 @@
             </select>
         </div>
 
-        <div class="options">
-            <div class="option-group">
-                <div class="option">
-                    <input type="radio" id="achats" name="type" checked>
-                    <label for="achats">Achats</label>
-                </div>
-                <div class="checkbox-container">
-                    <input type="checkbox" id="encheresOuvertes" checked>
-                    <label for="encheresOuvertes">enchères ouvertes</label>
-                </div>
-                <div class="checkbox-container">
-                    <input type="checkbox" id="mesEncheresEnCours">
-                    <label for="mesEncheresEnCours">mes enchères en cours</label>
-                </div>
-                <div class="checkbox-container">
-                    <input type="checkbox" id="mesEncheresRemportees">
-                    <label for="mesEncheresRemportees">mes enchères remportées</label>
-                </div>
-            </div>
-
             <div class="option-group">
                 <div class="option">
                     <input type="radio" id="ventes" name="type">
@@ -77,55 +57,46 @@
         </div>
     </div>
 
-    <div class="encheres-liste">
-        <div th:each="enchere : ${encheres}" class="enchere">
-            <div class="enchere-details">
-                <div class="enchere-image">
-                    <div>X</div>
-                </div>
-                <div class="enchere-info">
-                    <a href="#" th:text="${enchere.article.nomArticle}" class="enchere-nom">Nom de l'article</a>
-                    <div class="enchere-prix">Prix : <span th:text="${enchere.montant}">200</span> points</div>
-                    <div class="enchere-fin">Fin de l'enchère : <span th:text="${#temporals.format(enchere.date, 'dd/MM/yyyy')}">01/01/2023</span></div>
-                    <div class="enchere-vendeur">Vendeur : <a href="#" th:text="${enchere.article.utilisateur.pseudo}">vendeur</a></div>
-                </div>
+<div th:if="${encheres != null}" class="encheres-liste">
+    <div th:each="enchere : ${encheres}" class="enchere">
+        <div class="enchere-details">
+            <div class="enchere-image">
+                <div>X</div>
             </div>
-        </div>
+            <div class="enchere-info">
+                <a href="#" th:text="${enchere?.articleCible?.nomArticle}" class="enchere-nom">Nom de l'article</a>
+                <div class="enchere-prix">Prix : <span th:text="${enchere?.montant_enchere}">200</span> points</div>
 
-        <div class="enchere" th:if="${encheres.empty}">
-            <div class="enchere-details">
-                <div class="enchere-image">
-                    <div>X</div>
+                <!-- Vérification que dateEnchere n'est pas nulle -->
+                <div class="enchere-fin">Fin de l'enchère :
+                    <span th:text="${enchere?.dateEnchere != null ? #temporals.format(enchere.dateEnchere, 'dd/MM/yyyy') : 'Non définie'}">01/01/2023</span>
                 </div>
-                <div class="enchere-info">
-                    <a href="#" class="enchere-nom">PC Gamer pour travailler</a>
-                    <div class="enchere-prix">Prix : 210 points</div>
-                    <div class="enchere-fin">Fin de l'enchère : 10/08/2018</div>
-                    <div class="enchere-vendeur">Vendeur : <a href="#">jojo44</a></div>
-                </div>
-            </div>
-        </div>
 
-        <div class="enchere" th:if="${encheres.empty}">
-            <div class="enchere-details">
-                <div class="enchere-image">
-                    <div>X</div>
-                </div>
-                <div class="enchere-info">
-                    <a href="#" class="enchere-nom">Rocket stove pour riz et pâtes</a>
-                    <div class="enchere-prix">Prix : 185 points</div>
-                    <div class="enchere-fin">Fin de l'enchère : 09/10/2018</div>
-                    <div class="enchere-vendeur">Vendeur : <a href="#">Jiji56</a></div>
+                <!-- Vérification de la chaîne complète -->
+                <div class="enchere-vendeur">Vendeur :
+                    <a href="#" th:text="${enchere?.articleCible?.vendeur?.pseudo}">vendeur</a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Contenu affiché si la liste est vide -->
+    <div th:if="${encheres.empty}" class="enchere">
+        <div class="message">Aucune enchère n'est disponible pour le moment.</div>
+    </div>
+    </div>
+
+    <!-- Afficher un message si encheres est null -->
+    <div th:if="${encheres == null}" class="message">
+        Erreur lors du chargement des enchères.
     </div>
 
     <div class="user-info">
-        <div>NineJea est</div>
-        <div>connectée</div>
+        <!-- Si un utilisateur est connecté -->
+        <div th:if="${utilisateurConnecte != null}">
+            <div th:text="${utilisateurConnecte.pseudo} + ' est'">NineJea est</div>
+            <div>connecté(e)</div>
+        </div>
     </div>
-
-</div>
 </body>
 </html>
