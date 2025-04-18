@@ -13,7 +13,13 @@ public interface UtilisateurService {
     UtilisateurDTO findById(Long id);
     UtilisateurDTO findByPseudo(String pseudo);
     UtilisateurDTO create(UtilisateurDTO dto);
+
+    boolean verifierMotDePasse(Long id, String motDePasse);
+
     UtilisateurDTO update(Long id, UtilisateurDTO dto);
+
+    UtilisateurDTO updateAvecVerification(Long id, UtilisateurDTO dto, String motDePasseActuel);
+
     void delete(Long id);
 
     UtilisateurDTO login(String login, String motDePasse);

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +30,21 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public UtilisateurDTO findByPseudo(String pseudo) {
-        UtilisateurBO bo = repository.findByPseudo(pseudo)
-                .orElseThrow(() -> new UtilisateurNotFoundException(pseudo));
-        return mapper.toDto(bo);
-    }
+        try {
+            UtilisateurBO utilisateur = repository.findByPseudo(pseudo)
+                    .orElse(null);
 
+            if (utilisateur == null) {
+                System.err.println("Aucun utilisateur trouvé avec le pseudo: " + pseudo);
+                return null;
+            }
+
+            return mapper.toDto(utilisateur);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la recherche de l'utilisateur par pseudo: " + e.getMessage());
+            return null;
+        }
+    }
     
     @Override
     public boolean pseudoExiste(String pseudo) {
@@ -55,6 +64,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
+    public boolean verifierMotDePasse(Long id, String motDePasse) {
+        UtilisateurBO utilisateur = repository.findById(id)
+                .orElseThrow(() -> new UtilisateurNotFoundException(id));
+
+        return passwordEncoder.matches(motDePasse, utilisateur.getMotDePasse());
+    }
+
+    @Override
     public UtilisateurDTO update(Long id, UtilisateurDTO dto) {
         UtilisateurBO existing = repository.findById(id)
                 .orElseThrow(() -> new UtilisateurNotFoundException(id));
@@ -69,7 +86,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         existing.setAdministrateur(dto.isAdministrateur());
         existing.setActif(dto.isActif());
 
-        // Optionnel : mise à jour du mot de passe uniquement s’il est fourni
+        // Optionnel : mise à jour du mot de passe uniquement s'il est fourni
         if (dto.getMotDePasse() != null && !dto.getMotDePasse().isBlank()) {
             existing.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
         }
@@ -77,6 +94,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return mapper.toDto(repository.save(existing));
     }
 
+    @Override
+    public UtilisateurDTO updateAvecVerification(Long id, UtilisateurDTO dto, String motDePasseActuel) {
+        if (motDePasseActuel == null || motDePasseActuel.isBlank()) {
+            throw new IllegalArgumentException("Le mot de passe actuel est requis");
+        }
+
+        if (!verifierMotDePasse(id, motDePasseActuel)) {
+            throw new IllegalArgumentException("Le mot de passe actuel est incorrect");
+        }
+
+        return update(id, dto);
+    }
 
     @Override
     public void delete(Long id) {

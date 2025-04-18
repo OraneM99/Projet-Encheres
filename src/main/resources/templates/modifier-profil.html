@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères - Modifier Profil</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/profil.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+</head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-content">
+            <!-- Contenu principal -->
+            <main>
+                <h2 class="profile-title">Modifier mon profil</h2>
+
+                <!-- Message d'erreur si présent -->
+                <div class="uk-alert-danger" uk-alert th:if="${errorMessage}">
+                    <p th:text="${errorMessage}">Erreur lors de la mise à jour du profil.</p>
+                </div>
+
+                <!-- Formulaire de modification -->
+                <form class="profile-view" th:action="@{/profil}" method="post" th:object="${utilisateurDTO}">
+                    <!-- Champ caché pour l'ID -->
+                    <input type="hidden" th:field="*{noUtilisateur}" />
+                    <input type="hidden" th:field="*{credit}" />
+                    <input type="hidden" th:field="*{administrateur}" />
+                    <input type="hidden" th:field="*{actif}" />
+                    <input type="hidden" th:field="*{pseudo}" />
+
+                    <div class="profile-item">
+                        <div class="profile-label">Pseudo :</div>
+                        <div class="profile-value" th:text="*{pseudo}">Pseudo</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Nom :</label>
+                        <input class="uk-input profile-value" type="text" th:field="*{nom}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Prénom :</label>
+                        <input class="uk-input profile-value" type="text" th:field="*{prenom}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Email :</label>
+                        <input class="uk-input profile-value" type="email" th:field="*{email}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Téléphone :</label>
+                        <input class="uk-input profile-value" type="text" th:field="*{telephone}" />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Rue :</label>
+                        <input class="uk-input profile-value" type="text" th:field="*{rue}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Code postal :</label>
+                        <input class="uk-input profile-value" type="text" th:field="*{codePostal}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Ville :</label>
+                        <input class="uk-input profile-value" type="text" th:field="*{ville}" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Mot de passe actuel :</label>
+                        <input type="password" class="uk-input profile-value" name="motDePasseActuel" required />
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Nouveau mot de passe :</label>
+                        <input type="password" class="uk-input profile-value" th:field="*{motDePasse}" />
+                        <small class="uk-text-muted">Laissez vide pour conserver le mot de passe actuel</small>
+                    </div>
+
+                    <div class="profile-item">
+                        <label class="profile-label">Confirmation :</label>
+                        <input type="password" class="uk-input profile-value" name="confirmation" />
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Crédit :</div>
+                        <div class="profile-value" th:text="*{credit}">100</div>
+                    </div>
+
+                    <div class="profile-actions uk-margin-medium-top">
+                        <div class="button-wrapper">
+                            <button type="submit" class="eni-button">Enregistrer</button>
+                        </div>
+                        <div class="button-wrapper">
+                            <a th:href="@{/profil}">
+                                <button type="button" class="eni-button" style="background-color: #aaa;">Annuler</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions uk-margin-medium-top">
+                        <div class="button-wrapper">
+                            <form th:action="@{/profil/supprimer/{id}(id=${utilisateurDTO.noUtilisateur})}"
+                                  method="post" onsubmit="return confirm('Es-tu sûr de vouloir supprimer ton compte ?')">
+                                <button type="submit" class="eni-button delete">Supprimer mon compte</button>
+                            </form>
+                        </div>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
+</body>
+</html>
