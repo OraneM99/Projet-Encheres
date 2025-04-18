@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères - Erreur</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+</head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-content">
+            <main>
+                <h2 class="error-title">Erreur</h2>
+
+                <div class="error-message uk-alert-danger" uk-alert>
+                    <p th:text="${message ?: 'Une erreur est survenue'}">Message d'erreur</p>
+                </div>
+
+                <!-- Détails de l'erreur (visibles uniquement en mode développement) -->
+                <div class="error-details uk-margin-medium-top" th:if="${errorDetails != null && @environment.getProperty('spring.profiles.active') == 'dev'}">
+                    <h3>Détails techniques :</h3>
+                    <pre th:text="${errorDetails}">Détails de l'erreur</pre>
+                </div>
+
+                <div class="profile-actions uk-margin-medium-top">
+                    <div class="button-wrapper">
+                        <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour à l'accueil</button></a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+</body>
+</html>

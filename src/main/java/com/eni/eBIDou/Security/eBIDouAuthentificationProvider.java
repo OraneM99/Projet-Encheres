@@ -62,7 +62,7 @@ public class eBIDouAuthentificationProvider implements AuthenticationProvider {
 
 
         return new UsernamePasswordAuthenticationToken(
-                utilisateur,
+                utilisateur.getPseudo(),
                 null,
                 authorities
         );
