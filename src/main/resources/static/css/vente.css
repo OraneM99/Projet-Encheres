@@ -1,179 +1,368 @@
-/* Styles spécifiques à la page de création de vente */
-.nouvelle-vente-container {
+/* Styles pour la page de vente */
+
+/* Conteneur principal */
+.hero-section {
+    background-color: var(--light-bg);
+    padding: 50px 0 70px;
+    margin-top: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
 }
 
-.nouvelle-vente-title {
-    font-size: 2rem;
+.hero-content {
+    width: 100%;
+}
+
+/* Titre principal */
+.title-vendre {
+    font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     color: var(--primary-color);
+    position: relative;
 }
 
-.vente-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
+.title-vendre::after {
+    content: '.';
+    color: var(--secondary-color);
+    position: relative;
 }
 
-.photo-preview {
-    flex: 0 0 350px;
-    height: 350px;
-    border: 1px solid #ddd;
+/* Carte du formulaire */
+.eni-card {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    background-color: var(--white);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.eni-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Structure du formulaire */
+.uk-form-stacked {
+    display: grid;
+    grid-template-columns: minmax(280px, 350px) 1fr;
+    gap: 20px 30px;
+    width: 100%;
+}
+
+/* Zone de la photo */
+.photo-placeholder {
+    grid-row: span 5;
+    border: 1px solid #ccc;
+    width: 100%;
+    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border-radius: var(--border-radius);
 }
 
-.photo-preview img {
+.photo-container {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-}
-
-.photo-preview-empty {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
 }
 
-.photo-preview-empty::before,
-.photo-preview-empty::after {
+.photo-x {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.photo-x::before, .photo-x::after {
     content: '';
     position: absolute;
-    background-color: #ddd;
+    background-color: var(--border-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.photo-preview-empty::before {
+.photo-x::before {
     width: 2px;
-    height: 60%;
-    transform: rotate(45deg);
+    height: 30px;
 }
 
-.photo-preview-empty::after {
-    width: 2px;
-    height: 60%;
-    transform: rotate(-45deg);
+.photo-x::after {
+    width: 30px;
+    height: 2px;
 }
 
-.form-fields {
-    flex: 1;
-    min-width: 400px;
+/* Champs qui prennent toute la largeur */
+.full-width {
+    grid-column: 1 / -1;
 }
 
-.form-group {
-    margin-bottom: 20px;
+/* Groupes de champs */
+.uk-margin {
+    margin: 0;
 }
 
-.form-label {
-    display: block;
+/* Styles des labels */
+.eni-form-label {
     font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 8px;
-    color: var(--primary-color);
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     font-size: 1rem;
+    display: block;
 }
 
-textarea.form-control {
+/* Styles des inputs */
+.eni-input, .eni-textarea, .uk-select.eni-input {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 12px 15px;
+    width: 100%;
+    min-height: 45px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.eni-input:focus, .eni-textarea:focus, .uk-select.eni-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(108, 110, 255, 0.2);
+    outline: none;
+}
+
+.eni-textarea {
     min-height: 120px;
     resize: vertical;
 }
 
-.date-input {
-    display: flex;
-    align-items: center;
+/* Conteneur de prix avec contrôles */
+.prix-container {
+    position: relative;
 }
 
-.calendar-icon {
-    margin-left: 10px;
+.prix-controls {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.prix-up, .prix-down {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--light-text);
+    transition: var(--transition);
+}
+
+.prix-up:hover, .prix-down:hover {
     color: var(--secondary-color);
 }
 
-.retrait-section {
-    margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    background-color: var(--light-bg);
-}
-
-.retrait-title {
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--primary-color);
+/* Groupe de date avec icône calendrier */
+.date-group {
     position: relative;
-    padding-bottom: 10px;
+    width: 100%;
 }
 
-.retrait-title::after {
-    content: '';
+.date-input {
+    padding-right: 40px;
+}
+
+.calendar-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: transparent;
+    border: none;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-button span {
+    color: var(--light-text);
+    transition: var(--transition);
+}
+
+.calendar-button:hover span {
+    color: var(--secondary-color);
+}
+
+/* Upload button */
+.upload-button {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: var(--transition);
+    text-align: center;
+    width: fit-content;
+}
+
+.upload-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(108, 110, 255, 0.3);
+}
+
+/* Section Retrait */
+.title-retrait {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 20px 0 15px;
+    grid-column: 1 / -1;
+}
+
+/* Section de retrait */
+.retrait-section {
+    grid-column: 1 / -1;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    background-color: var(--light-bg);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 10px;
+}
+
+/* Boutons d'action */
+.uk-flex-between {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.eni-button, .eni-button-primary {
+    border-radius: 30px;
+    padding: 12px 25px;
+    min-width: 150px;
+    text-align: center;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.eni-button-primary {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+}
+
+.eni-button-primary:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(108, 110, 255, 0.3);
+}
+
+.eni-button {
+    background-color: transparent;
+    border: 2px solid var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.eni-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+/* Diviseur de forme */
+.custom-shape-divider-bottom {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 1px;
-    background-color: #ddd;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: 0;
 }
 
-.retrait-note {
-    background-color: #fff9c4;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 15px;
-    font-size: 0.9rem;
-    border-left: 3px solid #ffd600;
+.custom-shape-divider-bottom svg {
+    position: relative;
+    display: block;
+    width: calc(138% + 1.3px);
+    height: 120px;
 }
 
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    gap: 15px;
+.custom-shape-divider-bottom .shape-fill {
+    fill: var(--secondary-color);
+    opacity: 0.1;
 }
 
-.eni-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    min-width: 150px;
-    text-align: center;
-    display: inline-block;
+/* Media Queries pour la responsivité */
+@media (max-width: 1024px) {
+    .uk-form-stacked {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .eni-card {
+        padding: 25px;
+    }
+
+    .title-vendre {
+        font-size: 2.2rem;
+    }
 }
 
-.btn-primary {
-    background-color: var(--secondary-color);
-    color: white;
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 0 60px;
+    }
+
+    .eni-card {
+        padding: 20px;
+    }
+
+    .title-vendre {
+        font-size: 2rem;
+    }
+
+    .retrait-section {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 
-.btn-primary:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-3px);
-}
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 30px 0 50px;
+    }
 
-.btn-secondary {
-    background-color: #f5f5f5;
-    color: var(--primary-color);
-    border: 1px solid #ddd;
-}
+    .eni-card {
+        padding: 15px;
+    }
 
-.btn-secondary:hover {
-    background-color: #eaeaea;
-}
+    .title-vendre {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
 
-/* Responsive styles */
+    .uk-flex-between {
+        flex-direction: column;
+    }
+
+    .eni-button, .eni-button-primary {
+        width: 100%;
+    }
+}
