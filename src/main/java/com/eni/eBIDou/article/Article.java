@@ -44,6 +44,9 @@ public class Article {
     @OneToMany(mappedBy = "articleCible")
     private List<Enchere> encheres;
 
+    private String urlImage;
+
+
     public Article(long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, int miseAPrix) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;

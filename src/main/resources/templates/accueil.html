@@ -93,8 +93,12 @@
         <div class="modern-grid" th:if="${!articles.isEmpty()}">
             <div class="modern-card" th:each="article : ${articles}">
                 <div class="modern-card-image">
-                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />
+                    <img th:src="${article.urlImage}"
+                         alt="Image de l'article"
+                         class="modern-card-img"
+                         style="object-fit: cover; width: 100%; height: 200px;" />
                 </div>
+
                 <div class="modern-card-content">
                     <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
                     <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
