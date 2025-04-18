@@ -1,6 +1,7 @@
 package com.eni.eBIDou.article;
 
 import com.eni.eBIDou.categorie.Categorie;
+import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.service.ServiceResponse;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,7 @@ public class ArticleService {
 
 
     public ServiceResponse<Article> addArticle(Article article) {
+        article.setEtatVente(EtatVente.CREEE);
         daoArticle.ajouterArticle(article);
 
         return ServiceResponse.buildResponse(CD_SUCCESS, "Article créé avec succes",article );

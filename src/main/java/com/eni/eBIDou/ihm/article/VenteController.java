@@ -1,74 +1,75 @@
 package com.eni.eBIDou.ihm.article;
 
+import com.eni.eBIDou.article.ArticleFormDTO;
+import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieService;
+import com.eni.eBIDou.retrait.RetraitService;
 import com.eni.eBIDou.service.ServiceResponse;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
-import com.eni.eBIDou.utilisateurs.UtilisateurService;
+import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/vente")
 public class VenteController {
-    
+
     private final CategorieService categorieService;
-    private final UtilisateurService utilisateurService;
     private final ArticleService articleService;
-    
+    private final UtilisateurMapper utilisateurMapper;
+    private final RetraitService retraitService;
+
     public VenteController(CategorieService categorieService,
-                           UtilisateurService utilisateurService,
-                           ArticleService articleService) {
+                           ArticleService articleService,
+                           UtilisateurMapper utilisateurMapper,
+                           RetraitService retraitService) {
         this.categorieService = categorieService;
-        this.utilisateurService = utilisateurService;
         this.articleService = articleService;
+        this.utilisateurMapper = utilisateurMapper;
+        this.retraitService = retraitService;
     }
 
-    @GetMapping
-    public String afficherVentes(Model model) {
-        List<Article> articles = articleService.getAll().getData();
-        model.addAttribute("articles", articles);
+    @GetMapping("/nouvelle-vente")
+    public String afficherNewVentes(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+
+        //récupérer l'utilisateur Connecte
+        model.addAttribute("utilisateur", utilisateurMapper.toDto(utilisateurConnecte));
+
+        ArticleFormDTO articleForm = new ArticleFormDTO();
+        articleForm.setArticle(new Article());
+        articleForm.setRetrait(new Retrait());
+
+        model.addAttribute("articleForm", articleForm);
+
+        //récupérer la liste des categories
+        List<Categorie> categories = categorieService.selectAll().getData();
+        model.addAttribute("categories", categories);
 
         return "nouvelle-vente";
     }
 
-//    @GetMapping("/nouvelle")
-//    public String afficheFormulaireVente(Model model, Principal principal) {
-//        // Récupération directe du vendeur via son pseudo
-//        String pseudo = principal.getName();
-//        UtilisateurBO utilisateur = utilisateurService.findByPseudo(pseudo).get();
-//        
-//        model.addAttribute("utilisateur", utilisateur);
-//        model.addAttribute("aricle", new Article());
-//        
-//        // Chargement des catégories
-//        ServiceResponse<List<Categorie>> responseCategorie = categorieService.selectAll();
-//        model.addAttribute("categorie", responseCategorie.getData());
-//        
-//        return "nouvelle-vente";
-//    }
-    
-//    @PostMapping("/creer")
-//    public String creerVente(@ModelAttribute("article") Article article,
-//                             @RequestParam("photoFile") MultipartFile photoFile,
-//                             Principal principal,
-//                             RedirectAttributes redirectAttributes) {
-//        // Associer l’utilisateur vendeur
-//        String pseudo = principal.getName();
-//        UtilisateurBO vendeur = utilisateurService.findByPseudo(pseudo).get();
-//        article.setVendeur(vendeur);
-//
-//        // TODO : gérer sauvegarde, image, etc.
-//        redirectAttributes.addFlashAttribute("success", "Article mis en vente avec succès !");
-//        return "redirect:/encheres";
-//    }
-}
+    @PostMapping("/creer")
+    public String creerVente(@ModelAttribute ArticleFormDTO articleForm, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
 
+        Article article = articleForm.getArticle();
+        Retrait retrait = articleForm.getRetrait();
+
+        //lié l'article à l'utilisateur qui créé la vente
+        article.setVendeur(utilisateurConnecte);
+
+        //sauvegardé l'article dans la base de donnée et générer son id
+        ServiceResponse<Article> articleSauvegarde = articleService.addArticle(article);
+
+        retrait.setArticle(articleSauvegarde.getData());
+        retraitService.ajouterRetrait(retrait);
+
+        return "redirect:/accueil";
+
+    }
+}
