@@ -103,7 +103,7 @@
                         <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
                         <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
                     </div>
-                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>
+                    <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'article</a>
                 </div>
             </div>
         </div>
