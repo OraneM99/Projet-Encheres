@@ -17,98 +17,98 @@
 
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
-<!--<section class="hero-section">-->
-<!--    <div class="hero-container">-->
-<!--        <div class="hero-content">-->
-<!--            &lt;!&ndash; Contenu principal &ndash;&gt;-->
-<!--            <main>-->
-<!--                <h3 class="article-title" th:text="|Détail de l''article : ${article.nomArticle}|"> </h3>-->
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-content">
+            <!-- Contenu principal -->
+            <main>
+                <h3 class="article-title" th:text="|Détail de l''article : ${article.nomArticle}|"> </h3>
 
-<!--                &lt;!&ndash; Image de l'article &ndash;&gt;-->
-<!--                <div class="photo-container">-->
-<!--                    <div class="photo-x"></div>-->
-<!--                </div>-->
+                <!-- Image de l'article -->
+                <div class="photo-container">
+                    <div class="photo-x"></div>
+                </div>
 
-<!--                &lt;!&ndash; Détails de l'article &ndash;&gt;-->
-<!--                <div class="auction-details">-->
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Description :</div>-->
-<!--                        <div class="auction-info-value description-value">-->
-<!--                            <span class="description-placeholder" th:text="${article.description}"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                <!-- Détails de l'article -->
+                <div class="auction-details">
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Description :</div>
+                        <div class="auction-info-value description-value">
+                            <span class="description-placeholder" th:text="${article.description}"></span>
+                        </div>
+                    </div>
 
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Catégorie</div>-->
-<!--                        <div class="auction-info-value" >-->
-<!--                            <span th:text="${article.categorieArticle}"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Catégorie</div>
+                        <div class="auction-info-value" >
+                            <span th:text="${article.categorieArticle.libelle}"></span>
+                        </div>
+                    </div>
 
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Meilleure offre :</div>-->
-<!--                        <div class="auction-info-value" >-->
-<!--                            <span th:if="${enchere != null}" th:text="${enchere.montant_enchere}">Aucune enchère</span>-->
-<!--                            <span th:unless="${enchere != null}">Aucune enchère</span>-->
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Meilleure offre :</div>
+                        <div class="auction-info-value" >
+                            <span th:if="${enchere != null}" th:text="${enchere.montant_enchere}">Aucune enchère</span>
+                            <span th:unless="${enchere != null}">Aucune enchère</span>
+                            <span th:if="${encherisseur != null}" th:text="|par : ${encherisseur.pseudo}|"></span>
 
-<!--                        </div>-->
-<!--                    </div>-->
+                        </div>
+                    </div>
 
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Mise à prix :</div>-->
-<!--                        <div class="auction-info-value" >-->
-<!--                            <span th:text="${article.miseAPrix}"> 185 points</span>-->
-<!--                            <span th:if="${encherisseur != null}" th:text="|par : ${encherisseur.pseudo}|"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Mise à prix :</div>
+                        <div class="auction-info-value" >
+                            <span th:text="${article.miseAPrix}"> 185 points</span>
+                        </div>
+                    </div>
 
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Fin de l'enchère :</div>-->
-<!--                        <div class="auction-info-value" ></div>-->
-<!--                        <span th:text="${article.dateFinEncheres}">09/10/2018</span>-->
-<!--                    </div>-->
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Fin de l'enchère :</div>
+                        <div class="auction-info-value" ></div>
+                        <span th:text="${article.dateFinEncheres}">09/10/2018</span>
+                    </div>
 
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Retrait :</div>-->
-<!--                        <div class="auction-info-value">-->
-<!--                            <span th:text="${retrait.rue}"></span>-->
-<!--                            <span th:text="${retrait.codePostal}"></span>-->
-<!--                            <span th:text="${retrait.ville}"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Retrait :</div>
+                        <div class="auction-info-value">
+                            <span th:if="${retrait != null}" th:text="${retrait.rue}"></span>
+                            <span th:if="${retrait != null}" th:text="${retrait.codePostal}"></span>
+                            <span th:if="${retrait != null}" th:text="${retrait.ville}"></span>
+                        </div>
+                    </div>
 
-<!--                    <div class="auction-info-row">-->
-<!--                        <div class="auction-info-label">Vendeur :</div>-->
-<!--                        <div class="auction-info-value">-->
-<!--                            <span th:text="${vendeur.pseudo}">jojo44</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Vendeur :</div>
+                        <div class="auction-info-value">
+                            <span th:text="${vendeur.pseudo}">jojo44</span>
+                        </div>
+                    </div>
 
-<!--                    <div class="auction-info-row bid-row">-->
-<!--                        <div class="auction-info-label">Ma proposition :</div>-->
-<!--                        <div class="auction-info-value">-->
-<!--                            <div class="bid-container">-->
-<!--                                <div class="bid-input-container">-->
-<!--                                    <input type="number" class="bid-input" value="220">-->
-<!--                                    <div class="bid-controls">-->
-<!--                                        <button class="bid-up" type="button">▲</button>-->
-<!--                                        <button class="bid-down" type="button">▼</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <button class="eni-button bid-button">Enchérir</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                    <div class="auction-info-row bid-row">
+                        <div class="auction-info-label">Ma proposition :</div>
+                        <div class="auction-info-value">
+                            <div class="bid-container">
+                                <div class="bid-input-container">
+                                    <input type="number" class="bid-input" value="">
+                                    <div class="bid-controls">
+                                        <button class="bid-up" type="button">▲</button>
+                                        <button class="bid-down" type="button">▼</button>
+                                    </div>
+                                </div>
+                                <button class="eni-button bid-button">Enchérir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<!--                &lt;!&ndash; Bouton de retour &ndash;&gt;-->
-<!--                <div class="action-buttons single-button-left">-->
-<!--                    <button class="eni-button">Back</button>-->
-<!--                </div>-->
-<!--            </main>-->
+                <!-- Bouton de retour -->
+                <div class="action-buttons single-button-left">
+                    <button class="eni-button">Back</button>
+                </div>
+            </main>
 
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
+        </div>
+    </div>
+</section>
 </body>
 </html>

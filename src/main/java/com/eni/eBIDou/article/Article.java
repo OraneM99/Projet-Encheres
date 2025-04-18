@@ -52,4 +52,14 @@ public class Article {
         this.miseAPrix = miseAPrix;
     }
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + noArticle +
+                ", nom='" + nomArticle + '\'' +
+                ", categorie=" + (categorieArticle != null ? categorieArticle.getLibelle() : null) + // afficher juste le nom
+                ", vendeur=" + (vendeur != null ? vendeur.getPseudo() : null) +
+                '}';
+    }
+
 }
