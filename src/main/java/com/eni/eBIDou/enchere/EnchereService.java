@@ -60,6 +60,14 @@ public class EnchereService {
         return ServiceResponse.buildResponse(CD_SUCCESS, "Liste d'enchere pour relatif à un article recupérée", enchere );
     }
 
+    public ServiceResponse<Enchere> getByArticleAndUtilisateur(long idArticle, long idUtilisateur) {
+        Enchere enchere = daoEnchere.findEnchereByArticleAndUtilisateur(idArticle, idUtilisateur);
+        if(enchere == null) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère n'a pu être récupéré avec cet article et cet utilisateur", null);
+        }
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Enchère récupérée par son article et son utilisateur", enchere );
+    }
+
 
     // ############################# CREER UNE ENCHERE ###############################################
     public ServiceResponse<Enchere> placerEnchere(long idArticle, long idUtilisateur, int montant) {
@@ -106,13 +114,21 @@ public class EnchereService {
             ancienEncherisseur.setCredit(ancienEncherisseur.getCredit() + meilleureEnchere.getMontant_enchere());
         }
 
-        //vérifier si l'utilisateur a deja réalisé une enchère sur cet article auquel cas on met a jour l'enchère
-
-
-        //sinon on créee  l'enchère
 
         // Déduire le montant au nouvel encherisseur
         acheteurPotent.setCredit(acheteurPotent.getCredit() - montant);
+
+
+        //vérifier si une enchère existe deja pour cet utilisateur et cet article
+        ServiceResponse<Enchere> updatedEnchere = getByArticleAndUtilisateur(articleTarget.getNoArticle(), acheteurPotent.getNoUtilisateur());
+        if(updatedEnchere.getData() != null) {
+            // il y a deja une enchere de cet User sut cet article donc mettre à jour.
+            updatedEnchere.getData().setMontant_enchere(montant);
+            daoEnchere.modifierEnchere(updatedEnchere.getData());
+            return ServiceResponse.buildResponse(CD_SUCCESS, "Enchère mise à jour avec le nouveau montant pour cette article", updatedEnchere.getData());
+        }
+
+        // si l'utilisateur n'a pas deja fait d'enchere :
 
         Enchere enchere = new Enchere();
         enchere.setArticleCible(articleTarget);
@@ -123,7 +139,7 @@ public class EnchereService {
         articleTarget.getEncheres().add(enchere);
 
         daoEnchere.nouvelleEnchere(enchere);
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Nouvelle enchere acceptée", enchere) ;
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Nouvelle enchère acceptée", enchere) ;
     }
 
     //######################### TROUVER LA MEILLEURE ENCHERE POUR UN ARTICLE ################
@@ -137,6 +153,21 @@ public class EnchereService {
         Enchere bestEnchere = articleRecherche.getData().getEncheres().stream().max(Comparator.comparing(Enchere::getMontant_enchere)).get();
         return ServiceResponse.buildResponse(CD_SUCCESS, "Meilleure enchere récupérée pour cet article", bestEnchere);
     }
+
+
+
+    //######################### MODIFIIER UNE ENCHERE #########################################
+    public ServiceResponse<Enchere> modifierEnchere(Enchere enchere) {
+        long idEnchere = enchere.getId();
+        Enchere oldEnchere = daoEnchere.findById(idEnchere);
+        if (oldEnchere == null) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère n'a pu être récupérée pour être modifiée", null);
+        }
+        daoEnchere.modifierEnchere(enchere);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "L'enchère a bien a été mise à jour", null);
+    }
+
+
 
 
     //########################## SUPPRIMER UNE ENCHERE  ########################################

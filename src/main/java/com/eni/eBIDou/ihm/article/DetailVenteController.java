@@ -32,7 +32,7 @@ public class DetailVenteController {
     }
 
     @GetMapping("/detail-vente/{id}")
-    public String detailVente(@PathVariable long id, Model model) {
+    public String detailVente(@PathVariable long id, Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
 
         //Récupérer l'article
         ServiceResponse<Article> article = articleService.getArticleById(id);
@@ -53,17 +53,12 @@ public class DetailVenteController {
         if(enchereData != null ) {
             encherisseur = enchereData.getEncherisseur();
         }
-
-
-
-
+        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         model.addAttribute("article", articleAVendre);
         model.addAttribute("retrait", retraitData);
         model.addAttribute("vendeur", vendeur);
         model.addAttribute("enchere", enchereData);
         model.addAttribute("encherisseur", encherisseur);
-
-
 
         return "detail-vente";
     }
@@ -71,38 +66,28 @@ public class DetailVenteController {
     @PostMapping("/encherir/{id}")
     public String encherir(@PathVariable long id, @RequestParam int montant_enchere, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte, Model model) {
 
-
-
-
-        //nécessité de récupérer l'utilisateur connecte qui veut enchérir
+        //récupère l'utilisateur connecté qui veut enchérir
         model.addAttribute("utilisateurConnecte", utilisateurConnecte);
 
-        // Récuperer l'article visité
+        // récupérer l'id User
+        long idEncherisseur = utilisateurConnecte.getNoUtilisateur();
+
+        enchereService.placerEnchere(id, idEncherisseur, montant_enchere);
+
+        return"redirect:/accueil";
+    }
+
+
+    @PostMapping("/supprimerArticle/{id}")
+    public String annulerVente (@PathVariable long id, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+
         ServiceResponse<Article> article = articleService.getArticleById(id);
 
-        System.out.println("UtilisateurConnecte: "+ utilisateurConnecte);
-        System.out.println("Article: "+ article.getData());
-        System.out.println("Montant de l'enchere" + montant_enchere);
-
-
-        // Vérifier que le montant de l'enchere est plus haut que le montant de départ de l'article
-        if(montant_enchere > article.getData().getMiseAPrix()){
-
-            // vérifier que l'utilisateur a bien un crédit suffisant pour couvrir le montant
-            if(utilisateurConnecte.getCredit() >= montant_enchere) {
-                // récupérer l'id de l'article
-                long idArticle = article.getData().getNoArticle();
-                // récupérer l'id User
-                long idEncherisseur = utilisateurConnecte.getNoUtilisateur();
-
-                ServiceResponse<Enchere> newEnchere = enchereService.placerEnchere(idArticle, idEncherisseur, montant_enchere);
-
-            }
-
+        if(article.getData().getVendeur().getNoUtilisateur() == utilisateurConnecte.getNoUtilisateur()) {
+            articleService.deleteArticle(id);
         }
 
-
-        return"redirect:/accueil/";
+        return "redirect:/accueil";
     }
 
 

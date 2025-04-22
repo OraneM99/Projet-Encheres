@@ -44,4 +44,14 @@ public class EnchereDAOJpaImpl implements EnchereIDAO{
         repository.deleteById(id);
 
     }
+
+    @Override
+    public void modifierEnchere(Enchere enchere) {
+        repository.save(enchere);
+    }
+
+    @Override
+    public Enchere findEnchereByArticleAndUtilisateur(long articleId, long utilisateurId) {
+        return repository.findByArticleCible_NoArticleAndEncherisseur_NoUtilisateur(articleId, utilisateurId);
+    }
 }
