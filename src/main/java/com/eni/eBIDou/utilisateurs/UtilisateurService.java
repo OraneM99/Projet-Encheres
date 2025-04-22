@@ -23,4 +23,10 @@ public interface UtilisateurService {
     void delete(Long id);
 
     UtilisateurDTO login(String login, String motDePasse);
+
+    void reinitialiserMotDePasse(String token, String nouveauMotDePasse);
+
+    void demanderReinitialisation(String email);
+
+
 }

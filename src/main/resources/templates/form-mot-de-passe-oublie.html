@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mot de passe oublié</title>
+    <link rel="stylesheet" href="/uikit/uikit.min.css">
+</head>
+<body>
+<div class="uk-container uk-margin-large-top uk-width-1-2@m">
+    <h2>Mot de passe oublié</h2>
+    <form action="/mot-de-passe-oublie" method="post" class="uk-form-stacked">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <div class="uk-margin">
+            <label class="uk-form-label">Adresse email</label>
+            <input class="uk-input" type="email" name="email" required>
+        </div>
+        <button class="uk-button uk-button-primary">Envoyer le lien</button>
+    </form>
+</div>
+</body>
+</html>
