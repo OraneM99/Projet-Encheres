@@ -45,14 +45,21 @@ public class DetailVenteController {
         ServiceResponse<Retrait> retrait = retraitService.selectByArticleId(id);
         Retrait retraitData = retrait.getData();
 
-        //Récupérer l'enchère l'enchère liée à l'article
-        ServiceResponse<Enchere> enchere = enchereService.trouverMeilleureEnchere(articleAVendre.getNoArticle());
-        Enchere enchereData = enchere.getData();
-
         UtilisateurBO encherisseur = null;
-        if(enchereData != null ) {
-            encherisseur = enchereData.getEncherisseur();
+        Enchere enchereData = null;
+
+        if(articleAVendre.getEncheres() != null) {
+            //Récupérer l'enchère l'enchère liée à l'article
+            ServiceResponse<Enchere> enchere = enchereService.trouverMeilleureEnchere(articleAVendre.getNoArticle());
+            enchereData = enchere.getData();
+            if(enchereData != null) {
+                encherisseur = enchereData.getEncherisseur();
+            }
+
+
         }
+
+
         model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         model.addAttribute("article", articleAVendre);
         model.addAttribute("retrait", retraitData);

@@ -146,8 +146,8 @@ public class EnchereService {
     public ServiceResponse<Enchere> trouverMeilleureEnchere(long idArticle) {
         ServiceResponse<Article> articleRecherche = articleService.getArticleById(idArticle);
 
-        if (articleRecherche.getData().getEncheres() == null) {
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun enchere n'existe sur cet article", null);
+        if (articleRecherche.getData().getEncheres().isEmpty()) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun enchère n'existe sur cet article", null);
         }
 
         Enchere bestEnchere = articleRecherche.getData().getEncheres().stream().max(Comparator.comparing(Enchere::getMontant_enchere)).get();
