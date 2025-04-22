@@ -1,11 +1,16 @@
 package com.eni.eBIDou.utilisateurs;
 
+import com.eni.eBIDou.Security.ResetPasswordToken;
+import com.eni.eBIDou.Security.ResetPasswordTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +20,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private final UtilisateurMapper mapper;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UtilisateurRepository utilisateurRepository;
+    private final ResetPasswordTokenRepository tokenRepository;
+    private final EmailService emailService;
+
 
     @Override
     public List<UtilisateurDTO> findAll() {
@@ -134,5 +142,68 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         user.setActif(!user.isActif());
         utilisateurRepository.save(user);
     }
+
+    @Transactional
+    @Override
+    public void demanderReinitialisation(String email) {
+        Optional<UtilisateurBO> optUtilisateur = repository.findByEmailOrPseudo(email, email);
+        if (optUtilisateur.isEmpty()) {
+            throw new UtilisateurNotFoundException("Aucun utilisateur trouvé avec cet email");
+        }
+
+        UtilisateurBO utilisateur = optUtilisateur.get();
+
+        // ✅ Supprimer tout token existant pour cet utilisateur
+        tokenRepository.findAll().stream()
+                .filter(t -> t.getUtilisateur().getNoUtilisateur().equals(utilisateur.getNoUtilisateur()))
+                .forEach(tokenRepository::delete);
+
+        tokenRepository.flush();
+
+        // ✅ Générer un nouveau token
+        String token = UUID.randomUUID().toString();
+        ResetPasswordToken resetToken = new ResetPasswordToken(
+                token,
+                utilisateur,
+                LocalDateTime.now().plusHours(1)
+        );
+
+        tokenRepository.save(resetToken);
+
+        // ✅ Afficher le lien en console
+        String lienReset = "http://localhost:8080/reinitialiser-mot-de-passe?token=" + token;
+        emailService.envoyerLienReset(utilisateur.getEmail(), lienReset);
+
+        System.out.println("🔐 Lien de réinitialisation généré pour " + utilisateur.getEmail() + " : " + lienReset);
+    }
+
+
+    @Override
+    public void reinitialiserMotDePasse(String token, String nouveauMotDePasse) {
+
+        ResetPasswordToken resetToken = tokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Token invalide"));
+
+        if (resetToken.getExpiration().isBefore(LocalDateTime.now())) {
+            tokenRepository.delete(resetToken);
+            throw new RuntimeException("Token expiré");
+        }
+
+        UtilisateurBO utilisateur = resetToken.getUtilisateur();
+
+        // ✅ Encodage du nouveau mot de passe
+        utilisateur.setMotDePasse(passwordEncoder.encode(nouveauMotDePasse));
+        repository.save(utilisateur);
+
+        System.out.println("🔐 Mot de passe mis à jour pour : " + utilisateur.getEmail());
+
+        // ✅ Nettoyage du token utilisé
+        tokenRepository.delete(resetToken);
+    }
+
+
+
+
+
 
 }
