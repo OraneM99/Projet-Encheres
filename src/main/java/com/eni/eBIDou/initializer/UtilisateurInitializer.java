@@ -2,11 +2,13 @@ package com.eni.eBIDou.initializer;
 
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Profile("dev")
 public class UtilisateurInitializer implements DataInitializer {
 
     private final UtilisateurRepository utilisateurRepository;

@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EnchereRepository extends JpaRepository<Enchere, Long> {
 
     Enchere findByArticleCible(Article articleCible);
 
-
     Enchere findByArticleCible_NoArticleAndEncherisseur_NoUtilisateur (long articleNoArticle, long utilisateurNoUtilisateur);
+
 }

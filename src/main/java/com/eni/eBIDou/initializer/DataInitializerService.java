@@ -1,9 +1,11 @@
 package com.eni.eBIDou.initializer;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Profile("dev")
 public class DataInitializerService {
 
     private final List<DataInitializer> initializers;

@@ -1,6 +1,9 @@
 package com.eni.eBIDou.ihm.enchere;
 
 import com.eni.eBIDou.article.Article;
+import com.eni.eBIDou.article.ArticleService;
+import com.eni.eBIDou.categorie.Categorie;
+import com.eni.eBIDou.categorie.CategorieService;
 import com.eni.eBIDou.enchere.Enchere;
 import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.service.ServiceResponse;
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,32 +28,89 @@ public class EnchereController {
 
     private final EnchereService enchereService;
     private final UtilisateurService utilisateurService;
+    private final CategorieService categorieService;
+    private final ArticleService articleService;
 
-    public EnchereController(EnchereService enchereService, UtilisateurService utilisateurService) {
+    public EnchereController(EnchereService enchereService, 
+                             UtilisateurService utilisateurService,
+                             CategorieService categorieService,
+                             ArticleService articleService) {
         this.enchereService = enchereService;
         this.utilisateurService = utilisateurService;
+        this.categorieService = categorieService;
+        this.articleService = articleService;
     }
 
     @GetMapping("/encheres")
-    public String getAll(Model model, RedirectAttributes redirectAttributes) {
+    public String getAll(Model model,
+                         @RequestParam(required = false) String nomArticle,
+                         @RequestParam(required = false) Long id,
+                         @RequestParam(required = false) String typeRecherche) {
         try {
-            ServiceResponse<List<Enchere>> serviceResponse = enchereService.getAll();
             
-            System.out.println("Code de réponse du service: " + serviceResponse.code);
-            System.out.println("Message du service: " + serviceResponse.message);
-            System.out.println("Nombre d'enchères reçues: " +
-                    (serviceResponse.data != null ? serviceResponse.data.size() : "null"));
+            Categorie categorie = null;
+            String categorieNom = null;
+            if (id != null && id > 0) {
+                categorie = categorieService.selectById(id).getData();
+                categorieNom = categorie != null ? categorie.getLibelle() : null;
+            }
+            
+            ServiceResponse<List<Article>> serviceResponse = articleService.rechercherArticles(nomArticle, categorie);
 
-            model.addAttribute("encheres", serviceResponse.data != null ? serviceResponse.data : List.of());
-            model.addAttribute("message", serviceResponse.message);
+            // Récupérer les catégories
+            List<Categorie> categories = categorieService.selectAll().getData();
+
+            // Ajouter les attributs au modèle
+            model.addAttribute("articles", serviceResponse.getData() != null ? serviceResponse.getData() : new ArrayList<>());
+            model.addAttribute("categories", categories);
+            model.addAttribute("nomArticle", nomArticle);
+            model.addAttribute("categorieId", id);
+            model.addAttribute("categorieNom", categorieNom);
+            model.addAttribute("message", serviceResponse.getMessage());
+
+            // Ajouter l'utilisateur connecté
             addConnectedUserToModel(model);
 
             return "encheres";
         } catch (Exception e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("message", "Erreur lors du chargement des enchères: " + e.getMessage());
-            return "redirect:/error";
+            model.addAttribute("message", "Erreur lors du chargement des enchères: " + e.getMessage());
+            return "error";
         }
+    }
+    
+    @GetMapping("/encheres/{id}")
+    public ResponseEntity<ServiceResponse<Enchere>> getEnchereById(@PathVariable long id) {
+        ServiceResponse<Enchere> serviceResponse = enchereService.getById(id);
+        return ResponseEntity.ok(serviceResponse);
+    }
+
+    @GetMapping("/encheres/article/{articleId}")
+    public ResponseEntity<ServiceResponse<Enchere>> getEnchereByArticle(@PathVariable Long articleId) {
+        Article article = new Article();
+        article.setNoArticle(articleId);
+        ServiceResponse<Enchere> serviceResponse = enchereService.getByArticleCible(article);
+        return ResponseEntity.ok(serviceResponse);
+    }
+
+    @PostMapping("/encheres")
+    public ResponseEntity<ServiceResponse<Enchere>> placerEnchere(
+            @RequestParam Long idArticle,
+            @RequestParam Long idUtilisateur,
+            @RequestParam int montant) {
+        ServiceResponse<Enchere> serviceResponse = enchereService.placerEnchere(idArticle, idUtilisateur, montant);
+        return ResponseEntity.ok(serviceResponse);
+    }
+
+    @DeleteMapping("/encheres/{idEnchere}")
+    public ResponseEntity<ServiceResponse<Enchere>> supprimerEnchere(@PathVariable Long idEnchere) {
+        ServiceResponse<Enchere> serviceResponse = enchereService.supprimerEnchere(idEnchere);
+        return ResponseEntity.ok(serviceResponse);
+    }
+    
+    @ExceptionHandler(UtilisateurNotFoundException.class)
+    public String handleUtilisateurNotFoundException(UtilisateurNotFoundException ex, Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "error";
     }
 
     // Méthode utilitaire pour ajouter l'utilisateur connecté au modèle
@@ -62,59 +123,13 @@ public class EnchereController {
                 return;
             }
 
+            // Récupérer le pseudo de l'utilisateur connecté (nom d'utilisateur)
             String pseudo = authentication.getName();
-            try {
-                UtilisateurDTO utilisateur = utilisateurService.findByPseudo(pseudo);
-                if (utilisateur != null) {
-                    model.addAttribute("utilisateurConnecte", utilisateur);
-                }
-            } catch (UtilisateurNotFoundException e) {
-                System.err.println("Utilisateur connecté non trouvé dans la base de données: " + pseudo);
-            }
+
+            // Ajouter seulement le pseudo au modèle
+            model.addAttribute("utilisateurConnecte", pseudo);
         } catch (Exception e) {
-            System.err.println("Erreur lors de l'ajout de l'utilisateur au modèle: " + e.getMessage());
+            System.err.println("Erreur lors de l'ajout du pseudo de l'utilisateur au modèle: " + e.getMessage());
         }
-    }
-    
-    @GetMapping("/api/encheres")
-    public ResponseEntity<ServiceResponse<List<Enchere>>> getAllApi() {
-        ServiceResponse<List<Enchere>> serviceResponse = enchereService.getAll();
-        return ResponseEntity.ok(serviceResponse);
-    }
-
-    @GetMapping("/api/encheres/{id}")
-    public ResponseEntity<ServiceResponse<Enchere>> getEnchereById(@PathVariable long id) {
-        ServiceResponse<Enchere> serviceResponse = enchereService.getById(id);
-        return ResponseEntity.ok(serviceResponse);
-    }
-
-    @GetMapping("/api/encheres/article/{articleId}")
-    public ResponseEntity<ServiceResponse<Enchere>> getEnchereByArticle(@PathVariable Long articleId) {
-        Article article = new Article();
-        article.setNoArticle(articleId);
-        ServiceResponse<Enchere> serviceResponse = enchereService.getByArticleCible(article);
-        return ResponseEntity.ok(serviceResponse);
-    }
-
-    @PostMapping("/api/encheres")
-    public ResponseEntity<ServiceResponse<Enchere>> placerEnchere(
-            @RequestParam Long idArticle,
-            @RequestParam Long idUtilisateur,
-            @RequestParam int montant) {
-        ServiceResponse<Enchere> serviceResponse = enchereService.placerEnchere(idArticle, idUtilisateur, montant);
-        return ResponseEntity.ok(serviceResponse);
-    }
-
-    @DeleteMapping("/api/encheres/{idEnchere}")
-    public ResponseEntity<ServiceResponse<Enchere>> supprimerEnchere(@PathVariable Long idEnchere) {
-        ServiceResponse<Enchere> serviceResponse = enchereService.supprimerEnchere(idEnchere);
-        return ResponseEntity.ok(serviceResponse);
-    }
-
-    // Page d'erreur personnalisée pour ce contrôleur
-    @GetMapping("/encheres/error")
-    public String enchereError(Model model) {
-        model.addAttribute("message", "Une erreur s'est produite lors du traitement des enchères");
-        return "error";
     }
 }

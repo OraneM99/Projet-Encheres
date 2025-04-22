@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
-@Profile("mock")
+@Profile("dev")
 public class ArticleDAOmock implements ArticleIDAO {
 
     private CategorieIDAO daoCategorie;
@@ -62,7 +63,7 @@ public class ArticleDAOmock implements ArticleIDAO {
         List<Article> articlesList = new ArrayList<>();
         for (Article article : articlesLists) {
             if (article.getNomArticle().contains(name)) {
-                articlesLists.add(article);
+                articlesList.add(article);
             }
         }
         return articlesList;
@@ -83,7 +84,6 @@ public class ArticleDAOmock implements ArticleIDAO {
     @Override
     public void ajouterArticle(Article article) {
         articlesLists.add(article);
-
     }
 
     @Override
@@ -98,11 +98,28 @@ public class ArticleDAOmock implements ArticleIDAO {
 
     @Override
     public void deleteArticle(long idArticle) {
-        for(Article oldArticle : articlesLists) {
-            if (oldArticle.getNoArticle() == idArticle) {
-                articlesLists.remove(oldArticle);
-            }
-        }
+        articlesLists.removeIf(oldArticle -> oldArticle.getNoArticle() == idArticle);
     }
 
+    @Override
+    public List<Article> selectEncheresEnCours() {
+        return List.of();
+    }
+
+    @Override
+    public List<Article> selectByNameAndCategorie(String nom, Categorie categorie) {
+        List<Article> resultat = new ArrayList<>();
+        for (Article article : articlesLists) {
+            if (article.getNomArticle().toLowerCase().contains(nom.toLowerCase())
+                    && article.getCategorieArticle().equals(categorie)) {
+                resultat.add(article);
+            }
+        }
+        return resultat;
+    }
+
+    @Override
+    public Optional<Article> findByEncherisseurId(Long noUtilisateur) {
+        return Optional.empty();
+    }
 }

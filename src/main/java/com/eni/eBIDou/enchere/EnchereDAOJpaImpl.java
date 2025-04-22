@@ -2,14 +2,16 @@ package com.eni.eBIDou.enchere;
 
 
 import com.eni.eBIDou.article.Article;
+import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Profile("jpa")
-public class EnchereDAOJpaImpl implements EnchereIDAO{
+public class EnchereDAOJpaImpl implements EnchereIDAO {
 
     private final EnchereRepository repository;
 

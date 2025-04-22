@@ -23,6 +23,7 @@ public class Article {
     private long noArticle;
     private String nomArticle;
     private String description;
+    private String imageFileName;
 
     private LocalDateTime dateDebutEncheres;
     private LocalDateTime dateFinEncheres;
