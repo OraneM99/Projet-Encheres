@@ -3,6 +3,7 @@ package com.eni.eBIDou.article;
 import com.eni.eBIDou.categorie.Categorie;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ArticleIDAO {
 
@@ -20,5 +21,9 @@ public interface ArticleIDAO {
 
     void deleteArticle(long idArticle);
 
+    List<Article> selectEncheresEnCours();
 
+    List<Article> selectByNameAndCategorie(String nom, Categorie categorie);
+
+    Optional<Article> findByEncherisseurId(Long noUtilisateur);
 }

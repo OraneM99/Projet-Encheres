@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/accueil.css}" />
@@ -93,7 +93,7 @@
         <div class="modern-grid" th:if="${!articles.isEmpty()}">
             <div class="modern-card" th:each="article : ${articles}">
                 <div class="modern-card-image">
-                  
+
                     <img th:src="${article.urlImage}"
                          alt="Image de l'article"
                          class="modern-card-img"
@@ -104,7 +104,7 @@
                 <div class="modern-card-content">
                     <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
                     <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' €'">Prix</p>
+                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' points'">Prix</p>
                     <div class="modern-card-info">
                         <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
                         <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
@@ -124,17 +124,16 @@
             <!-- Les cartes d'enchères avec articles en vedette -->
             <div class="modern-card" th:each="article : ${articlesEnVedette}">
                 <div class="modern-card-image">
-<!--                    <img th:src="@{/images/default-auction.jpg}" alt="Image de l'article" />-->
                 </div>
                 <div class="modern-card-content">
                     <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
                     <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' €'">Prix</p>
+                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' points'">Prix</p>
                     <div class="modern-card-info">
                         <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
                         <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
                     </div>
-                    <a th:href="@{/enchere/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>
+                    <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'enchère</a>
                 </div>
             </div>
 
