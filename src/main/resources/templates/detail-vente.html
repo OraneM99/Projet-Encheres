@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="icon" type="image/x-icon" th:href="@{images/favicon.ico}">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <!-- Custom CSS -->
@@ -84,21 +84,24 @@
                         </div>
                     </div>
 
-                    <div class="auction-info-row bid-row">
-                        <div class="auction-info-label">Ma proposition :</div>
-                        <div class="auction-info-value">
-                            <div class="bid-container">
-                                <div class="bid-input-container">
-                                    <input type="number" class="bid-input" value="">
-                                    <div class="bid-controls">
-                                        <button class="bid-up" type="button">▲</button>
-                                        <button class="bid-down" type="button">▼</button>
+                    <form method="post" th:action="@{'/encherir/'+${article.noArticle}}" >
+                        <div class="auction-info-row bid-row">
+                            <div class="auction-info-label">Ma proposition :</div>
+                            <div class="auction-info-value">
+                                <div class="bid-container">
+                                    <div class="bid-input-container">
+                                        <input type="number" class="bid-input"  name="montant_enchere" th:value="${montant_enchere}">
+                                        <div class="bid-controls">
+                                            <button class="bid-up" type="button">▲</button>
+                                            <button class="bid-down" type="button">▼</button>
+                                        </div>
                                     </div>
+                                    <button class="eni-button bid-button" type="submit" >Enchérir</button>
                                 </div>
-                                <button class="eni-button bid-button">Enchérir</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
+
                 </div>
 
                 <!-- Bouton de retour -->
