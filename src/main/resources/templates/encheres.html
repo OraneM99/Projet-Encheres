@@ -12,9 +12,10 @@
 </head>
 
 <body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
 <div class="app-container">
-    <!-- Header -->
-    <div th:replace="~{fragments/header :: header}"></div>
 
     <h2>Liste des enchères</h2>
 
@@ -53,13 +54,14 @@
         <div class="enchere" th:each="article : ${articles}">
             <div class="enchere-details">
                 <div class="enchere-image">
-                    <img th:src="${article.urlImage}"
+                    <img th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
                          alt="Image de l'article"
-                         th:style="'object-fit: cover; width: 100%; height: 100%;'"
-                         onerror="this.style.display='flex'; this.innerHTML='X'"/>
+                         style="object-fit: cover; width: 100%; height: 200px;"
+                         onerror="this.src='/images/placeholder.png';" />
                 </div>
 
                 <div class="enchere-info">
+
                     <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}"
                        class="enchere-nom"
                        th:text="${article.nomArticle}">Nom de l'article</a>
@@ -90,9 +92,8 @@
         <p class="no-results-text">Aucun article ne correspond à votre recherche</p>
         <p class="no-results-suggestion">Essayez avec d'autres termes ou parcourez nos catégories</p>
     </div>
-
-    <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
