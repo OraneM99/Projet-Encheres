@@ -8,6 +8,7 @@
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/detail-vente.css}" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -22,11 +23,14 @@
         <div class="hero-content">
             <!-- Contenu principal -->
             <main>
-                <h3 class="article-title" th:text="|Détail de l''article : ${article.nomArticle}|"> </h3>
+                <h3 class="article-title">Détail de l'article : <span th:text="${article.nomArticle}"></span></h3>
 
                 <!-- Image de l'article -->
                 <div class="photo-container">
-                    <div class="photo-x"></div>
+                    <img th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
+                         alt="Image de l'article"
+                         style="object-fit: cover; width: 100%; height: 200px;"
+                         onerror="this.src='/images/placeholder.png';" />
                 </div>
 
                 <!-- Détails de l'article -->
@@ -39,7 +43,7 @@
                     </div>
 
                     <div class="auction-info-row">
-                        <div class="auction-info-label">Catégorie</div>
+                        <div class="auction-info-label">Catégorie :</div>
                         <div class="auction-info-value" >
                             <span th:text="${article.categorieArticle.libelle}"></span>
                         </div>
@@ -64,8 +68,9 @@
 
                     <div class="auction-info-row">
                         <div class="auction-info-label">Fin de l'enchère :</div>
-                        <div class="auction-info-value" ></div>
-                        <span th:text="${article.dateFinEncheres}">09/10/2018</span>
+                        <div class="auction-info-value">
+                            <span th:text="${#temporals.format(article.dateFinEncheres, 'dd/MM/yy HH:mm')}"></span>
+                        </div>
                     </div>
 
                     <div class="auction-info-row">
@@ -80,7 +85,7 @@
                     <div class="auction-info-row">
                         <div class="auction-info-label">Vendeur :</div>
                         <div class="auction-info-value">
-                            <span th:text="${vendeur.pseudo}">jojo44</span>
+                            <span th:text="${vendeur.pseudo}"></span>
                         </div>
                     </div>
 
@@ -92,12 +97,10 @@
                                     <div class="bid-container">
                                         <div class="bid-input-container">
                                             <input type="number" class="bid-input"  name="montant_enchere" th:value="${montant_enchere}">
-                                                <div class="bid-controls">
-                                                    <button class="bid-up" type="button">▲</button>
-                                                    <button class="bid-down" type="button">▼</button>
-                                                </div>
                                         </div>
+                                        <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}">
                                         <button class="eni-button bid-button" type="submit" >Enchérir</button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -123,5 +126,7 @@
         </div>
     </div>
 </section>
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

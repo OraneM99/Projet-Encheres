@@ -81,6 +81,7 @@
                         <a th:href="@{'/utilisateurs/' + ${article.vendeur.pseudo}}"
                            th:text="${article.vendeur.pseudo}">vendeur</a>
                     </div>
+                    <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'article</a>
                 </div>
             </div>
         </div>

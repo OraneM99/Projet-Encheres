@@ -389,6 +389,26 @@ h2 {
     text-decoration: underline;
 }
 
+.modern-card-button {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: 600;
+    margin-top: 20px;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.modern-card-button:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: white;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .encheres-liste {
