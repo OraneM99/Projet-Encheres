@@ -4,6 +4,8 @@ import com.eni.eBIDou.categorie.Categorie;
 
 import com.eni.eBIDou.data.EtatVente;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @Profile("jpa")
-public class ArticleDAOJpaImpl implements ArticleIDAO{
+public class ArticleDAOJpaImpl implements ArticleIDAO {
 
     private final ArticleRepository repository;
 
@@ -64,9 +66,34 @@ public class ArticleDAOJpaImpl implements ArticleIDAO{
         repository.deleteById(idArticle);
     }
 
+    // Methode pour la pagination
+    @Override
+    public Page<Article> selectAllPaginated(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Article> selectByNamePaginated(String name, Pageable pageable) {
+        return repository.findByNomArticleContainingIgnoreCase(name, pageable);
+    }
+
+    @Override
+    public Page<Article> selectByCategoriePaginated(Categorie categorie, Pageable pageable) {
+        return repository.findByCategorieArticle(categorie, pageable);
+    }
+
+    @Override
+    public Page<Article> selectByNameAndCategoriePaginated(String nom, Categorie categorie, Pageable pageable) {
+        return repository.findByNomArticleContainingIgnoreCaseAndCategorieArticle(nom, categorie, pageable);
+    }
+
+    @Override
+    public Page<Article> selectEncheresEnCoursPaginated(EtatVente etatVente, Pageable pageable) {
+        return repository.findByEtatVente(etatVente, pageable);
+    }
+
     @Override
     public List<Article> selectEncheresEnCours() {
         return repository.findByEtatVente(EtatVente.EN_COURS);
     }
-
 }
