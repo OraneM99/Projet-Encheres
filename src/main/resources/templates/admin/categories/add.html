@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter une catégorie</title>
+    <title th:text="#{admin.categorie.ajouter.titre}">Ajouter une catégorie</title>
     <link rel="stylesheet" th:href="@{/css/admin/style.css}" />
     <link rel="stylesheet" th:href="@{/uikit/css/uikit.min.css}" />
     <link rel="stylesheet" th:href="@{/css/admin/list-admin.css}" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" th:href="@{/css/admin/notyf.min.css}" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>        <script src="js/uikit.min.js" ></script>
-    <script th:src="@{/js/admin/uikit-icons.min.js}" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script th:src="@{/js/admin/uikit-icons.min.js}"></script>
 </head>
 <body>
 
 <div th:replace="~{fragments/admin/header :: header-admin}"></div>
 
-
 <div class="uk-container">
-    <h1 class="uk-heading-bullet">Ajouter une catégorie</h1>
+    <h1 class="uk-heading-bullet" th:text="#{admin.categorie.ajouter.titre}">Ajouter une catégorie</h1>
 
     <form class="uk-form-stacked" th:action="@{/admin/categories/add}" method="post" th:object="${categorie}">
         <div class="uk-margin">
-            <label class="uk-form-label" for="libelle">Nom de la catégorie</label>
+            <label class="uk-form-label" for="libelle" th:text="#{admin.categorie.libelle}">Nom de la catégorie</label>
             <div class="uk-form-controls">
                 <input class="uk-input" id="libelle" name="libelle" type="text" th:field="*{libelle}" required>
-
             </div>
         </div>
 
-        <button class="uk-button uk-button-primary" type="submit">Créer</button>
-        <a class="uk-button uk-button-text" th:href="@{/admin/categories/list}">Annuler</a>
+        <button class="uk-button uk-button-primary" type="submit" th:text="#{admin.categorie.bouton.creer}">Créer</button>
+        <a class="uk-button uk-button-text" th:href="@{/admin/categories/list}" th:text="#{admin.categorie.bouton.annuler}">Annuler</a>
     </form>
 </div>
 </body>

@@ -7,7 +7,6 @@
     <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
-    <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/profil.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
@@ -29,88 +28,89 @@
                         <input type="hidden" name="noUtilisateur" th:value="${#authentication.principal.utilisateur.noUtilisateur}" />
 
                         <div class="profile-item">
-                            <div class="profile-label">Pseudo :</div>
+                            <div class="profile-label" th:text="#{profil.pseudo}">Pseudo :</div>
                             <div class="profile-input-container">
                                 <input type="text" class="profile-input" name="pseudo" th:value="${#authentication.principal.utilisateur.pseudo}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Nom :</div>
+                            <div class="profile-label" th:text="#{profil.nom}">Nom :</div>
                             <div class="profile-input-container">
                                 <input type="text" class="profile-input" name="nom" th:value="${#authentication.principal.utilisateur.nom}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Prénom :</div>
+                            <div class="profile-label" th:text="#{profil.prenom}">Prénom :</div>
                             <div class="profile-input-container">
                                 <input type="text" class="profile-input" name="prenom" th:value="${#authentication.principal.utilisateur.prenom}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Email :</div>
+                            <div class="profile-label" th:text="#{profil.email}">Email :</div>
                             <div class="profile-input-container">
                                 <input type="email" class="profile-input" name="email" th:value="${#authentication.principal.utilisateur.email}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Téléphone :</div>
+                            <div class="profile-label" th:text="#{profil.telephone}">Téléphone :</div>
                             <div class="profile-input-container">
                                 <input type="tel" class="profile-input" name="telephone" th:value="${#authentication.principal.utilisateur.telephone}" />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Rue :</div>
+                            <div class="profile-label" th:text="#{profil.rue}">Rue :</div>
                             <div class="profile-input-container">
                                 <input type="text" class="profile-input" name="rue" th:value="${#authentication.principal.utilisateur.rue}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Code postal :</div>
+                            <div class="profile-label" th:text="#{profil.codepostal}">Code postal :</div>
                             <div class="profile-input-container">
                                 <input type="text" class="profile-input" name="codePostal" th:value="${#authentication.principal.utilisateur.codePostal}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Ville :</div>
+                            <div class="profile-label" th:text="#{profil.ville}">Ville :</div>
                             <div class="profile-input-container">
                                 <input type="text" class="profile-input" name="ville" th:value="${#authentication.principal.utilisateur.ville}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Mot de passe :</div>
+                            <div class="profile-label" th:text="#{profil.mdp}">Mot de passe :</div>
                             <div class="profile-input-container">
-                                <input type="password" class="profile-input" name="motDePasse" placeholder="Laisser vide pour ne pas modifier" />
+                                <input type="password" class="profile-input" name="motDePasse"
+                                       th:placeholder="#{profil.mdp.placeholder}" />
                             </div>
                         </div>
 
                         <div class="profile-item">
-                            <div class="profile-label">Confirmation :</div>
+                            <div class="profile-label" th:text="#{profil.confirmation}">Confirmation :</div>
                             <div class="profile-input-container">
-                                <input type="password" class="profile-input" name="confirmation" placeholder="Confirmer le nouveau mot de passe" />
+                                <input type="password" class="profile-input" name="confirmation"
+                                       th:placeholder="#{profil.confirmation.placeholder}" />
                             </div>
                         </div>
                     </div>
 
                     <div class="profile-actions uk-margin-medium-top">
                         <div class="button-wrapper">
-                            <a th:href="@{/profil}"><button type="button" class="eni-button">Annuler</button></a>
+                            <a th:href="@{/profil}"><button type="button" class="eni-button" th:text="#{profil.bouton.annuler}">Annuler</button></a>
                         </div>
-
                         <div class="button-wrapper">
-                            <button type="submit" class="eni-button">Sauvegarder</button>
+                            <button type="submit" class="eni-button" th:text="#{profil.bouton.sauvegarder}">Sauvegarder</button>
                         </div>
                     </div>
                 </form>
 
-                <!-- Message de succès si présent -->
+                <!-- Message de succès -->
                 <div th:if="${successMessage}" class="success-message uk-alert uk-alert-success">
                     <p th:text="${successMessage}">Profil mis à jour avec succès</p>
                 </div>
@@ -121,6 +121,5 @@
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 </body>
 </html>

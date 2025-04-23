@@ -1,10 +1,10 @@
 <div th:fragment="header-admin">
     <div class="uk-section-small uk-section-default header">
         <div class="uk-container uk-container-large">
-            <h1><span class="ion-speedometer"></span> Dashboard</h1>
+            <h1><span class="ion-speedometer"></span> <span th:text="#{admin.dashboard.titre}">Dashboard</span></h1>
             <ul class="uk-breadcrumb">
-                <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
-                <li><a th:href="@{/}">Retour à l'acceuil du site</a></li>
+                <li><a th:href="@{/admin/dashboard}" th:text="#{admin.dashboard.lien}">Dashboard</a></li>
+                <li><a th:href="@{/}" th:text="#{admin.dashboard.retour}">Retour à l'accueil du site</a></li>
             </ul>
         </div>
     </div>

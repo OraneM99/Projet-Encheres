@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENI-Enchères</title>
+    <title th:text="#{site.nom}">ENI-Enchères</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
-    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/detail-vente.css}" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
@@ -15,14 +15,14 @@
 </head>
 
 <body>
-
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
+
 <section class="hero-section">
     <div class="hero-container">
         <div class="hero-content">
-            <!-- Contenu principal -->
             <main>
+
                 <h3 class="article-title">Détail de l'article : <span th:text="${article.nomArticle}"></span></h3>
 
                 <!-- Image de l'article -->
@@ -35,46 +35,46 @@
 
                 <!-- Détails de l'article -->
                 <div class="auction-details">
+
                     <div class="auction-info-row">
-                        <div class="auction-info-label">Description :</div>
+                        <div class="auction-info-label" th:text="#{detail.description}">Description :</div>
                         <div class="auction-info-value description-value">
                             <span class="description-placeholder" th:text="${article.description}"></span>
                         </div>
                     </div>
 
                     <div class="auction-info-row">
-                        <div class="auction-info-label">Catégorie :</div>
-                        <div class="auction-info-value" >
-                            <span th:text="${article.categorieArticle.libelle}"></span>
-                        </div>
+
+                        <div class="auction-info-label" th:text="#{detail.categorie}">Catégorie</div>
+                        <div class="auction-info-value"><span th:text="${article.categorieArticle.libelle}"></span></div>
+
                     </div>
 
                     <div class="auction-info-row">
-                        <div class="auction-info-label">Meilleure offre :</div>
-                        <div class="auction-info-value" >
-                            <span th:if="${enchere != null}" th:text="${enchere.montant_enchere}">Aucune enchère</span>
-                            <span th:unless="${enchere != null}">Aucune enchère</span>
-                            <span th:if="${encherisseur != null}" th:text="|par : ${encherisseur.pseudo}|"></span>
-
-                        </div>
-                    </div>
-
-                    <div class="auction-info-row">
-                        <div class="auction-info-label">Mise à prix :</div>
-                        <div class="auction-info-value" >
-                            <span th:text="${article.miseAPrix}"> 185 points</span>
-                        </div>
-                    </div>
-
-                    <div class="auction-info-row">
-                        <div class="auction-info-label">Fin de l'enchère :</div>
+                        <div class="auction-info-label" th:text="#{detail.meilleure.offre}">Meilleure offre :</div>
                         <div class="auction-info-value">
-                            <span th:text="${#temporals.format(article.dateFinEncheres, 'dd/MM/yy HH:mm')}"></span>
+                            <span th:if="${enchere != null}" th:text="${enchere.montant_enchere}">Aucune enchère</span>
+                            <span th:unless="${enchere != null}" th:text="#{detail.aucune.enchere}">Aucune enchère</span>
+                            <span th:if="${encherisseur != null}" th:text="|#{detail.par} ${encherisseur.pseudo}|"></span>
                         </div>
                     </div>
 
                     <div class="auction-info-row">
-                        <div class="auction-info-label">Retrait :</div>
+                        <div class="auction-info-label" th:text="#{detail.mise.prix}">Mise à prix :</div>
+                        <div class="auction-info-value"><span th:text="${article.miseAPrix}">185 points</span></div>
+                    </div>
+
+                    <div class="auction-info-row">
+
+                        <div class="auction-info-label" th:text="#{detail.fin.enchere}">Fin de l'enchère :</div>
+                        <div class="auction-info-value">
+                            <span th:text="${article.dateFinEncheres}">09/10/2018</span>
+
+                        </div>
+                    </div>
+
+                    <div class="auction-info-row">
+                        <div class="auction-info-label" th:text="#{detail.retrait}">Retrait :</div>
                         <div class="auction-info-value">
                             <span th:if="${retrait != null}" th:text="${retrait.rue}"></span>
                             <span th:if="${retrait != null}" th:text="${retrait.codePostal}"></span>
@@ -83,6 +83,7 @@
                     </div>
 
                     <div class="auction-info-row">
+
                         <div class="auction-info-label">Vendeur :</div>
                         <div class="auction-info-value">
                             <span th:text="${vendeur.pseudo}"></span>
@@ -91,36 +92,44 @@
 
                     <div th:if="${#authentication.principal.utilisateur != null and vendeur != null and #authentication.principal.utilisateur.noUtilisateur != vendeur.noUtilisateur}">
                         <form method="post" th:action="@{'/encherir/'+${article.noArticle}}" >
+
                             <div class="auction-info-row bid-row">
-                                <div class="auction-info-label">Ma proposition :</div>
+                                <div class="auction-info-label" th:text="#{detail.proposition}">Ma proposition :</div>
                                 <div class="auction-info-value">
                                     <div class="bid-container">
                                         <div class="bid-input-container">
-                                            <input type="number" class="bid-input"  name="montant_enchere" th:value="${montant_enchere}">
+
+                                            <input type="number" class="bid-input" name="montant_enchere" th:value="${montant_enchere}">
+                                            <div class="bid-controls">
+                                                <button class="bid-up" type="button">▲</button>
+                                                <button class="bid-down" type="button">▼</button>
+                                            </div>
                                         </div>
-                                        <button class="eni-button bid-button" type="submit">Enchérir</button>
+                                        <button class="eni-button bid-button" type="submit" th:text="#{detail.encherir}">Enchérir</button>
+
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div>
 
-                <div th:if="${#authentication.principal.utilisateur != null and vendeur != null and #authentication.principal.utilisateur.noUtilisateur == vendeur.noUtilisateur}">
-                    <form method="post" th:action="@{'/supprimerArticle/'+${article.noArticle}}">
-                        <button class="eni-button" type="submit"> Annuler Vente </button>
-                    </form>
 
-                </div>
+                    <!-- Suppression si vendeur -->
+                    <div th:if="${utilisateurConnecte.noUtilisateur == vendeur.noUtilisateur}">
+                        <form method="post" th:action="@{'/supprimerArticle/'+${article.noArticle}}">
+                            <button class="eni-button" type="submit" th:text="#{detail.annuler.vente}">Annuler Vente</button>
+                        </form>
+                    </div>
 
-                <!-- Bouton de retour -->
-                <div class="action-buttons single-button-left">
-                    <a th:href="@{/accueil}">
-                    <button class="eni-button">Back</button>
-                    </a>
+                    <!-- Retour -->
+                    <div class="action-buttons single-button-left">
+                        <a th:href="@{/accueil}">
+                            <button class="eni-button" th:text="#{detail.retour}">Back</button>
+                        </a>
+                    </div>
+
                 </div>
             </main>
-
         </div>
     </div>
 </section>
