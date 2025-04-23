@@ -2,12 +2,14 @@ package com.eni.eBIDou.initializer;
 
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 @Component
+@Profile("dev")
 public class CategorieInitializer implements DataInitializer {
 
     private final CategorieRepository categorieRepository;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères - Profil</title>
-    <link rel="icon" type="image/x-icon" th:href="@{images/favicon.svg}">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <!-- Custom CSS -->
@@ -79,6 +79,13 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- Bouton pour supprimer le compte -->
+                    <div class="button-wrapper">
+                        <button type="button" class="eni-button uk-button-danger" onclick="openModal()">
+                            Supprimer mon compte
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Modal personnalisée de confirmation de suppression -->
@@ -99,14 +106,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Bouton pour supprimer le compte -->
-                <div class="button-wrapper">
-                    <button type="button" class="eni-button uk-button-danger" onclick="openModal()">
-                        Supprimer mon compte
-                    </button>
-                </div>
-
             </main>
         </div>
     </div>

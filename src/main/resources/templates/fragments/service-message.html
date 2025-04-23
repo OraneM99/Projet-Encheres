@@ -8,35 +8,86 @@
 <!-- Fragment pour afficher les messages de ServiceResponse -->
 <div th:fragment="serviceMessage(response)" class="service-message">
     <!-- Message de succès -->
-    <div th:if="${response != null && response['code'] == '777'}" class="uk-alert uk-alert-success">
-        <p th:text="${response['message']}">Opération réussie</p>
+    <div th:if="${response != null && response.code == '777'}" class="uk-alert uk-alert-success">
+        <p th:text="${response.message}">Opération réussie</p>
     </div>
 
     <!-- Message d'erreur - Élément non trouvé -->
-    <div th:if="${response != null && response['code'] == '111'}" class="uk-alert uk-alert-warning">
-        <p th:text="${response['message']}">Élément non trouvé</p>
+    <div th:if="${response != null && response.code == '111'}" class="uk-alert uk-alert-warning">
+        <p th:text="${response.message}">Élément non trouvé</p>
     </div>
 
     <!-- Message d'erreur - Erreur technique -->
-    <div th:if="${response != null && response['code'] == '555'}" class="uk-alert uk-alert-danger">
-        <p th:text="${response['message']}">Une erreur technique est survenue</p>
+    <div th:if="${response != null && response.code == '555'}" class="uk-alert uk-alert-danger">
+        <p th:text="${response.message}">Une erreur technique est survenue</p>
     </div>
 
     <!-- Message d'erreur - Erreur réseau -->
-    <div th:if="${response != null && response['code'] == '558'}" class="uk-alert uk-alert-danger">
-        <p th:text="${response['message']}">Une erreur réseau est survenue</p>
+    <div th:if="${response != null && response.code == '558'}" class="uk-alert uk-alert-danger">
+        <p th:text="${response.message}">Une erreur réseau est survenue</p>
     </div>
 
     <!-- Message d'erreur - Erreur inconnue -->
-    <div th:if="${response != null && response['code'] == '666'}" class="uk-alert uk-alert-danger">
-        <p th:text="${response['message']}">Une erreur inconnue est survenue</p>
+    <div th:if="${response != null && response.code == '666'}" class="uk-alert uk-alert-danger">
+        <p th:text="${response.message}">Une erreur inconnue est survenue</p>
+    </div>
+
+    <!-- Message d'erreur - Crédit insuffisant pour enchérir -->
+    <div th:if="${response != null && response.code == '222'}" class="uk-alert uk-alert-warning">
+        <p th:text="${response.message}">Crédit insuffisant pour enchérir</p>
+    </div>
+
+    <!-- Message d'erreur - Enchère non autorisée -->
+    <div th:if="${response != null && response.code == '333'}" class="uk-alert uk-alert-warning">
+        <p th:text="${response.message}">Enchère non autorisée</p>
+    </div>
+
+    <!-- Message d'erreur - Enchère inférieure au prix actuel -->
+    <div th:if="${response != null && response.code == '444'}" class="uk-alert uk-alert-warning">
+        <p th:text="${response.message}">Enchère trop basse</p>
+    </div>
+
+    <!-- Message d'erreur - Vente terminée -->
+    <div th:if="${response != null && response.code == '888'}" class="uk-alert uk-alert-info">
+        <p th:text="${response.message}">Cette vente est terminée</p>
+    </div>
+
+    <!-- Message d'erreur - Vente non débutée -->
+    <div th:if="${response != null && response.code == '999'}" class="uk-alert uk-alert-info">
+        <p th:text="${response.message}">Cette vente n'a pas encore débuté</p>
     </div>
 </div>
 
 <!-- Message d'erreur quand une liste est vide -->
 <div th:fragment="listeVide(liste, message)" class="empty-list-message">
-    <div th:if="${#lists.isEmpty(liste)}" class="uk-alert uk-alert-warning">
+    <div th:if="${liste == null || liste.empty}" class="uk-alert uk-alert-warning">
         <p th:text="${message != null} ? ${message} : 'Aucun élément trouvé.'">Aucun élément trouvé.</p>
+    </div>
+</div>
+
+<!-- Message pour les succès d'enchères -->
+<div th:fragment="enchereSuccess(enchereResponse)" class="enchere-message">
+    <div th:if="${enchereResponse != null && enchereResponse.code == '777'}" class="uk-alert uk-alert-success">
+        <p>
+            Votre enchère de <strong th:text="${enchereResponse.data != null ? enchereResponse.data.montant_enchere : ''}">montant</strong> points
+            a été placée avec succès !
+        </p>
+    </div>
+</div>
+
+<!-- Message pour afficher le crédit utilisateur -->
+<div th:fragment="creditUtilisateur(utilisateur)" class="credit-utilisateur">
+    <div th:if="${utilisateur != null}" class="credit-info">
+        <p>
+            Crédit disponible : <strong th:text="${utilisateur.credit}">0</strong> points
+        </p>
+    </div>
+</div>
+
+<!-- Message pour confirmer une action -->
+<div th:fragment="confirmation(message)" class="confirmation-message">
+    <div class="uk-alert uk-alert-primary">
+        <p th:text="${message}">Message de confirmation</p>
     </div>
 </div>
 

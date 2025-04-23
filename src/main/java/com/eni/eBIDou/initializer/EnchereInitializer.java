@@ -6,6 +6,7 @@ import com.eni.eBIDou.enchere.Enchere;
 import com.eni.eBIDou.enchere.EnchereRepository;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
+@Profile("dev")
 public class EnchereInitializer implements DataInitializer {
 
     private final EnchereRepository enchereRepository;
