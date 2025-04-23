@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div th:if="${utilisateurConnecte.noUtilisateur != vendeur.noUtilisateur}">
+                    <div th:if="${#authentication.principal.utilisateur != null and vendeur != null and #authentication.principal.utilisateur.noUtilisateur != vendeur.noUtilisateur}">
                         <form method="post" th:action="@{'/encherir/'+${article.noArticle}}" >
                             <div class="auction-info-row bid-row">
                                 <div class="auction-info-label">Ma proposition :</div>
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <div th:if="${utilisateurConnecte.noUtilisateur == vendeur.noUtilisateur}">
+                <div th:if="${#authentication.principal.utilisateur != null and vendeur != null and #authentication.principal.utilisateur.noUtilisateur == vendeur.noUtilisateur}">
                     <form method="post" th:action="@{'/supprimerArticle/'+${article.noArticle}}">
                         <button class="eni-button" type="submit"> Annuler Vente </button>
                     </form>
