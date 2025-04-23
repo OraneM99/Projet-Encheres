@@ -25,23 +25,47 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-//    @Transactional
-//    public void verifierEtMettreAjourEtatVente() {
-//        //Recuperer la date du jour
-//        LocalDate today = LocalDate.now();
-//        //récupérer tous les articles
-//        List<Article> articles = articleRepository.findAll();
-//
-//        //Pour chaque article
-//        for (Article article : articles) {
-//            //on recupère l'état
-//            EtatVente etat = article.getEtatVente();
-//
-//            if(etat == EtatVente.CREEE && !today.isBefore(article.getDateDebutEncheres())) {
-//                article
-//            }
-//        }
-//    }
+    @Transactional
+    public ServiceResponse<List<Article>> verifierEtMettreAjourEtatVente() {
+        //Recuperer la date du jour
+        LocalDate today = LocalDate.now();
+        //récupérer tous les articles
+        List<Article> articles = articleRepository.findAll();
+        if(articles.isEmpty()) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun article récupéré pour être mis à jour", null);
+        }
+
+        //Pour chaque article
+        for (Article article : articles) {
+            //on recupère l'état
+            EtatVente etat = article.getEtatVente();
+
+
+            if (etat == EtatVente.CREEE && today.isAfter(article.getDateDebutEncheres())) {
+                article.setEtatVente(EtatVente.EN_COURS);
+            }
+            if (etat == EtatVente.EN_COURS && today.isAfter(article.getDateFinEncheres())) {
+                article.setEtatVente(EtatVente.TERMINEE);
+            }
+
+        }
+        articleRepository.saveAll(articles);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Les articles ont bien été mis à jour", articles);
+    }
+
+    @Transactional
+    public  ServiceResponse<Article>marquerRetraitEffectue(Long articleId) {
+
+        Article article = daoArticle.selectById(articleId);
+
+        if (article.getEtatVente() != EtatVente.TERMINEE) {
+            return ServiceResponse.buildResponse(CD_ERR_TCH, "Le retrait ne peut être confirmé que pour une enchère terminée.", null );
+        }
+
+        article.setEtatVente(EtatVente.RETRAIT_EFFECTUE);
+        articleRepository.save(article);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "L'etat vente de l'article a bien été mis à jour par le retrait effectué", article);
+    }
 
     // Récupère tous les articles
     public ServiceResponse<List<Article>> getAll() {

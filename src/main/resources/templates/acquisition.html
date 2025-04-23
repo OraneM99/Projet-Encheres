@@ -21,7 +21,7 @@
 
     <!-- Contenu principal -->
     <main>
-        <h3 class="article-title">PC Gamer pour travailler</h3>
+        <h3 class="article-title" th:text="${article.nomArticle}"> titre article</h3>
 
         <!-- Image de l'article -->
         <div class="photo-container">
@@ -31,13 +31,13 @@
         <!-- Détails de l'enchère -->
         <div class="auction-details">
             <div class="auction-info-row">
-                <div class="auction-info-label">Meilleure offre :</div>
-                <div class="auction-info-value">210 pts</div>
+                <div class="auction-info-label" >Meilleure offre :</div>
+                <div class="auction-info-value" th:text="${enchere.montant_enchere}">nombre pts</div>
             </div>
 
             <div class="auction-info-row">
                 <div class="auction-info-label">Mise à prix</div>
-                <div class="auction-info-value">185 points</div>
+                <div class="auction-info-value" th:text="${article.miseAPrix}">nombre points</div>
             </div>
         </div>
 
@@ -45,26 +45,28 @@
         <div class="retrait-box">
             <div class="retrait-header">Retrait</div>
             <div class="retrait-content">
-                <p class="retrait-address">10 allée des Alouettes<br>44800 Saint Herblain</p>
+                <p class="retrait-address" th:text="${article.lieuRetrait.rue}">Rue</p>
+                <p th:text="${article.lieuRetrait.codePostal}"> Code postal</p>
+                <p th:text="${article.lieuRetrait.ville}">Ville</p>
 
                 <div class="seller-info">
                     <div class="auction-info-row">
                         <div class="auction-info-label">Vendeur :</div>
-                        <div class="auction-info-value"><a href="#" class="seller-link">jojo44</a></div>
+                        <div class="auction-info-value" th:text="${vendeur.pseudo}">>jojo44</div>
                     </div>
 
                     <div class="auction-info-row">
                         <div class="auction-info-label">Tel :</div>
-                        <div class="auction-info-value">06060606</div>
+                        <div class="auction-info-value" th:text="${vendeur.telephone}">06060606</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Bouton d'action -->
-        <div class="action-buttons single-button">
-            <button class="eni-button">Retrait effectué</button>
-        </div>
+        <form th:action="@{'/articles/' + ${article.noArticle} + '/retrait-effectue'}" method="post">
+            <button type="submit" class="eni-button">Retrait effectué</button>
+        </form>
     </main>
 </div>
 </body>

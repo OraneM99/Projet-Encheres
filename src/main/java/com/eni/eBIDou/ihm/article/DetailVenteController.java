@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 public class DetailVenteController {
 
@@ -92,9 +94,48 @@ public class DetailVenteController {
         if(article.getData().getVendeur().getNoUtilisateur() == customUserDetails.getUtilisateur().getNoUtilisateur()) {
             articleService.deleteArticle(id);
         }
-
         return "redirect:/accueil";
     }
 
+    @GetMapping("/article/{id}/fin")
+    public String afficherFinEnchere(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        ServiceResponse<Article> articleData = articleService.getArticleById(id);
+        Article article = articleData.getData();
+        UtilisateurBO utilisateurConnecte = customUserDetails.getUtilisateur();
+
+        ServiceResponse<Enchere> meilleureEnchereData = enchereService.trouverMeilleureEnchere(article.getNoArticle());
+        Enchere meilleureEnchere = meilleureEnchereData.getData();
+        UtilisateurBO vendeur = article.getVendeur();
+        UtilisateurBO gagnant = meilleureEnchere != null ? meilleureEnchere.getEncherisseur() : null;
+
+        model.addAttribute("article", article);
+        model.addAttribute("vendeur", vendeur);
+        model.addAttribute("encherisseur", gagnant);
+
+        if(gagnant != null) {
+            if (utilisateurConnecte.getNoUtilisateur().equals(gagnant.getNoUtilisateur())) {
+                return "acquisition";
+            }
+        }
+
+        if (utilisateurConnecte.getNoUtilisateur().equals(vendeur.getNoUtilisateur())) {
+            return "fin-enchere";
+        }
+        return "redirect:/accueil";
+    }
+
+    @PostMapping("/articles/{id}/retrait-effectue")
+    public String retraitEffectue(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Article article = articleService.getArticleById(id).getData();
+
+        if (!article.getVendeur().getNoUtilisateur().equals(userDetails.getUtilisateur().getNoUtilisateur())) {
+            return "redirect:/accueil";
+        }
+
+        articleService.marquerRetraitEffectue(id);
+
+        // Redirection vers la même page, ou une autre vue de confirmation
+        return "redirect:/article/" + id + "/fin";
+    }
 
 }
