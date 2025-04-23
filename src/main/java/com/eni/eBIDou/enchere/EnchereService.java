@@ -5,6 +5,7 @@ import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.service.ServiceResponse;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
+import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
 import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
 import com.eni.eBIDou.utilisateurs.UtilisateurService;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,8 @@ public class EnchereService {
         //Recuperer l'utilisateur acteur de l'enchere
         UtilisateurBO acheteurPotent = utilisateurMapper.toBo(utilisateurService.findById(idUtilisateur));
 
+        System.out.println("Acheteur potentiel= " + acheteurPotent);
+
         //Determiner la date du jour
         LocalDateTime aujourdHui = LocalDateTime.now();
 
@@ -111,13 +114,20 @@ public class EnchereService {
         // Si enchère gagnante précédente, rembourser l'utilisateur
         if (meilleureEnchere != null) {
             UtilisateurBO ancienEncherisseur = meilleureEnchere.getEncherisseur();
+            System.out.println("Crédit de l'ancien encherisseur avant= " + ancienEncherisseur.getCredit());
             ancienEncherisseur.setCredit(ancienEncherisseur.getCredit() + meilleureEnchere.getMontant_enchere());
+            System.out.println("Crédit de l'ancien encherisseur après= " + ancienEncherisseur.getCredit());
+
         }
 
+        System.out.println("Crédit de l'acheteur avant= " + acheteurPotent.getCredit());
+        System.out.println("Montant misé dans l'enchère= " + montant);
 
         // Déduire le montant au nouvel encherisseur
         acheteurPotent.setCredit(acheteurPotent.getCredit() - montant);
-
+        //appeler le service pour faire une update du crédit enchérisseur en base.
+        utilisateurService.updateCredit(acheteurPotent.getNoUtilisateur(), acheteurPotent.getCredit());
+        System.out.println("Crédit de l'acheteur apres= " + acheteurPotent.getCredit());
 
         //vérifier si une enchère existe deja pour cet utilisateur et cet article
         ServiceResponse<Enchere> updatedEnchere = getByArticleAndUtilisateur(articleTarget.getNoArticle(), acheteurPotent.getNoUtilisateur());
@@ -141,6 +151,8 @@ public class EnchereService {
         daoEnchere.nouvelleEnchere(enchere);
         return ServiceResponse.buildResponse(CD_SUCCESS, "Nouvelle enchère acceptée", enchere) ;
     }
+
+
 
     //######################### TROUVER LA MEILLEURE ENCHERE POUR UN ARTICLE ################
     public ServiceResponse<Enchere> trouverMeilleureEnchere(long idArticle) {
