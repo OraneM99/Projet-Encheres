@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -90,7 +91,7 @@ public class HomeVueController {
         // Récupérer les articles en vedette (enchères en cours)
         List<Article> articlesEnVedette = articleService.getAll().getData().stream()
                 .filter(a -> a.getEtatVente() == EtatVente.EN_COURS)
-                .filter(a -> a.getDateFinEncheres().isAfter(LocalDateTime.now()))
+                .filter(a -> a.getDateFinEncheres().isAfter(LocalDate.now()))
                 .limit(3) // Limiter à 3 articles pour la page d'accueil
                 .collect(Collectors.toList());
 

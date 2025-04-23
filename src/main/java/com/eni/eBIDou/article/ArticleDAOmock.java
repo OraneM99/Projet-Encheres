@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +30,16 @@ public class ArticleDAOmock implements ArticleIDAO {
 
         List<Categorie> listCategorieMock = daoCategorie.selectAll();
 
-        Article article1 = new Article(1L, "Trombone", "Ca permet de pas regrouper des feuilles", LocalDateTime.of(2025,04,01,10,05) , 5);
+        Article article1 = new Article(1L, "Trombone", "Ca permet de pas regrouper des feuilles", LocalDate.of(2025,04,01) , 5);
         article1.setCategorieArticle(listCategorieMock.get(2));
 
-        Article article2 = new Article(2L, "bout de scotch", "Peut encore servir", LocalDateTime.of(2025,04,01,10,05 ),1);
+        Article article2 = new Article(2L, "bout de scotch", "Peut encore servir", LocalDate.of(2025,04,01),1);
         article2.setCategorieArticle(listCategorieMock.get(2));
 
-        Article article3 = new Article(3L, "Cuillère cassée", "Faudra la laver", LocalDateTime.of(2025,04,01,10,05), 1);
+        Article article3 = new Article(3L, "Cuillère cassée", "Faudra la laver", LocalDate.of(2025,04,01), 1);
         article3.setCategorieArticle(listCategorieMock.get(0));
 
-        Article article4 = new Article(4L, "éponge salle", "On ne sait jamais", LocalDateTime.of(2025,04,01,10,05) , 1);
+        Article article4 = new Article(4L, "éponge salle", "On ne sait jamais", LocalDate.of(2025,04,01) , 1);
         article4.setCategorieArticle(listCategorieMock.get(0));
 
         articlesLists.add(article1);
