@@ -9,6 +9,7 @@ import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieService;
 import com.eni.eBIDou.retrait.RetraitService;
 import com.eni.eBIDou.service.ServiceResponse;
+import com.eni.eBIDou.utilisateurs.CustomUserDetails;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,10 +44,7 @@ public class VenteController {
 
 
     @GetMapping("/nouvelle-vente")
-    public String afficherNewVentes(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
-
-        //récupérer l'utilisateur Connecte
-        model.addAttribute("utilisateur", utilisateurMapper.toDto(utilisateurConnecte));
+    public String afficherNewVentes(Model model) {
 
         ArticleFormDTO articleForm = new ArticleFormDTO();
         articleForm.setArticle(new Article());
@@ -64,13 +62,13 @@ public class VenteController {
     @PostMapping("/creer")
     public String creerVente(@ModelAttribute ArticleFormDTO articleForm,
                              @RequestParam("image") MultipartFile image,
-                             @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+                             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         Article article = articleForm.getArticle();
         Retrait retrait = articleForm.getRetrait();
 
         // Lier l'article à l'utilisateur connecté
-        article.setVendeur(utilisateurConnecte);
+        article.setVendeur(customUserDetails.getUtilisateur());
 
         // 🖼️ Gérer l'upload de l'image
         if (image != null && !image.isEmpty()) {
