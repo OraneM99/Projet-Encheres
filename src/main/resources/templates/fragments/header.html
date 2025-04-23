@@ -6,7 +6,7 @@
             <div class="logo">
                 <a th:href="@{/}">
                     <img th:src="@{/images/logo.png}" alt="Logo ENI-Enchères">
-                    <span class="logo-text">ENI - Enchères</span>
+                    <span class="logo-text" th:text="#{site.nom}">ENI - Enchères</span>
                 </a>
             </div>
 
@@ -18,55 +18,60 @@
             <!-- Navigation -->
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-links">
-                    <!-- Si l'utilisateur est connecté -->
 
+                    <!-- Si l'utilisateur est connecté -->
                     <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                        <li class="nav-item"><a th:href="@{/admin/dashboard}" class="nav-link">Portail Admin</a></li>
+                        <li class="nav-item"><a th:href="@{/admin/dashboard}" class="nav-link" th:text="#{nav.admin}">Portail Admin</a></li>
                     </th:block>
 
                     <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
-                        <li class="nav-item"><a th:href="@{/nouvelle-vente}" class="nav-link">Vendre un article</a></li>
-                        <li class="nav-item"><a th:href="@{/profil}" class="nav-link">Mon profil</a></li>
-                        <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Se déconnecter</a></li>
+                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link" th:text="#{nav.encheres}">Enchères</a></li>
+                        <li class="nav-item"><a th:href="@{/nouvelle-vente}" class="nav-link" th:text="#{nav.vendre}">Vendre un article</a></li>
+                        <li class="nav-item"><a th:href="@{/profil}" class="nav-link" th:text="#{nav.profil}">Mon profil</a></li>
+                        <li class="nav-item"><a th:href="@{/logout}" class="nav-link" th:text="#{nav.logout}">Se déconnecter</a></li>
+                        <li class="nav-item">
+                            <a th:href="@{${currentUri}(lang=${#locale.language == 'fr' ? 'en' : 'fr'})}" class="nav-link" style="display: flex; align-items: center; gap: 6px;">
+                                <img th:src="@{/images/flags/__${#locale.language == 'fr' ? 'gb' : 'fr'}__.png}" alt="Langue" style="height: 24px;">
+                                <span th:text="#{bouton.langue}">Changer langue</span>
+                            </a>
+                        </li>
                     </th:block>
 
                     <!-- Si l'utilisateur n'est pas connecté -->
                     <th:block th:if="${#authorization.expression('isAnonymous()')}">
-                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
-                        <li class="nav-item"><a th:href="@{/login}" class="nav-link">Se connecter</a></li>
-                        <li class="nav-item"><a th:href="@{/register}" class="nav-link">S'inscrire</a></li>
+                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link" th:text="#{nav.encheres}">Enchères</a></li>
+                        <li class="nav-item"><a th:href="@{/login}" class="nav-link" th:text="#{nav.login}">Se connecter</a></li>
+                        <li class="nav-item"><a th:href="@{/register}" class="nav-link" th:text="#{nav.register}">S'inscrire</a></li>
                     </th:block>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- JavaScript pour le menu mobile -->
+    <!-- JavaScript inchangé -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const menuToggle = document.getElementById('menuToggle');
             const mainNav = document.getElementById('mainNav');
             const overlay = document.querySelector('.overlay');
 
-            menuToggle.addEventListener('click', function() {
+            menuToggle.addEventListener('click', function () {
                 menuToggle.classList.toggle('active');
                 mainNav.classList.toggle('open');
                 overlay.classList.toggle('active');
                 document.body.classList.toggle('menu-open');
             });
 
-            overlay.addEventListener('click', function() {
+            overlay.addEventListener('click', function () {
                 menuToggle.classList.remove('active');
                 mainNav.classList.remove('open');
                 overlay.classList.remove('active');
                 document.body.classList.remove('menu-open');
             });
 
-            // Fermer le menu lorsqu'un lien est cliqué
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
-                link.addEventListener('click', function() {
+                link.addEventListener('click', function () {
                     menuToggle.classList.remove('active');
                     mainNav.classList.remove('open');
                     overlay.classList.remove('active');

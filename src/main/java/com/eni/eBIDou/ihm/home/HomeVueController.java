@@ -38,7 +38,8 @@ public class HomeVueController {
     @GetMapping({"/", "/accueil"})
     public String pageAccueil(Model model,
                               @RequestParam(required = false) String nomArticle,
-                              @RequestParam(required = false) Long categorieId) {
+                              @RequestParam(required = false) Long categorieId,
+                              HttpServletRequest request) {
 
         // Récupérer tous les articles
         List<Article> articles = articleService.getAll().getData();
@@ -105,6 +106,8 @@ public class HomeVueController {
         model.addAttribute("nomArticle", nomArticle);
         model.addAttribute("categorieId", categorieId);
         model.addAttribute("categorieNom", categorieNom);
+        model.addAttribute("currentUri", request.getRequestURI());
+
 
         return "accueil";
     }
