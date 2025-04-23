@@ -41,7 +41,7 @@ public class Article {
     private Categorie categorieArticle;
 
 
-    @OneToMany(mappedBy = "articleCible")
+    @OneToMany(mappedBy = "articleCible", cascade = CascadeType.ALL)
     private List<Enchere> encheres;
 
     private String urlImage;
