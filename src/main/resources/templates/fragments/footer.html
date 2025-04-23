@@ -3,36 +3,36 @@
     <div class="footer-container">
         <div class="footer-logo">
             <img th:src="@{/images/logo.png}" alt="Logo ENI-Enchères">
-            <p th:text="#{site.nom}">ENI - Enchères</p>
+            <p>ENI - Enchères</p>
         </div>
         <div class="footer-links">
             <div class="footer-column">
-                <h4 th:text="#{footer.titre.site}">ENI-Enchères</h4>
+                <h4>ENI-Enchères</h4>
                 <ul>
-                    <li><a th:href="@{/about}" th:text="#{footer.lien.apropos}">À propos</a></li>
-                    <li><a th:href="@{/contact}" th:text="#{footer.lien.contact}">Contact</a></li>
-                    <li><a th:href="@{/faq}" th:text="#{footer.lien.faq}">FAQ</a></li>
+                    <li><a th:href="@{/about}">À propos</a></li>
+                    <li><a th:href="@{/contact}">Contact</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h4 th:text="#{footer.titre.categories}">Catégories</h4>
+                <h4>Catégories</h4>
                 <ul>
-                    <li><a th:href="@{/encheres?categorieId=1}" th:text="#{categorie.informatique}">Informatique</a></li>
-                    <li><a th:href="@{/encheres?categorieId=2}" th:text="#{categorie.ameublement}">Ameublement</a></li>
-                    <li><a th:href="@{/encheres?categorieId=3}" th:text="#{categorie.vetements}">Vêtements</a></li>
+                    <li><a th:href="@{/encheres?categorieId=1}">Informatique</a></li>
+                    <li><a th:href="@{/encheres?categorieId=2}">Ameublement</a></li>
+                    <li><a th:href="@{/encheres?categorieId=3}">Vêtements</a></li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h4 th:text="#{footer.titre.legal}">Légal</h4>
+                <h4>Légal</h4>
                 <ul>
-                    <li><a th:href="@{/conditions}" th:text="#{footer.lien.conditions}">Conditions d'utilisation</a></li>
-                    <li><a th:href="@{/privacy}" th:text="#{footer.lien.confidentialite}">Politique de confidentialité</a></li>
-                    <li><a th:href="@{/cookies}" th:text="#{footer.lien.cookies}">Cookies</a></li>
+                    <li><a th:href="@{/conditions}">Conditions d'utilisation</a></li>
+                    <li><a th:href="@{/privacy}">Politique de confidentialité</a></li>
+                    <li><a th:href="@{/cookies}">Cookies</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="footer-bottom">
-        <p th:text="#{footer.droits}">&copy; 2023 ENI-Enchères. Tous droits réservés.</p>
+        <p>&copy; 2023 ENI-Enchères. Tous droits réservés.</p>
     </div>
 </footer>

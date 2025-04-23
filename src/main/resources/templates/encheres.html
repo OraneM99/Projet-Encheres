@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>ENI-Enchères</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/pagination.css}" />
@@ -19,13 +18,12 @@
 
 <div class="app-container">
 
-    <h2 th:text="#{encheres.titre}">Liste des enchères</h2>
+    <h2>Liste des enchères</h2>
 
     <!-- Formulaire de recherche -->
     <div class="search-container">
         <form th:action="@{/encheres}" method="get" class="unified-search-form">
             <div class="unified-search-wrapper">
-
                 <input type="text" name="nomArticle" th:value="${nomArticle}"
                        placeholder="Que recherchez-vous ?"
                        class="unified-search-input">
@@ -40,8 +38,8 @@
                             th:selected="${categorieId != null && categorieId == categorie.noCategorie}">
                         Nom de la catégorie
                     </option>
-
                 </select>
+
                 <button type="submit" class="unified-search-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -49,7 +47,6 @@
                     </svg>
                 </button>
             </div>
-
         </form>
     </div>
 
@@ -84,7 +81,6 @@
                         Vendeur :
                         <a th:href="@{'/utilisateurs/' + ${article.vendeur.pseudo}}"
                            th:text="${article.vendeur.pseudo}">vendeur</a>
-
                     </div>
                     <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'article</a>
                 </div>
@@ -132,47 +128,5 @@
 </div>
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.getElementById('toggleOptions');
-        const optionsPanel = document.getElementById('optionsPanel');
-
-        if (toggleButton && optionsPanel) {
-            toggleButton.addEventListener('click', function() {
-                optionsPanel.classList.toggle('show');
-                toggleButton.classList.toggle('active');
-            });
-        }
-
-        const achatsRadio = document.getElementById('achats');
-        const ventesRadio = document.getElementById('ventes');
-        const achatsCheckboxes = document.querySelectorAll('#encheresOuvertes, #mesEncheresEnCours, #mesEncheresRemportees');
-        const ventesCheckboxes = document.querySelectorAll('#mesVentesEnCours, #ventesNonDebutees, #ventesTerminees');
-
-        if (achatsRadio && ventesRadio) {
-            achatsRadio.addEventListener('change', function() {
-                if (this.checked) {
-                    achatsCheckboxes.forEach(c => c.disabled = false);
-                    ventesCheckboxes.forEach(c => { c.disabled = true; c.checked = false; });
-                }
-            });
-
-            ventesRadio.addEventListener('change', function() {
-                if (this.checked) {
-                    ventesCheckboxes.forEach(c => c.disabled = false);
-                    achatsCheckboxes.forEach(c => { c.disabled = true; c.checked = false; });
-                }
-            });
-
-            if (achatsRadio.checked) {
-                ventesCheckboxes.forEach(c => c.disabled = true);
-            } else if (ventesRadio.checked) {
-                achatsCheckboxes.forEach(c => c.disabled = true);
-            }
-        }
-    });
-</script>
-
 </body>
 </html>

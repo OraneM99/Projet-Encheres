@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{fin.titre}">ENI-Enchères</title>
+    <title>ENI-Enchères</title>
+    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="/uikit/styles.css" />
 </head>
 
@@ -13,60 +15,61 @@
 
     <!-- Header -->
     <header class="uk-text-center uk-margin-medium-top">
-        <h1 class="uk-margin-remove-bottom eni-title" th:text="#{fin.titre}">ENI-Enchères</h1>
+        <h1 class="uk-margin-remove-bottom eni-title">ENI-Enchères</h1>
         <h2 class="uk-margin-small-top uk-text-bold eni-subtitle">
-            <span class="uk-text-primary" th:text="${gagnant.pseudo}">Jojo44</span>
-            <span th:text="#{fin.message.gagne}">a remporté l'enchère</span>
+            <span class="uk-text-primary">Jojo44</span> a remporté l'enchère
         </h2>
     </header>
 
     <!-- Contenu principal -->
     <main class="uk-margin-medium-top">
         <div class="uk-card uk-card-default uk-card-body eni-card">
+            <!-- Titre de l'article -->
+            <h3 class="uk-text-bold uk-margin-remove-top article-title">Rocket stove pour riz et pâtes</h3>
 
-            <h3 class="uk-text-bold uk-margin-remove-top article-title" th:text="${article.nomArticle}">Rocket stove pour riz et pâtes</h3>
-
+            <!-- Image de l'article -->
             <div class="uk-margin-medium">
                 <div class="photo-container">
                     <div class="photo-x"></div>
                 </div>
             </div>
 
+            <!-- Détails de l'enchère -->
             <div class="uk-margin-medium">
                 <table class="uk-table uk-table-middle uk-table-divider auction-info-table">
                     <tbody>
                     <tr>
-                        <td class="uk-text-bold label" th:text="#{fin.offre}">Meilleure offre :</td>
-                        <td class="value" th:text="${enchere.montant_enchere + ' pts'} + ' ' + #{fin.par} + ' ' + ${gagnant.pseudo}">
-                            210 pts par jojo44
+                        <td class="uk-text-bold label">Meilleure offre :</td>
+                        <td class="value">210 pts par <a href="#" class="uk-text-primary uk-text-bold">jojo44</a></td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-bold label">Mise à prix :</td>
+                        <td class="value">185 points</td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-bold label">Fin de l'enchère :</td>
+                        <td class="value">09/10/2018</td>
+                    </tr>
+                    <tr>
+                        <td class="uk-text-bold label">Retrait :</td>
+                        <td class="value">
+                            5 rue des Pinsons<br>
+                            44000 Nantes
                         </td>
                     </tr>
                     <tr>
-                        <td class="uk-text-bold label" th:text="#{fin.prix}">Mise à prix :</td>
-                        <td class="value" th:text="${article.miseAPrix + ' points'}">185 points</td>
-                    </tr>
-                    <tr>
-                        <td class="uk-text-bold label" th:text="#{fin.date}">Fin de l'enchère :</td>
-                        <td class="value" th:text="${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">09/10/2018</td>
-                    </tr>
-                    <tr>
-                        <td class="uk-text-bold label" th:text="#{fin.retrait}">Retrait :</td>
-                        <td class="value" th:utext="${retrait.rue + '<br>' + retrait.codePostal + ' ' + retrait.ville}">
-                            5 rue des Pinsons<br>44000 Nantes
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="uk-text-bold label" th:text="#{fin.vendeur}">Vendeur :</td>
-                        <td class="value" th:text="${vendeur.pseudo}">NineJea</td>
+                        <td class="uk-text-bold label">Vendeur :</td>
+                        <td class="value">NineJea</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- Actions -->
             <div class="uk-flex uk-flex-center uk-flex-wrap uk-flex-wrap-around uk-margin-medium-top action-buttons">
-                <button class="uk-button uk-button-default eni-button uk-margin-right uk-margin-small-bottom" th:text="#{fin.bouton.retrait}">Retrait effectué</button>
-                <button class="uk-button uk-button-default eni-button uk-margin-right uk-margin-small-bottom" th:text="#{fin.bouton.contacter} + ' ' + ${gagnant.pseudo}">Contacter jojo44</button>
-                <button class="uk-button uk-button-default eni-button uk-margin-small-bottom" th:text="#{fin.bouton.retour}">Retour</button>
+                <button class="uk-button uk-button-default eni-button uk-margin-right uk-margin-small-bottom">Retrait effectué</button>
+                <button class="uk-button uk-button-default eni-button uk-margin-right uk-margin-small-bottom">Contacter jojo44</button>
+                <button class="uk-button uk-button-default eni-button uk-margin-small-bottom">Back</button>
             </div>
         </div>
     </main>

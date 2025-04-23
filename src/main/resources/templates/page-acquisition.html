@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{acquisition.titre}">ENI-Enchères</title>
+    <title>ENI-Enchères</title>
+    <!-- UIkit CSS -->
     <link rel="stylesheet" href="/uikit/css/uikit.min.css" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/styles.css" />
 </head>
 
@@ -13,57 +15,55 @@
 
     <!-- Header -->
     <header class="uk-text-center">
-        <h1 th:text="#{acquisition.titre}">ENI-Enchères</h1>
-        <h2 class="user-win-message" th:text="#{acquisition.gagne}">Vous avez remporté l'enchère</h2>
+        <h1>ENI-Enchères</h1>
+        <h2 class="user-win-message">Vous avez remporté l'enchère</h2>
     </header>
 
     <!-- Contenu principal -->
     <main>
-        <h3 class="article-title" th:text="${article.nomArticle}">PC Gamer pour travailler</h3>
+        <h3 class="article-title">PC Gamer pour travailler</h3>
 
-        <!-- Image -->
+        <!-- Image de l'article -->
         <div class="photo-container">
             <div class="photo-x"></div>
         </div>
 
-        <!-- Infos de l'enchère -->
+        <!-- Détails de l'enchère -->
         <div class="auction-details">
             <div class="auction-info-row">
-                <div class="auction-info-label" th:text="#{acquisition.offre}">Meilleure offre :</div>
-                <div class="auction-info-value" th:text="${enchere.montant_enchere + ' pts'}">210 pts</div>
+                <div class="auction-info-label">Meilleure offre :</div>
+                <div class="auction-info-value">210 pts</div>
             </div>
 
             <div class="auction-info-row">
-                <div class="auction-info-label" th:text="#{acquisition.prix}">Mise à prix</div>
-                <div class="auction-info-value" th:text="${article.miseAPrix + ' points'}">185 points</div>
+                <div class="auction-info-label">Mise à prix</div>
+                <div class="auction-info-value">185 points</div>
             </div>
         </div>
 
-        <!-- Retrait -->
+        <!-- Informations de retrait -->
         <div class="retrait-box">
-            <div class="retrait-header" th:text="#{acquisition.retrait.titre}">Retrait</div>
+            <div class="retrait-header">Retrait</div>
             <div class="retrait-content">
-                <p class="retrait-address" th:text="${retrait.rue + '<br>' + retrait.codePostal + ' ' + retrait.ville}">10 allée des Alouettes<br>44800 Saint Herblain</p>
+                <p class="retrait-address">10 allée des Alouettes<br>44800 Saint Herblain</p>
 
                 <div class="seller-info">
                     <div class="auction-info-row">
-                        <div class="auction-info-label" th:text="#{acquisition.vendeur}">Vendeur :</div>
-                        <div class="auction-info-value">
-                            <a href="#" class="seller-link" th:text="${vendeur.pseudo}">jojo44</a>
-                        </div>
+                        <div class="auction-info-label">Vendeur :</div>
+                        <div class="auction-info-value"><a href="#" class="seller-link">jojo44</a></div>
                     </div>
 
                     <div class="auction-info-row">
-                        <div class="auction-info-label" th:text="#{acquisition.tel}">Tel :</div>
-                        <div class="auction-info-value" th:text="${vendeur.telephone}">06060606</div>
+                        <div class="auction-info-label">Tel :</div>
+                        <div class="auction-info-value">06060606</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bouton -->
+        <!-- Bouton d'action -->
         <div class="action-buttons single-button">
-            <button class="eni-button" th:text="#{acquisition.bouton.retrait}">Retrait effectué</button>
+            <button class="eni-button">Retrait effectué</button>
         </div>
     </main>
 </div>
