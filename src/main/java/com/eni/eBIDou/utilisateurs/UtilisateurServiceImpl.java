@@ -3,6 +3,12 @@ package com.eni.eBIDou.utilisateurs;
 import com.eni.eBIDou.Security.ResetPasswordToken;
 import com.eni.eBIDou.Security.ResetPasswordTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +18,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Service("utilisateurServiceImpl")
 @RequiredArgsConstructor
-public class UtilisateurServiceImpl implements UtilisateurService {
+public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsService {
 
     private final UtilisateurRepository repository;
     private final UtilisateurMapper mapper;
@@ -22,6 +28,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final ResetPasswordTokenRepository tokenRepository;
     private final EmailService emailService;
+
 
 
     @Override
@@ -202,8 +209,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UtilisateurBO utilisateur = repository.findByEmailOrPseudo(username, username)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
 
-
-
-
+        return User.builder()
+                .username(utilisateur.getEmail())
+                .password(utilisateur.getMotDePasse())
+                .authorities(utilisateur.isAdministrateur() ? "ROLE_ADMIN" : "ROLE_USER")
+                .accountLocked(!utilisateur.isActif())
+                .build();
+    }
 }
