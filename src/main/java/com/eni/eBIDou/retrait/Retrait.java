@@ -20,7 +20,8 @@ public class Retrait {
     private String codePostal;
     private String ville;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "article_noArticle")
     private Article article;
 
 
