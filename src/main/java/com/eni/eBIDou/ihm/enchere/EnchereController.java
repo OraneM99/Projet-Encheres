@@ -1,11 +1,13 @@
 package com.eni.eBIDou.ihm.enchere;
 
 import com.eni.eBIDou.article.Article;
+import com.eni.eBIDou.article.ArticlePaginationService;
 import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieService;
 import com.eni.eBIDou.enchere.Enchere;
 import com.eni.eBIDou.enchere.EnchereService;
+import com.eni.eBIDou.pagination.PaginatedResult;
 import com.eni.eBIDou.service.ServiceResponse;
 import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
 import com.eni.eBIDou.utilisateurs.UtilisateurNotFoundException;
@@ -27,25 +29,23 @@ import java.util.List;
 public class EnchereController {
 
     private final EnchereService enchereService;
-    private final UtilisateurService utilisateurService;
     private final CategorieService categorieService;
-    private final ArticleService articleService;
+    private final ArticlePaginationService articlePaginationService;
 
-    public EnchereController(EnchereService enchereService, 
-                             UtilisateurService utilisateurService,
+    public EnchereController(EnchereService enchereService,
                              CategorieService categorieService,
-                             ArticleService articleService) {
+                             ArticlePaginationService articlePaginationService) {
         this.enchereService = enchereService;
-        this.utilisateurService = utilisateurService;
         this.categorieService = categorieService;
-        this.articleService = articleService;
+        this.articlePaginationService = articlePaginationService;
     }
 
     @GetMapping("/encheres")
     public String getAll(Model model,
                          @RequestParam(required = false) String nomArticle,
                          @RequestParam(required = false) Long id,
-                         @RequestParam(required = false) String typeRecherche) {
+                         @RequestParam(required = false) String typeRecherche,
+                         @RequestParam(defaultValue = "1") int page) {
         try {
             
             Categorie categorie = null;
@@ -55,18 +55,31 @@ public class EnchereController {
                 categorieNom = categorie != null ? categorie.getLibelle() : null;
             }
             
-            ServiceResponse<List<Article>> serviceResponse = articleService.rechercherArticles(nomArticle, categorie);
+            ServiceResponse<PaginatedResult<Article>> serviceResponse =
+                    articlePaginationService.rechercherArticlesPaginated(nomArticle, categorie, page);
+            PaginatedResult<Article> paginatedResult = serviceResponse.getData();
+
+            // Si aucun résultat avec des données de pagination correctes, initialiser un résultat vide
+            if (paginatedResult == null) {
+                paginatedResult = new PaginatedResult<>(new ArrayList<>(), page, 6, 0, 0);
+            }
 
             // Récupérer les catégories
             List<Categorie> categories = categorieService.selectAll().getData();
 
             // Ajouter les attributs au modèle
-            model.addAttribute("articles", serviceResponse.getData() != null ? serviceResponse.getData() : new ArrayList<>());
+            model.addAttribute("articles", paginatedResult.getContent());
             model.addAttribute("categories", categories);
             model.addAttribute("nomArticle", nomArticle);
             model.addAttribute("categorieId", id);
             model.addAttribute("categorieNom", categorieNom);
             model.addAttribute("message", serviceResponse.getMessage());
+            
+            // Ajouter les informations de pagnation au modèle
+            model.addAttribute("currentPage", paginatedResult.getCurrentPage());
+            model.addAttribute("totalPages", paginatedResult.getTotalPages());
+            model.addAttribute("totalItems", paginatedResult.getTotalItems());
+            model.addAttribute("pageSize", paginatedResult.getPageSize());
 
             // Ajouter l'utilisateur connecté
             addConnectedUserToModel(model);

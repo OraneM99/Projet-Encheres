@@ -1,0 +1,52 @@
+/* Conteneur principal de pagination */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+/* Style du groupe de liens de pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Style des liens de pagination */
+.pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Effet hover sur les liens */
+.pagination-link:hover {
+    background-color: var(--primary-color);
+}
+
+/* Style de la page active */
+.pagination-link.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* Points de suspension pour les pages cachées */
+.pagination-ellipsis {
+    margin: 0 5px;
+    color: var(--white);
+}
+
+/* Boutons précédent/suivant */
+.pagination-prev,
+.pagination-next {
+    font-weight: bold;
+}

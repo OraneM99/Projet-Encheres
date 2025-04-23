@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENI-Enchères</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/encheres.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
@@ -84,6 +85,37 @@
                     <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button">Voir l'article</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container" th:if="${totalPages > 1}">
+        <div class="pagination">
+            <!-- Bouton précédent -->
+            <a th:if="${currentPage > 1}"
+               th:href="@{/encheres(page=${currentPage - 1}, nomArticle=${nomArticle}, categorieId=${categorieId})}"
+               class="pagination-link pagination-prev">&laquo;</a>
+
+            <!-- Numéros de page -->
+            <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <!-- Afficher les 2 premières pages, les 2 dernières pages, et 1 page avant et après la page courante -->
+                <th:block th:if="${i <= 2 || i > totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)}">
+                    <a th:href="@{/encheres(page=${i}, nomArticle=${nomArticle}, categorieId=${categorieId})}"
+                       th:text="${i}"
+                       th:class="${i == currentPage ? 'pagination-link active' : 'pagination-link'}">1</a>
+                </th:block>
+
+                <!-- Ellipsis après la page 2 si nécessaire -->
+                <span th:if="${i == 3 && currentPage > 4}" class="pagination-ellipsis">...</span>
+
+                <!-- Ellipsis avant l'avant-dernière page si nécessaire -->
+                <span th:if="${i == totalPages - 2 && currentPage < totalPages - 3}" class="pagination-ellipsis">...</span>
+            </th:block>
+
+            <!-- Bouton suivant -->
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/encheres(page=${currentPage + 1}, nomArticle=${nomArticle}, categorieId=${categorieId})}"
+               class="pagination-link pagination-next">&raquo;</a>
         </div>
     </div>
 
