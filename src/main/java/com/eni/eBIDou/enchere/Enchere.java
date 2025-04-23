@@ -22,11 +22,13 @@ public class Enchere {
     private LocalDateTime dateEnchere;
     private Integer montant_enchere;
 
-    @ManyToOne()
+    @ManyToOne
     private UtilisateurBO encherisseur;
 
     @ManyToOne
-    @JoinColumn(name="article_noArticle")
+    @JoinColumn(name = "article_noArticle")
     private Article articleCible;
+
+
 
 }

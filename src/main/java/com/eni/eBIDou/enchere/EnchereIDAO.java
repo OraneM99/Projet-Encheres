@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface EnchereIDAO {
 
+    // non utilisé
     List<Enchere> encheres();
 
     Enchere findById(long id);
@@ -14,5 +15,10 @@ public interface EnchereIDAO {
 
     void nouvelleEnchere(Enchere enchere);
 
+    //non prévu à priori
     void supprimerEnchere(long id);
+
+    void modifierEnchere(Enchere enchere);
+
+    Enchere findEnchereByArticleAndUtilisateur(long articleId, long utilisateurId);
 }

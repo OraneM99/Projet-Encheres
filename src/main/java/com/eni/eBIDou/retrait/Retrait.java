@@ -20,7 +20,7 @@ public class Retrait {
     private String codePostal;
     private String ville;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Article article;
 
 
