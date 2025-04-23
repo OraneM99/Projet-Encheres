@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{vente.titre.page}">ENI-Enchères</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <title>ENI-Enchères</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/vente.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
 </head>
@@ -79,18 +81,29 @@
 
                         <h3 class="title-retrait" th:text="#{vente.retrait.titre}">Définir un point de retrait :</h3>
 
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="retrait.rue" th:text="#{vente.retrait.rue}">Rue :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{retrait.rue}" />
-                        </div>
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="retrait.codePostal" th:text="#{vente.retrait.codepostal}">Code Postal :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{retrait.codePostal}" />
-                        </div>
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="retrait.ville" th:text="#{vente.retrait.ville}">Ville :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{retrait.ville}" />
-                        </div>
+                            <div class="uk-margin retrait-section">
+                                <h3 class="title-retrait">Définir un point de retrait</h3>
+                                <div>
+                                    <label class="uk-form-label eni-form-label" >Rue :</label>
+                                    <div class="uk-form-controls">
+                                        <input class="uk-input eni-input" type="text" th:field="*{retrait.rue}" placeholder="Rue" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="uk-form-label eni-form-label">Code Postal :</label>
+                                    <div class="uk-form-controls">
+                                        <input class="uk-input eni-input" type="text" th:field="*{retrait.codePostal}" placeholder="Code postal" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="uk-form-label eni-form-label">Ville :</label>
+                                    <div class="uk-form-controls">
+                                        <input class="uk-input eni-input" type="text" th:field="*{retrait.ville}" placeholder="Ville" />
+                                    </div>
+                                </div>
+                            </div>
 
                         <div class="uk-flex uk-flex-between uk-margin-medium-top">
                             <button class="uk-button uk-button-primary eni-button-primary" type="submit" th:text="#{vente.bouton.enregistrer}">Enregistrer</button>

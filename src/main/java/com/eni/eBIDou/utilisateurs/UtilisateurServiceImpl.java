@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     private final UtilisateurRepository utilisateurRepository;
     private final ResetPasswordTokenRepository tokenRepository;
     private final EmailService emailService;
+
+
 
 
 
@@ -85,6 +88,14 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
                 .orElseThrow(() -> new UtilisateurNotFoundException(id));
 
         return passwordEncoder.matches(motDePasse, utilisateur.getMotDePasse());
+    }
+
+    @Override
+    public UtilisateurDTO updateCredit(Long id, int newCredit) {
+        UtilisateurBO existing = repository.findById(id).orElseThrow(() -> new UtilisateurNotFoundException(id));
+
+        existing.setCredit(newCredit);
+        return mapper.toDto(repository.save(existing));
     }
 
     @Override
@@ -215,11 +226,6 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         UtilisateurBO utilisateur = repository.findByEmailOrPseudo(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
 
-        return User.builder()
-                .username(utilisateur.getEmail())
-                .password(utilisateur.getMotDePasse())
-                .authorities(utilisateur.isAdministrateur() ? "ROLE_ADMIN" : "ROLE_USER")
-                .accountLocked(!utilisateur.isActif())
-                .build();
+        return new CustomUserDetails(utilisateur);
     }
 }

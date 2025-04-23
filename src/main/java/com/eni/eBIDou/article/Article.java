@@ -4,6 +4,7 @@ package com.eni.eBIDou.article;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.enchere.Enchere;
+import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class Article {
     private long noArticle;
     private String nomArticle;
     private String description;
+    private String imageFileName;
 
     private LocalDateTime dateDebutEncheres;
     private LocalDateTime dateFinEncheres;
@@ -43,6 +45,9 @@ public class Article {
 
     @OneToMany(mappedBy = "articleCible", cascade = CascadeType.ALL)
     private List<Enchere> encheres;
+
+    @OneToOne(mappedBy = "article", cascade = CascadeType.ALL)
+    private Retrait lieuRetrait;
 
     private String urlImage;
 

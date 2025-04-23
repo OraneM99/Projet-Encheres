@@ -7,6 +7,7 @@ import com.eni.eBIDou.categorie.CategorieRepository;
 import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Profile("dev")
 public class ArticleInitializer implements DataInitializer {
 
     private final ArticleRepository articleRepository;
@@ -67,8 +69,6 @@ public class ArticleInitializer implements DataInitializer {
         article1.setCategorieArticle(getCategorieByLibelle(categories, "Informatique"));
         article1.setEncheres(new ArrayList<>());
         articleRepository.save(article1);
-
-        // Autres articles...
 
         System.out.println("Articles initialisés avec succès");
     }

@@ -3,102 +3,117 @@ package com.eni.eBIDou.article;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.service.ServiceResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.eni.eBIDou.service.ServiceConstant.*;
 
 @Service
 public class ArticleService {
-    
+
+    @Autowired
     private ArticleIDAO daoArticle;
 
-    public ArticleService(ArticleIDAO daoArticle) {
-        this.daoArticle = daoArticle;
+    // Récupère tous les articles
+    public ServiceResponse<List<Article>> getAll() {
+        return getArticlesResponse(daoArticle.selectAll(), "Liste vide et invalide", "La liste des articles a été récupérée avec succès");
     }
 
-
-
-    // ############################       GET ALL #####################################
-    public ServiceResponse<List<Article>> getAll(){
-        List<Article> listesArticles = daoArticle.selectAll();
-
-        // Erreur : 111 (Liste vide)
-        if (listesArticles.isEmpty()){
-
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Liste vide et invalide", listesArticles);
-        }
-        // Success : 200
-        return ServiceResponse.buildResponse(CD_SUCCESS, "La liste des articles a été récupérée avec succès", listesArticles);
+    // Récupère un article par son ID
+    public ServiceResponse<Article> getArticleById(long id) {
+        return getArticleResponse(daoArticle.selectById(id), "Article non trouvé par son id", "Article trouvé");
     }
 
-
-    public ServiceResponse<Article> getArticleById(long id){
-        Article articheCherche = daoArticle.selectById(id);
-
-        //Erreur : 111 (Article non trouvé)
-        if (articheCherche == null){
-            return  ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Article non trouvé par son id", articheCherche);
-        }
-
-        // Success : 200
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Article trouvé", articheCherche);
+    // Récupère un article par son nom
+    public ServiceResponse<List<Article>> getArticlesByName(String name) {
+        return getArticlesResponse(daoArticle.selectByName(name), "Article non trouvé par son nom", "Article récupéré par son nom");
     }
 
-
-    public ServiceResponse<List<Article>> getArticlesByName(String name){
-        List<Article> artichesCherches = daoArticle.selectByName(name);
-
-        //Erreur : 111( Article non trouvé)
-        if(artichesCherches == null){
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Article non trouvé par son nom", artichesCherches);
-        }
-
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Article récupéré par son nom", artichesCherches);
+    // Récupère les articles par catégorie
+    public ServiceResponse<List<Article>> getArticlesByCategorie(Categorie categorie) {
+        return getArticlesResponse(daoArticle.selectByCategorie(categorie), "Aucun article pour cette catégorie", "Liste d'article par catégorie récupérée avec succès");
     }
 
-    public ServiceResponse<List<Article>> getArticlesByCategorie(Categorie categorie){
-        List<Article>articlesByCategorie = daoArticle.selectByCategorie(categorie);
-
-        if(articlesByCategorie == null){
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun article pour cette catégorie", null);
-        }
-
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Liste d'article par catégorie récupérée avec succès", articlesByCategorie);
+    // Récupère les enchères en cours
+    public ServiceResponse<List<Article>> getAllEncheresEnCours() {
+        return getArticlesResponse(daoArticle.selectEncheresEnCours(), "Aucune enchère en cours trouvée", "Liste des enchères en cours récupérée avec succès");
     }
 
+    // Recherche des articles selon un critère (nom ou catégorie)
+    public ServiceResponse<List<Article>> rechercherArticles(String search, Categorie categorie) {
+        List<Article> articles = getArticlesBySearchAndCategory(search, categorie);
+        return getArticlesResponse(articles, "Aucun article trouvé selon les critères", "Articles récupérés avec succès");
+    }
 
+    // Recherche des articles pour un enchérisseur spécifique
+    public ServiceResponse<Article> findByEncherisseurId(Long noUtilisateur) {
+        Optional<Article> articleOptional = daoArticle.findByEncherisseurId(noUtilisateur);
 
+        return articleOptional.map(article -> ServiceResponse.buildResponse(CD_SUCCESS, "Article récupéré avec succès", article)).orElseGet(() -> ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère trouvée.", null));
+        
+    }
+
+    // Ajoute un nouvel article
     public ServiceResponse<Article> addArticle(Article article) {
         article.setEtatVente(EtatVente.CREEE);
         daoArticle.ajouterArticle(article);
-
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Article créé avec succes",article );
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Article créé avec succès", article);
     }
 
+    // Met à jour un article existant
     public ServiceResponse<Article> updateArticle(Article article) {
         Article articleAModifier = daoArticle.selectById(article.getNoArticle());
 
-        if (articleAModifier == null){
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "La modification de l'article n'a pas été réalisé, il n'a pas été recupéré", null);
+        if (articleAModifier == null) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "La modification de l'article n'a pas été réalisée, il n'a pas été récupéré", null);
         }
 
         daoArticle.updateArticle(article);
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Article mis à jour avec succes",article );
-
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Article mis à jour avec succès", article);
     }
 
+    // Supprime un article par son ID
     public ServiceResponse<Article> deleteArticle(long id) {
-
         Article articleToDelete = daoArticle.selectById(id);
-        if(articleToDelete == null){
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "L'article à supprimer n'existe pas",null);
+
+        if (articleToDelete == null) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "L'article à supprimer n'existe pas", null);
         }
+
         daoArticle.deleteArticle(id);
-
-        return ServiceResponse.buildResponse(CD_SUCCESS, "Article supprimé avec succes", null);
-
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Article supprimé avec succès", null);
     }
 
+    // Méthode utilitaire pour gérer les réponses d'articles (liste)
+    private ServiceResponse<List<Article>> getArticlesResponse(List<Article> articles, String errorMessage, String successMessage) {
+        if (articles == null || articles.isEmpty()) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, errorMessage, articles);
+        }
+        return ServiceResponse.buildResponse(CD_SUCCESS, successMessage, articles);
+    }
+
+    // Méthode utilitaire pour gérer les réponses d'articles (individuel)
+    private ServiceResponse<Article> getArticleResponse(Article article, String errorMessage, String successMessage) {
+        if (article == null) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, errorMessage, article);
+        }
+        return ServiceResponse.buildResponse(CD_SUCCESS, successMessage, article);
+    }
+
+    // Méthode utilitaire pour centraliser la logique de recherche des articles (nom et catégorie)
+    private List<Article> getArticlesBySearchAndCategory(String search, Categorie categorie) {
+        if ((search == null || search.isBlank()) && categorie == null) {
+            return daoArticle.selectAll();
+        } else if (categorie != null && (search == null || search.isBlank())) {
+            return daoArticle.selectByCategorie(categorie);
+        } else if (categorie == null) {
+            return daoArticle.selectByName(search);
+        } else {
+            return daoArticle.selectByNameAndCategorie(search, categorie);
+        }
+    }
 }

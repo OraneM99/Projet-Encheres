@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{profil.titre}">ENI-Enchères - Modifier Profil</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <title>ENI-Enchères - Modifier Profil</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/profil.css}" />
@@ -20,65 +21,65 @@
     <div class="hero-container">
         <div class="hero-content">
             <main>
-                <h2 class="profile-title" th:text="${utilisateurConnecte.pseudo}">Pseudo Utilisateur</h2>
+                <h2 class="profile-title" th:text="${#authentication.principal.utilisateur.pseudo}">Pseudo Utilisateur</h2>
 
                 <form th:action="@{/modifier-profil}" method="post">
                     <div class="profile-view">
-                        <input type="hidden" name="noUtilisateur" th:value="${utilisateurConnecte.noUtilisateur}" />
+                        <input type="hidden" name="noUtilisateur" th:value="${#authentication.principal.utilisateur.noUtilisateur}" />
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.pseudo}">Pseudo :</div>
                             <div class="profile-input-container">
-                                <input type="text" class="profile-input" name="pseudo" th:value="${utilisateurConnecte.pseudo}" required />
+                                <input type="text" class="profile-input" name="pseudo" th:value="${#authentication.principal.utilisateur.pseudo}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.nom}">Nom :</div>
                             <div class="profile-input-container">
-                                <input type="text" class="profile-input" name="nom" th:value="${utilisateurConnecte.nom}" required />
+                                <input type="text" class="profile-input" name="nom" th:value="${#authentication.principal.utilisateur.nom}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.prenom}">Prénom :</div>
                             <div class="profile-input-container">
-                                <input type="text" class="profile-input" name="prenom" th:value="${utilisateurConnecte.prenom}" required />
+                                <input type="text" class="profile-input" name="prenom" th:value="${#authentication.principal.utilisateur.prenom}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.email}">Email :</div>
                             <div class="profile-input-container">
-                                <input type="email" class="profile-input" name="email" th:value="${utilisateurConnecte.email}" required />
+                                <input type="email" class="profile-input" name="email" th:value="${#authentication.principal.utilisateur.email}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.telephone}">Téléphone :</div>
                             <div class="profile-input-container">
-                                <input type="tel" class="profile-input" name="telephone" th:value="${utilisateurConnecte.telephone}" />
+                                <input type="tel" class="profile-input" name="telephone" th:value="${#authentication.principal.utilisateur.telephone}" />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.rue}">Rue :</div>
                             <div class="profile-input-container">
-                                <input type="text" class="profile-input" name="rue" th:value="${utilisateurConnecte.rue}" required />
+                                <input type="text" class="profile-input" name="rue" th:value="${#authentication.principal.utilisateur.rue}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.codepostal}">Code postal :</div>
                             <div class="profile-input-container">
-                                <input type="text" class="profile-input" name="codePostal" th:value="${utilisateurConnecte.codePostal}" required />
+                                <input type="text" class="profile-input" name="codePostal" th:value="${#authentication.principal.utilisateur.codePostal}" required />
                             </div>
                         </div>
 
                         <div class="profile-item">
                             <div class="profile-label" th:text="#{profil.ville}">Ville :</div>
                             <div class="profile-input-container">
-                                <input type="text" class="profile-input" name="ville" th:value="${utilisateurConnecte.ville}" required />
+                                <input type="text" class="profile-input" name="ville" th:value="${#authentication.principal.utilisateur.ville}" required />
                             </div>
                         </div>
 

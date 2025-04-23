@@ -6,6 +6,9 @@
     <title th:text="#{site.nom}">ENI-Enchères</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/detail-vente.css}" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -19,10 +22,16 @@
     <div class="hero-container">
         <div class="hero-content">
             <main>
-                <h3 class="article-title" th:text="|#{detail.titre} ${article.nomArticle}|">Détail de l'article :</h3>
+
+                <h3 class="article-title">Détail de l'article : <span th:text="${article.nomArticle}"></span></h3>
 
                 <!-- Image de l'article -->
-                <div class="photo-container"><div class="photo-x"></div></div>
+                <div class="photo-container">
+                    <img th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
+                         alt="Image de l'article"
+                         style="object-fit: cover; width: 100%; height: 200px;"
+                         onerror="this.src='/images/placeholder.png';" />
+                </div>
 
                 <!-- Détails de l'article -->
                 <div class="auction-details">
@@ -35,8 +44,10 @@
                     </div>
 
                     <div class="auction-info-row">
+
                         <div class="auction-info-label" th:text="#{detail.categorie}">Catégorie</div>
                         <div class="auction-info-value"><span th:text="${article.categorieArticle.libelle}"></span></div>
+
                     </div>
 
                     <div class="auction-info-row">
@@ -54,9 +65,11 @@
                     </div>
 
                     <div class="auction-info-row">
+
                         <div class="auction-info-label" th:text="#{detail.fin.enchere}">Fin de l'enchère :</div>
                         <div class="auction-info-value">
                             <span th:text="${article.dateFinEncheres}">09/10/2018</span>
+
                         </div>
                     </div>
 
@@ -70,18 +83,22 @@
                     </div>
 
                     <div class="auction-info-row">
-                        <div class="auction-info-label" th:text="#{detail.vendeur}">Vendeur :</div>
-                        <div class="auction-info-value"><span th:text="${vendeur.pseudo}">jojo44</span></div>
+
+                        <div class="auction-info-label">Vendeur :</div>
+                        <div class="auction-info-value">
+                            <span th:text="${vendeur.pseudo}"></span>
+                        </div>
                     </div>
 
-                    <!-- Enchère si pas le vendeur -->
-                    <div th:if="${utilisateurConnecte.noUtilisateur != vendeur.noUtilisateur}">
-                        <form method="post" th:action="@{'/encherir/'+${article.noArticle}}">
+                    <div th:if="${#authentication.principal.utilisateur != null and vendeur != null and #authentication.principal.utilisateur.noUtilisateur != vendeur.noUtilisateur}">
+                        <form method="post" th:action="@{'/encherir/'+${article.noArticle}}" >
+
                             <div class="auction-info-row bid-row">
                                 <div class="auction-info-label" th:text="#{detail.proposition}">Ma proposition :</div>
                                 <div class="auction-info-value">
                                     <div class="bid-container">
                                         <div class="bid-input-container">
+
                                             <input type="number" class="bid-input" name="montant_enchere" th:value="${montant_enchere}">
                                             <div class="bid-controls">
                                                 <button class="bid-up" type="button">▲</button>
@@ -89,11 +106,13 @@
                                             </div>
                                         </div>
                                         <button class="eni-button bid-button" type="submit" th:text="#{detail.encherir}">Enchérir</button>
+
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
+
 
                     <!-- Suppression si vendeur -->
                     <div th:if="${utilisateurConnecte.noUtilisateur == vendeur.noUtilisateur}">
@@ -114,5 +133,53 @@
         </div>
     </div>
 </section>
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const enchereForm = document.querySelector('form[action^="/encherir/"]');
+
+        if (enchereForm) {
+            enchereForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(this);
+                const actionUrl = this.getAttribute('action');
+
+                fetch(actionUrl, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur réseau');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const htmlDoc = parser.parseFromString(data, 'text/html');
+
+                        const meilleureOffre = htmlDoc.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:first-child');
+                        const encherisseur = htmlDoc.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:last-child');
+
+                        if (meilleureOffre) {
+                            document.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:first-child').textContent = meilleureOffre.textContent;
+                        }
+
+                        if (encherisseur) {
+                            document.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:last-child').textContent = encherisseur.textContent;
+                        }
+
+                        alert('Votre enchère a été placée avec succès !');
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        alert('Une erreur est survenue lors de la soumission de votre enchère.');
+                    });
+            });
+        }
+    });
+</script>
 </body>
 </html>

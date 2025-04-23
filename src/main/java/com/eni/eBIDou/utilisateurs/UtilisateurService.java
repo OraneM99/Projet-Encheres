@@ -9,14 +9,20 @@ public interface UtilisateurService {
     boolean pseudoExiste(String pseudo);
 
     boolean emailExiste(String email);
+    
     void toggleActivation(long id);
+    
     UtilisateurDTO findById(Long id);
+
     UtilisateurDTO findByPseudo(String pseudo);
+
     UtilisateurDTO create(UtilisateurDTO dto);
 
     boolean verifierMotDePasse(Long id, String motDePasse);
 
     UtilisateurDTO update(Long id, UtilisateurDTO dto);
+
+    UtilisateurDTO updateCredit(Long id, int newCredit);
 
     UtilisateurDTO updateAvecVerification(Long id, UtilisateurDTO dto, String motDePasseActuel);
 

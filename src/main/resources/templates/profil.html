@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{profil.page.titre}">ENI-Enchères - Profil</title>
-    <link rel="icon" type="image/x-icon" th:href="@{images/favicon.svg}">
+    <title>ENI-Enchères - Profil</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/profil.css}" />
@@ -31,6 +32,7 @@
                     <div class="profile-item"><div class="profile-label" th:text="#{profil.codepostal}">Code postal :</div><div class="profile-value" th:text="${utilisateurConnecte.codePostal}"></div></div>
                     <div class="profile-item"><div class="profile-label" th:text="#{profil.ville}">Ville :</div><div class="profile-value" th:text="${utilisateurConnecte.ville}"></div></div>
                     <div class="profile-item"><div class="profile-label" th:text="#{profil.credit}">Crédit :</div><div class="profile-value" th:text="${utilisateurConnecte.credit}"></div></div>
+
                 </div>
 
                 <div class="profile-actions uk-margin-medium-top">
@@ -43,6 +45,13 @@
                                 <button type="button" class="eni-button" th:text="#{profil.bouton.modifier}">Modifier</button>
                             </a>
                         </div>
+                    </div>
+
+                    <!-- Bouton pour supprimer le compte -->
+                    <div class="button-wrapper">
+                        <button type="button" class="eni-button uk-button-danger" onclick="openModal()">
+                            Supprimer mon compte
+                        </button>
                     </div>
                 </div>
 
