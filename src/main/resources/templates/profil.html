@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENI-Enchères - Profil</title>
+    <title th:text="#{profil.page.titre}">ENI-Enchères - Profil</title>
     <link rel="icon" type="image/x-icon" th:href="@{images/favicon.svg}">
-    <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
-    <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/profil.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
@@ -15,7 +13,6 @@
 </head>
 
 <body>
-<!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
 
 <section class="hero-section">
@@ -23,88 +20,54 @@
         <div class="hero-content">
             <main>
                 <h2 class="profile-title" th:if="${utilisateurConnecte != null}" th:text="${utilisateurConnecte.pseudo}">Pseudo Utilisateur</h2>
-                <h2 class="profile-title" th:if="${utilisateurConnecte == null}">Utilisateur inconnu</h2>
+                <h2 class="profile-title" th:if="${utilisateurConnecte == null}" th:text="#{profil.utilisateur.inconnu}">Utilisateur inconnu</h2>
 
                 <div class="profile-view">
-                    <div class="profile-item">
-                        <div class="profile-label">Nom :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.nom}"></div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Prénom :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.prenom}">Prénom</div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Email :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.email}">Email</div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Téléphone :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.telephone}">Téléphone</div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Rue :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.rue}">Rue</div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Code postal :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.codePostal}">Code postal</div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Ville :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.ville}">Ville</div>
-                    </div>
-
-                    <div class="profile-item">
-                        <div class="profile-label">Crédit :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.credit}">0</div>
-                    </div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.nom}">Nom :</div><div class="profile-value" th:text="${utilisateurConnecte.nom}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.prenom}">Prénom :</div><div class="profile-value" th:text="${utilisateurConnecte.prenom}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.email}">Email :</div><div class="profile-value" th:text="${utilisateurConnecte.email}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.telephone}">Téléphone :</div><div class="profile-value" th:text="${utilisateurConnecte.telephone}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.rue}">Rue :</div><div class="profile-value" th:text="${utilisateurConnecte.rue}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.codepostal}">Code postal :</div><div class="profile-value" th:text="${utilisateurConnecte.codePostal}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.ville}">Ville :</div><div class="profile-value" th:text="${utilisateurConnecte.ville}"></div></div>
+                    <div class="profile-item"><div class="profile-label" th:text="#{profil.credit}">Crédit :</div><div class="profile-value" th:text="${utilisateurConnecte.credit}"></div></div>
                 </div>
 
                 <div class="profile-actions uk-margin-medium-top">
                     <div class="button-wrapper">
-                        <a th:href="@{/accueil}"><button type="button" class="eni-button">Retour</button></a>
+                        <a th:href="@{/accueil}"><button type="button" class="eni-button" th:text="#{profil.bouton.retour}">Retour</button></a>
                     </div>
-
                     <div class="uk-flex uk-flex-middle">
                         <div class="button-wrapper uk-margin-right">
                             <a th:href="@{/modifier-profil}">
-                                <button type="button" class="eni-button">Modifier</button>
+                                <button type="button" class="eni-button" th:text="#{profil.bouton.modifier}">Modifier</button>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Modal personnalisée de confirmation de suppression -->
+                <!-- Modal suppression -->
                 <div id="modal-supprimer-compte" class="custom-modal">
                     <div class="custom-modal-dialog">
                         <div class="custom-modal-header">
-                            <h2 class="custom-modal-title">Confirmation de suppression</h2>
+                            <h2 class="custom-modal-title" th:text="#{profil.modal.titre}">Confirmation de suppression</h2>
                             <button type="button" class="custom-modal-close" onclick="closeModal()">&times;</button>
                         </div>
                         <div class="custom-modal-body">
-                            <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+                            <p th:text="#{profil.modal.message}">Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
                         </div>
                         <div class="custom-modal-footer">
-                            <button class="custom-button default-button" type="button" onclick="closeModal()">Annuler</button>
+                            <button class="custom-button default-button" type="button" onclick="closeModal()" th:text="#{profil.modal.annuler}">Annuler</button>
                             <form th:action="@{/profil/supprimer/{id}(id=${utilisateurConnecte.noUtilisateur})}" method="post" class="inline-form">
-                                <button class="custom-button danger-button" type="submit">Supprimer</button>
+                                <button class="custom-button danger-button" type="submit" th:text="#{profil.modal.supprimer}">Supprimer</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bouton pour supprimer le compte -->
+                <!-- Bouton suppression -->
                 <div class="button-wrapper">
-                    <button type="button" class="eni-button uk-button-danger" onclick="openModal()">
-                        Supprimer mon compte
-                    </button>
+                    <button type="button" class="eni-button uk-button-danger" onclick="openModal()" th:text="#{profil.bouton.supprimer}">Supprimer mon compte</button>
                 </div>
 
             </main>
@@ -115,17 +78,12 @@
 <script>
     function openModal() {
         document.getElementById('modal-supprimer-compte').style.display = 'flex';
-        // Empêcher le défilement du body
         document.body.style.overflow = 'hidden';
     }
-
     function closeModal() {
         document.getElementById('modal-supprimer-compte').style.display = 'none';
-        // Restaurer le défilement du body
         document.body.style.overflow = 'auto';
     }
-
-    // Fermer la modal si on clique en dehors
     window.onclick = function(event) {
         var modal = document.getElementById('modal-supprimer-compte');
         if (event.target === modal) {
@@ -134,10 +92,7 @@
     }
 </script>
 
-<!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-<!-- UIkit JS -->
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
 </body>

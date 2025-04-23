@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENI-Enchères</title>
+    <title th:text="#{site.nom}">ENI-Enchères</title>
     <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/encheres.css}" />
@@ -16,24 +16,21 @@
     <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
 
-    <h2>Liste des enchères</h2>
+    <h2 th:text="#{encheres.titre}">Liste des enchères</h2>
 
     <!-- Formulaire de recherche unifié -->
     <div class="search-container">
         <form th:action="@{/encheres}" method="get" class="unified-search-form">
             <div class="unified-search-wrapper">
-                <input type="text" name="search" th:value="${search}" placeholder="Que recherchez-vous ?" class="unified-search-input">
-
+                <input type="text" name="search" th:value="${search}" placeholder="#{encheres.recherche.placeholder}" class="unified-search-input">
                 <div class="search-divider"></div>
-
                 <select name="categorie" class="unified-search-select">
-                    <option value="" selected>Toutes catégories</option>
-                    <option value="1" th:selected="${categorie != null && categorie == '1'}">Informatique</option>
-                    <option value="2" th:selected="${categorie != null && categorie == '2'}">Ameublement</option>
-                    <option value="3" th:selected="${categorie != null && categorie == '3'}">Vêtement</option>
-                    <option value="4" th:selected="${categorie != null && categorie == '4'}">Sport & Loisirs</option>
+                    <option value="" selected th:text="#{encheres.recherche.toutes}">Toutes catégories</option>
+                    <option value="1" th:selected="${categorie != null && categorie == '1'}" th:text="#{categorie.informatique}">Informatique</option>
+                    <option value="2" th:selected="${categorie != null && categorie == '2'}" th:text="#{categorie.ameublement}">Ameublement</option>
+                    <option value="3" th:selected="${categorie != null && categorie == '3'}" th:text="#{categorie.vetements}">Vêtement</option>
+                    <option value="4" th:selected="${categorie != null && categorie == '4'}" th:text="#{categorie.sport}">Sport & Loisirs</option>
                 </select>
-
                 <button type="submit" class="unified-search-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -42,54 +39,48 @@
                 </button>
             </div>
 
-            <!-- Options avancées (uniquement pour utilisateurs connectés) -->
+            <!-- Options avancées -->
             <div class="advanced-options" th:if="${utilisateurConnecte != null}">
                 <div class="options-toggle">
-                    <button type="button" id="toggleOptions" class="toggle-button">
-                        Options avancées
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="toggle-icon">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </button>
+                    <button type="button" id="toggleOptions" class="toggle-button" th:text="#{encheres.options.avancees}">Options avancées</button>
                 </div>
-
                 <div class="options-panel" id="optionsPanel">
                     <div class="options">
                         <div class="option-group">
                             <div class="option">
                                 <input type="radio" id="achats" name="type" value="achats" checked>
-                                <label for="achats">Achats</label>
+                                <label for="achats" th:text="#{encheres.filtres.achats}">Achats</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="encheresOuvertes" name="filtres" value="ouvertes" checked>
-                                <label for="encheresOuvertes">enchères ouvertes</label>
+                                <label for="encheresOuvertes" th:text="#{encheres.filtres.ouvertes}">enchères ouvertes</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="mesEncheresEnCours" name="filtres" value="encours">
-                                <label for="mesEncheresEnCours">mes enchères en cours</label>
+                                <label for="mesEncheresEnCours" th:text="#{encheres.filtres.encours}">mes enchères en cours</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="mesEncheresRemportees" name="filtres" value="remportees">
-                                <label for="mesEncheresRemportees">mes enchères remportées</label>
+                                <label for="mesEncheresRemportees" th:text="#{encheres.filtres.remportees}">mes enchères remportées</label>
                             </div>
                         </div>
 
                         <div class="option-group">
                             <div class="option">
                                 <input type="radio" id="ventes" name="type" value="ventes">
-                                <label for="ventes">Mes ventes</label>
+                                <label for="ventes" th:text="#{encheres.filtres.mesventes}">Mes ventes</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="mesVentesEnCours" name="filtres" value="ventesencours">
-                                <label for="mesVentesEnCours">mes ventes en cours</label>
+                                <label for="mesVentesEnCours" th:text="#{encheres.filtres.ventesencours}">mes ventes en cours</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="ventesNonDebutees" name="filtres" value="nondebutees">
-                                <label for="ventesNonDebutees">ventes non débutées</label>
+                                <label for="ventesNonDebutees" th:text="#{encheres.filtres.nondebutees}">ventes non débutées</label>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="ventesTerminees" name="filtres" value="terminees">
-                                <label for="ventesTerminees">ventes terminées</label>
+                                <label for="ventesTerminees" th:text="#{encheres.filtres.terminees}">ventes terminées</label>
                             </div>
                         </div>
                     </div>
@@ -98,34 +89,31 @@
         </form>
     </div>
 
-    <!-- Message d'erreur global si besoin -->
-    <div th:if="${message}" class="message" th:text="${message}">
-        Message d'erreur
-    </div>
+    <!-- Message d'erreur -->
+    <div th:if="${message}" class="message" th:text="${message}">Message d'erreur</div>
 
+    <!-- Liste des enchères -->
     <div th:if="${encheres != null}" class="encheres-liste">
-        <!-- Condition pour éviter NullPointerException -->
         <div th:each="enchere : ${encheres}" class="enchere" th:if="${enchere != null && enchere.articleCible != null}">
             <div class="enchere-details">
-                <div class="enchere-image">
-                    <div>X</div>
-                </div>
+                <div class="enchere-image"><div>X</div></div>
                 <div class="enchere-info">
                     <a th:href="@{'/article/' + ${enchere.articleCible.noArticle}}"
                        th:text="${enchere.articleCible.nomArticle ?: 'Article sans nom'}"
                        class="enchere-nom">Nom de l'article</a>
 
-                    <div class="enchere-prix">Prix :
+                    <div class="enchere-prix">
+                        <span th:text="#{encheres.article.prix}">Prix :</span>
                         <span th:text="${enchere.montant_enchere != null ? enchere.montant_enchere : 0}"></span> points
                     </div>
 
-                    <!-- Vérification que dateEnchere n'est pas nulle -->
-                    <div class="enchere-fin">Fin de l'enchère :
+                    <div class="enchere-fin">
+                        <span th:text="#{encheres.article.fin}">Fin de l'enchère :</span>
                         <span th:text="${enchere.dateEnchere != null ? #temporals.format(enchere.dateEnchere, 'dd/MM/yyyy') : 'Non définie'}">01/01/2023</span>
                     </div>
 
-                    <!-- Vérification de la chaîne complète -->
-                    <div class="enchere-vendeur" th:if="${enchere.articleCible.vendeur != null}">Vendeur :
+                    <div class="enchere-vendeur" th:if="${enchere.articleCible.vendeur != null}">
+                        <span th:text="#{encheres.article.vendeur}">Vendeur :</span>
                         <a th:href="@{'/utilisateurs/' + ${enchere.articleCible.vendeur.pseudo}}"
                            th:text="${enchere.articleCible.vendeur.pseudo}">vendeur</a>
                     </div>
@@ -133,27 +121,21 @@
             </div>
         </div>
 
-        <!-- Contenu affiché si la liste est vide -->
         <div th:if="${encheres.empty}" class="enchere">
-            <div class="message">Aucune enchère n'est disponible pour le moment.</div>
+            <div class="message" th:text="#{encheres.vide}">Aucune enchère n'est disponible pour le moment.</div>
         </div>
     </div>
 
-    <!-- Afficher un message si encheres est null -->
-    <div th:if="${encheres == null}" class="message">
-        Erreur lors du chargement des enchères.
-    </div>
+    <div th:if="${encheres == null}" class="message" th:text="#{encheres.erreur}">Erreur lors du chargement des enchères.</div>
 
+    <!-- Informations utilisateur -->
     <div class="user-info">
-        <!-- Si un utilisateur est connecté -->
         <div th:if="${utilisateurConnecte != null}">
-            <div th:text="${utilisateurConnecte.pseudo} + ' est connecté(e)'"></div>
+            <div th:text="${utilisateurConnecte.pseudo} + ' ' + #{encheres.connecte}"></div>
         </div>
-
-        <!-- Si aucun utilisateur n'est connecté -->
         <div th:unless="${utilisateurConnecte != null}">
-            <div>Vous n'êtes pas connecté</div>
-            <div><a th:href="@{/login}">Se connecter</a></div>
+            <div th:text="#{encheres.nonconnecte}">Vous n'êtes pas connecté</div>
+            <div><a th:href="@{/login}" th:text="#{encheres.connexion}">Se connecter</a></div>
         </div>
     </div>
 </div>
@@ -162,7 +144,6 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <script>
-    // JavaScript pour afficher/masquer les options avancées
     document.addEventListener('DOMContentLoaded', function() {
         const toggleButton = document.getElementById('toggleOptions');
         const optionsPanel = document.getElementById('optionsPanel');
@@ -174,7 +155,6 @@
             });
         }
 
-        // Gestion des options d'achats/ventes
         const achatsRadio = document.getElementById('achats');
         const ventesRadio = document.getElementById('ventes');
         const achatsCheckboxes = document.querySelectorAll('#encheresOuvertes, #mesEncheresEnCours, #mesEncheresRemportees');
@@ -183,41 +163,22 @@
         if (achatsRadio && ventesRadio) {
             achatsRadio.addEventListener('change', function() {
                 if (this.checked) {
-                    // Activer les checkboxes d'achats
-                    achatsCheckboxes.forEach(checkbox => {
-                        checkbox.disabled = false;
-                    });
-                    // Désactiver les checkboxes de ventes
-                    ventesCheckboxes.forEach(checkbox => {
-                        checkbox.disabled = true;
-                        checkbox.checked = false;
-                    });
+                    achatsCheckboxes.forEach(c => c.disabled = false);
+                    ventesCheckboxes.forEach(c => { c.disabled = true; c.checked = false; });
                 }
             });
 
             ventesRadio.addEventListener('change', function() {
                 if (this.checked) {
-                    // Activer les checkboxes de ventes
-                    ventesCheckboxes.forEach(checkbox => {
-                        checkbox.disabled = false;
-                    });
-                    // Désactiver les checkboxes d'achats
-                    achatsCheckboxes.forEach(checkbox => {
-                        checkbox.disabled = true;
-                        checkbox.checked = false;
-                    });
+                    ventesCheckboxes.forEach(c => c.disabled = false);
+                    achatsCheckboxes.forEach(c => { c.disabled = true; c.checked = false; });
                 }
             });
 
-            // Initialisation
             if (achatsRadio.checked) {
-                ventesCheckboxes.forEach(checkbox => {
-                    checkbox.disabled = true;
-                });
+                ventesCheckboxes.forEach(c => c.disabled = true);
             } else if (ventesRadio.checked) {
-                achatsCheckboxes.forEach(checkbox => {
-                    checkbox.disabled = true;
-                });
+                achatsCheckboxes.forEach(c => c.disabled = true);
             }
         }
     });

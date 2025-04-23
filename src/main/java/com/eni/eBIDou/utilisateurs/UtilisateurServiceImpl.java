@@ -75,6 +75,7 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
     public UtilisateurDTO create(UtilisateurDTO dto) {
         UtilisateurBO bo = mapper.toBo(dto);
         bo.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse())); // mot de passe fourni par l'utilisateur
+        bo.setActif(true);
         return mapper.toDto(repository.save(bo));
     }
 

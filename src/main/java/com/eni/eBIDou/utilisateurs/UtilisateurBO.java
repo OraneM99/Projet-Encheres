@@ -45,6 +45,7 @@ public class UtilisateurBO {
     private String motDePasse;
 
  @Column(nullable = false)
+
  private boolean actif = true;
 
 
