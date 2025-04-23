@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{admin.utilisateur.editer.titre}">Modifier utilisateur</title>
+    <title>Modifier utilisateur</title>
 
     <!-- UIkit & style -->
     <link rel="stylesheet" th:href="@{/css/admin/style.css}" />
@@ -12,17 +13,17 @@
     <link rel="stylesheet" th:href="@{/css/admin/list-admin.css}" />
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" th:href="@{/css/admin/notyf.min.css}" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="js/uikit.min.js"></script>
-    <script th:src="@{/js/admin/uikit-icons.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>        <script src="js/uikit.min.js" ></script>
+    <script th:src="@{/js/admin/uikit-icons.min.js}" ></script>
+
 </head>
 <body>
 
 <div th:replace="~{fragments/admin/header :: header-admin}"></div>
 
+
 <div class="uk-card uk-card-default">
-    <h1 th:text="#{admin.utilisateur.editer.titre}">Modifier un utilisateur</h1>
+    <h1>Modifier un utilisateur</h1>
 
     <form class="uk-form-stacked"
           th:action="@{'/admin/utilisateurs/edit/' + ${utilisateur.noUtilisateur}}"
@@ -30,7 +31,7 @@
           method="post">
 
         <div class="uk-margin">
-            <label class="uk-form-label" th:text="#{admin.utilisateur.pseudo}">Pseudo</label>
+            <label class="uk-form-label">Pseudo</label>
             <div class="uk-form-controls">
                 <input class="uk-input" type="text" th:field="*{pseudo}" />
             </div>
@@ -38,61 +39,55 @@
 
         <div class="uk-grid uk-child-width-1-2@s" uk-grid>
             <div>
-                <label class="uk-form-label" th:text="#{admin.utilisateur.nom}">Nom</label>
+                <label class="uk-form-label">Nom</label>
                 <input class="uk-input" type="text" th:field="*{nom}" />
             </div>
             <div>
-                <label class="uk-form-label" th:text="#{admin.utilisateur.prenom}">Prénom</label>
+                <label class="uk-form-label">Prénom</label>
                 <input class="uk-input" type="text" th:field="*{prenom}" />
             </div>
         </div>
 
         <div class="uk-margin">
-            <label class="uk-form-label" th:text="#{admin.utilisateur.email}">Email</label>
+            <label class="uk-form-label">Email</label>
             <input class="uk-input" type="email" th:field="*{email}" />
         </div>
 
         <div class="uk-margin">
-            <label class="uk-form-label" th:text="#{admin.utilisateur.telephone}">Téléphone</label>
+            <label class="uk-form-label">Téléphone</label>
             <input class="uk-input" type="text" th:field="*{telephone}" />
         </div>
 
         <div class="uk-margin">
-            <label class="uk-form-label" th:text="#{admin.utilisateur.rue}">Rue</label>
+            <label class="uk-form-label">Rue</label>
             <input class="uk-input" type="text" th:field="*{rue}" />
         </div>
 
         <div class="uk-grid uk-child-width-1-2@s" uk-grid>
             <div>
-                <label class="uk-form-label" th:text="#{admin.utilisateur.codepostal}">Code Postal</label>
+                <label class="uk-form-label">Code Postal</label>
                 <input class="uk-input" type="text" th:field="*{codePostal}" />
             </div>
             <div>
-                <label class="uk-form-label" th:text="#{admin.utilisateur.ville}">Ville</label>
+                <label class="uk-form-label">Ville</label>
                 <input class="uk-input" type="text" th:field="*{ville}" />
             </div>
         </div>
 
         <div class="uk-margin">
-            <label class="uk-form-label" th:text="#{admin.utilisateur.credit}">Crédit</label>
+            <label class="uk-form-label">Crédit</label>
             <input class="uk-input" type="number" th:field="*{credit}" />
         </div>
 
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-                <input class="uk-checkbox" type="checkbox" th:field="*{administrateur}" />
-                <span th:text="#{admin.utilisateur.admin}">Admin</span>
-            </label>
+            <label><input class="uk-checkbox" type="checkbox" th:field="*{administrateur}" /> Admin</label>
         </div>
 
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-                <input class="uk-checkbox" type="checkbox" th:field="*{actif}" />
-                <span th:text="#{admin.utilisateur.actif}">Actif</span>
-            </label>
+            <label><input class="uk-checkbox" type="checkbox" th:field="*{actif}" /> Actif</label>
         </div>
 
-        <button class="uk-button uk-button-primary" type="submit" th:text="#{admin.utilisateur.bouton.enregistrer}">Enregistrer</button>
+        <button class="uk-button uk-button-primary" type="submit">Enregistrer</button>
     </form>
 </div>
 
