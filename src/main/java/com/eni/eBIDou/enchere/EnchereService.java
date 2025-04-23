@@ -10,6 +10,7 @@ import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
 import com.eni.eBIDou.utilisateurs.UtilisateurService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -84,7 +85,7 @@ public class EnchereService {
         System.out.println("Acheteur potentiel= " + acheteurPotent);
 
         //Determiner la date du jour
-        LocalDateTime aujourdHui = LocalDateTime.now();
+        LocalDate aujourdHui = LocalDate.now();
 
         //si la date du jour et avant la date de début d'enchere du produit - l'enchere n'est pas accessible
         if (aujourdHui.isBefore(articleTarget.getDateDebutEncheres()) || aujourdHui.isAfter(articleTarget.getDateFinEncheres())) {

@@ -3,10 +3,12 @@ package com.eni.eBIDou.article;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.service.ServiceResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +17,31 @@ import static com.eni.eBIDou.service.ServiceConstant.*;
 @Service
 public class ArticleService {
 
-    @Autowired
-    private ArticleIDAO daoArticle;
+    private final ArticleIDAO daoArticle;
+    private final ArticleRepository articleRepository;
+
+    public ArticleService(ArticleIDAO daoArticle, ArticleRepository articleRepository) {
+        this.daoArticle = daoArticle;
+        this.articleRepository = articleRepository;
+    }
+
+//    @Transactional
+//    public void verifierEtMettreAjourEtatVente() {
+//        //Recuperer la date du jour
+//        LocalDate today = LocalDate.now();
+//        //récupérer tous les articles
+//        List<Article> articles = articleRepository.findAll();
+//
+//        //Pour chaque article
+//        for (Article article : articles) {
+//            //on recupère l'état
+//            EtatVente etat = article.getEtatVente();
+//
+//            if(etat == EtatVente.CREEE && !today.isBefore(article.getDateDebutEncheres())) {
+//                article
+//            }
+//        }
+//    }
 
     // Récupère tous les articles
     public ServiceResponse<List<Article>> getAll() {

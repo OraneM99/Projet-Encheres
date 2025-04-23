@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,8 +26,8 @@ public class Article {
     private String description;
     private String imageFileName;
 
-    private LocalDateTime dateDebutEncheres;
-    private LocalDateTime dateFinEncheres;
+    private LocalDate dateDebutEncheres;
+    private LocalDate dateFinEncheres;
     private int miseAPrix;
     private int prixVente;
 
@@ -52,7 +52,7 @@ public class Article {
     private String urlImage;
 
 
-    public Article(long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, int miseAPrix) {
+    public Article(long noArticle, String nomArticle, String description, LocalDate dateDebutEncheres, int miseAPrix) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
