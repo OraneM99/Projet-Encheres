@@ -30,7 +30,7 @@
 
 /* Effet hover sur les liens */
 .pagination-link:hover {
-    background-color: var(--white);
+    background-color: var(--primary-color);
 }
 
 /* Style de la page active */
@@ -42,7 +42,7 @@
 /* Points de suspension pour les pages cachées */
 .pagination-ellipsis {
     margin: 0 5px;
-    color: var(--text-color);
+    color: var(--white);
 }
 
 /* Boutons précédent/suivant */

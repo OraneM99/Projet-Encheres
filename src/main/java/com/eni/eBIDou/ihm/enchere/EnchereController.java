@@ -68,7 +68,7 @@ public class EnchereController {
             List<Categorie> categories = categorieService.selectAll().getData();
 
             // Ajouter les attributs au modèle
-            model.addAttribute("articles", serviceResponse.getData() != null ? serviceResponse.getData() : new ArrayList<>());
+            model.addAttribute("articles", paginatedResult.getContent());
             model.addAttribute("categories", categories);
             model.addAttribute("nomArticle", nomArticle);
             model.addAttribute("categorieId", id);
