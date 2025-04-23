@@ -63,7 +63,7 @@ public class EnchereService {
     public ServiceResponse<Enchere> getByArticleAndUtilisateur(long idArticle, long idUtilisateur) {
         Enchere enchere = daoEnchere.findEnchereByArticleAndUtilisateur(idArticle, idUtilisateur);
         if(enchere == null) {
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère n'a pu être récupéré avec cet article et cet utilisateur", null);
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère n'a pu être récupérée avec cet article et cet utilisateur", null);
         }
         return ServiceResponse.buildResponse(CD_SUCCESS, "Enchère récupérée par son article et son utilisateur", enchere );
     }
