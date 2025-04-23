@@ -22,48 +22,48 @@
     <div class="hero-container">
         <div class="hero-content">
             <main>
-                <h2 class="profile-title" th:if="${utilisateurConnecte != null}" th:text="${utilisateurConnecte.pseudo}">Pseudo Utilisateur</h2>
-                <h2 class="profile-title" th:if="${utilisateurConnecte == null}">Utilisateur inconnu</h2>
+                <h2 class="profile-title" th:if="${#authorization.expression('isAuthenticated()')}" th:text="${#authentication.principal.utilisateur.pseudo}">Pseudo Utilisateur</h2>
+                <h2 class="profile-title" th:unless=="${#authorization.expression('isAuthenticated()')}">Utilisateur inconnu</h2>
 
                 <div class="profile-view">
                     <div class="profile-item">
                         <div class="profile-label">Nom :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.nom}"></div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.nom}"></div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Prénom :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.prenom}">Prénom</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.prenom}">Prénom</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Email :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.email}">Email</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.email}">Email</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Téléphone :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.telephone}">Téléphone</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.telephone}">Téléphone</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Rue :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.rue}">Rue</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.rue}">Rue</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Code postal :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.codePostal}">Code postal</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.codePostal}">Code postal</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Ville :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.ville}">Ville</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.ville}">Ville</div>
                     </div>
 
                     <div class="profile-item">
                         <div class="profile-label">Crédit :</div>
-                        <div class="profile-value" th:text="${utilisateurConnecte.credit}">0</div>
+                        <div class="profile-value" th:text="${#authentication.principal.utilisateur.credit}">0</div>
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@
                         </div>
                         <div class="custom-modal-footer">
                             <button class="custom-button default-button" type="button" onclick="closeModal()">Annuler</button>
-                            <form th:action="@{/profil/supprimer/{id}(id=${utilisateurConnecte.noUtilisateur})}" method="post" class="inline-form">
+                            <form th:action="@{/profil/supprimer/{id}(id=${#authentication.principal.utilisateur.noUtilisateur})}" method="post" class="inline-form">
                                 <button class="custom-button danger-button" type="submit">Supprimer</button>
                             </form>
                         </div>

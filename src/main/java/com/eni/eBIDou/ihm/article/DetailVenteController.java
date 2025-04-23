@@ -7,8 +7,10 @@ import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.retrait.RetraitService;
 import com.eni.eBIDou.service.ServiceResponse;
+import com.eni.eBIDou.utilisateurs.CustomUserDetails;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
+import com.eni.eBIDou.utilisateurs.UtilisateurService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -23,23 +25,26 @@ public class DetailVenteController {
 
     private final RetraitService retraitService;
     private final EnchereService enchereService;
+    private final UtilisateurService utilisateurService;
     private ArticleService articleService;
 
-    public DetailVenteController(ArticleService articleService, RetraitService retraitService, EnchereService enchereService) {
+    public DetailVenteController(ArticleService articleService, RetraitService retraitService, EnchereService enchereService, UtilisateurService utilisateurService) {
         this.articleService = articleService;
         this.retraitService = retraitService;
         this.enchereService = enchereService;
+        this.utilisateurService = utilisateurService;
     }
 
     @GetMapping("/detail-vente/{id}")
-    public String detailVente(@PathVariable long id, Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+    public String detailVente(@PathVariable long id, Model model) {
 
         //Récupérer l'article
         ServiceResponse<Article> article = articleService.getArticleById(id);
         Article articleAVendre = article.getData();
 
         //Récupérer le vendeur lié à l'article
-        UtilisateurBO vendeur = articleAVendre.getVendeur();
+        long idVendeur = articleAVendre.getVendeur().getNoUtilisateur();
+        UtilisateurDTO vendeur = utilisateurService.findById(idVendeur);
 
         //Récupérer le retrait lié à l'article
         ServiceResponse<Retrait> retrait = retraitService.selectByArticleId(id);
@@ -55,12 +60,7 @@ public class DetailVenteController {
             if(enchereData != null) {
                 encherisseur = enchereData.getEncherisseur();
             }
-
-
         }
-
-
-        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
         model.addAttribute("article", articleAVendre);
         model.addAttribute("retrait", retraitData);
         model.addAttribute("vendeur", vendeur);
@@ -71,13 +71,12 @@ public class DetailVenteController {
     }
 
     @PostMapping("/encherir/{id}")
-    public String encherir(@PathVariable long id, @RequestParam int montant_enchere, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte, Model model) {
+    public String encherir(@PathVariable long id, @RequestParam int montant_enchere, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
 
-        //récupère l'utilisateur connecté qui veut enchérir
-        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+
 
         // récupérer l'id User
-        long idEncherisseur = utilisateurConnecte.getNoUtilisateur();
+        long idEncherisseur = customUserDetails.getUtilisateur().getNoUtilisateur();
 
         enchereService.placerEnchere(id, idEncherisseur, montant_enchere);
 
@@ -86,11 +85,11 @@ public class DetailVenteController {
 
 
     @PostMapping("/supprimerArticle/{id}")
-    public String annulerVente (@PathVariable long id, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+    public String annulerVente (@PathVariable long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         ServiceResponse<Article> article = articleService.getArticleById(id);
 
-        if(article.getData().getVendeur().getNoUtilisateur() == utilisateurConnecte.getNoUtilisateur()) {
+        if(article.getData().getVendeur().getNoUtilisateur() == customUserDetails.getUtilisateur().getNoUtilisateur()) {
             articleService.deleteArticle(id);
         }
 

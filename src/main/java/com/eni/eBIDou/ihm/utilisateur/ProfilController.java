@@ -1,10 +1,7 @@
 package com.eni.eBIDou.ihm.utilisateur;
 
 
-import com.eni.eBIDou.utilisateurs.UtilisateurBO;
-import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
-import com.eni.eBIDou.utilisateurs.UtilisateurMapper;
-import com.eni.eBIDou.utilisateurs.UtilisateurService;
+import com.eni.eBIDou.utilisateurs.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,23 +27,22 @@ public class ProfilController {
     }
 
     @GetMapping("/profil")
-    public String afficherProfil(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
+    public String afficherProfil(Model model) {
         // Ajouter l'utilisateur connecté au modèle
-        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+
         return "profil";
     }
 
     @GetMapping("/modifier-profil")
-    public String afficherFormulaireModification(Model model, @AuthenticationPrincipal UtilisateurBO utilisateurConnecte) {
-        model.addAttribute("utilisateurConnecte", utilisateurConnecte);
+    public String afficherFormulaireModification(Model model) {
         return "modifier-profil";
     }
 
     @PostMapping("/modifier-profil")
     public String modifierProfil(@ModelAttribute UtilisateurDTO utilisateurDTO,
-                                 @AuthenticationPrincipal UtilisateurBO utilisateurConnecte,
+                                 @AuthenticationPrincipal CustomUserDetails customUserDetails,
                                  RedirectAttributes redirectAttributes) {
-        long idUtilisateurAmodifier = utilisateurConnecte.getNoUtilisateur();
+        long idUtilisateurAmodifier = customUserDetails.getUtilisateur().getNoUtilisateur();
         utilisateurService.update(idUtilisateurAmodifier, utilisateurDTO);
         redirectAttributes.addFlashAttribute("successMessage", "Votre profil a été mis à jour avec succès");
         return "redirect:/profil";
@@ -54,10 +50,10 @@ public class ProfilController {
 
     @PostMapping("/profil/supprimer/{id}")
     public String supprimerProfil(@PathVariable long id,
-                                  @AuthenticationPrincipal UtilisateurBO utilisateurConnecte,
+                                  @AuthenticationPrincipal CustomUserDetails customUserDetails,
                                   HttpServletRequest request,
                                   HttpServletResponse response) {
-        if (utilisateurConnecte.getNoUtilisateur() != id) {
+        if (customUserDetails.getUtilisateur().getNoUtilisateur() != id) {
             System.out.println("Erreur : tentative de suppression d'un autre compte.");
             throw new AccessDeniedException("Action non autorisée");
         }

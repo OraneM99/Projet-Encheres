@@ -214,11 +214,6 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         UtilisateurBO utilisateur = repository.findByEmailOrPseudo(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
 
-        return User.builder()
-                .username(utilisateur.getEmail())
-                .password(utilisateur.getMotDePasse())
-                .authorities(utilisateur.isAdministrateur() ? "ROLE_ADMIN" : "ROLE_USER")
-                .accountLocked(!utilisateur.isActif())
-                .build();
+        return new CustomUserDetails(utilisateur);
     }
 }
