@@ -27,7 +27,7 @@ public class UtilisateurBO {
     @Column(nullable = false)
     private String prenom;
 
-   @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String telephone;
@@ -44,8 +44,8 @@ public class UtilisateurBO {
     @Column(nullable = false)
     private String motDePasse;
 
- @Column(nullable = false)
- private boolean actif = true;
+    @Column(nullable = false)
+    private boolean actif = true;
 
 
 }

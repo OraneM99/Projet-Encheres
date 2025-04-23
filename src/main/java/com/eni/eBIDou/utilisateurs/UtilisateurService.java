@@ -22,6 +22,8 @@ public interface UtilisateurService {
 
     UtilisateurDTO update(Long id, UtilisateurDTO dto);
 
+    UtilisateurDTO updateCredit(Long id, int newCredit);
+
     UtilisateurDTO updateAvecVerification(Long id, UtilisateurDTO dto, String motDePasseActuel);
 
     void delete(Long id);
