@@ -22,6 +22,8 @@ public class ArticleService {
 
     private final ArticleIDAO daoArticle;
     private final ArticleRepository articleRepository;
+    private final EnchereService enchereService;
+    private final UtilisateurService utilisateurService;
 
 
     public ArticleService(ArticleIDAO daoArticle, ArticleRepository articleRepository) {
@@ -57,7 +59,6 @@ public class ArticleService {
         articleRepository.saveAll(articles);
         return ServiceResponse.buildResponse(CD_SUCCESS, "Les articles ont bien été mis à jour", articles);
     }
-
 
     //######################################## METHODE DE RECUPERATION #################################
 
