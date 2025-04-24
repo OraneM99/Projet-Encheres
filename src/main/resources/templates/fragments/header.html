@@ -10,22 +10,26 @@
                 </a>
             </div>
 
-            <!-- Bouton hamburger pour mobile -->
-            <button class="menu-toggle" id="menuToggle">
-                <span class="hamburger"></span>
-            </button>
+            <!-- Bouton burger pour mobile -->
+                <input type="checkbox" id="label-check" class="label-check" />
+                <label class="hamburger-label" for="label-check">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                    <label></label>
+                </label>
 
             <!-- Navigation -->
             <nav class="main-nav" id="mainNav">
                 <ul class="nav-links">
-                    <!-- Si l'utilisateur est connecté -->
 
+                    <!-- Si l'utilisateur est connecté -->
                     <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                         <li class="nav-item"><a th:href="@{/admin/dashboard}" class="nav-link">Portail Admin</a></li>
                     </th:block>
 
                     <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-                        <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
+                        <li class="nav-item"><a th:href="@{/vente}" class="nav-link">Mes Ventes</a></li>
                         <li class="nav-item"><a th:href="@{/nouvelle-vente}" class="nav-link">Vendre un article</a></li>
                         <li class="nav-item"><a th:href="@{/profil}" class="nav-link">Mon profil</a></li>
                         <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Se déconnecter</a></li>
@@ -42,37 +46,57 @@
         </div>
     </header>
 
-    <!-- JavaScript pour le menu mobile -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.getElementById('menuToggle');
-            const mainNav = document.getElementById('mainNav');
-            const overlay = document.querySelector('.overlay');
 
-            menuToggle.addEventListener('click', function() {
-                menuToggle.classList.toggle('active');
-                mainNav.classList.toggle('open');
-                overlay.classList.toggle('active');
-                document.body.classList.toggle('menu-open');
-            });
+<!-- JavaScript pour le menu mobile -->
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const labelCheck = document.getElementById('label-check');
+        const mainNav = document.getElementById('mainNav');
+        const overlay = document.querySelector('.overlay');
 
-            overlay.addEventListener('click', function() {
-                menuToggle.classList.remove('active');
+        // Gestion du menu mobile avec la checkbox
+        labelCheck.addEventListener('change', function() {
+            if (this.checked) {
+                mainNav.classList.add('open');
+                overlay.classList.add('active');
+                document.body.classList.add('menu-open');
+            } else {
+                mainNav.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        });
+
+        // Fermer le menu quand on clique sur l'overlay
+        overlay.addEventListener('click', function() {
+            labelCheck.checked = false;
+            mainNav.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        // Fermer le menu lorsqu'un lien est cliqué
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                labelCheck.checked = false;
                 mainNav.classList.remove('open');
                 overlay.classList.remove('active');
                 document.body.classList.remove('menu-open');
             });
-
-            // Fermer le menu lorsqu'un lien est cliqué
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    menuToggle.classList.remove('active');
-                    mainNav.classList.remove('open');
-                    overlay.classList.remove('active');
-                    document.body.classList.remove('menu-open');
-                });
-            });
         });
-    </script>
+
+        const currentPath = window.location.pathname;
+        const navItems = document.querySelectorAll('.nav-link');
+
+        navItems.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPath ||
+                (currentPath.startsWith('/admin') && href === '/admin/dashboard') ||
+                (currentPath === '/' && href === '/')) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
 </div>

@@ -29,7 +29,6 @@
                 <div class="photo-container">
                     <img th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
                          alt="Image de l'article"
-                         style="object-fit: cover; width: 100%; height: 200px;"
                          onerror="this.src='/images/placeholder.png';" />
                 </div>
 
@@ -113,12 +112,11 @@
                     <form method="post" th:action="@{'/supprimerArticle/'+${article.noArticle}}">
                         <button class="eni-button" type="submit"> Annuler Vente </button>
                     </form>
-
                 </div>
 
                 <!-- Bouton de retour -->
                 <div class="action-buttons single-button-left">
-                    <a th:href="@{/accueil}">
+                    <a th:href="@{/encheres}">
                     <button class="eni-button">Back</button>
                     </a>
                 </div>
