@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Acheter des BIDcoins</title>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/detail-vente.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+</head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="uk-container uk-margin-large-top">
+        <h1 class="uk-heading-line uk-text-center"><span>Acheter des BIDcoins</span></h1>
+
+        <div class="uk-grid uk-grid-medium uk-child-width-1-2@s uk-child-width-1-4@m uk-grid-match" uk-grid>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>100 BIDcoins</h3>
+                    <p>1 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="100">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>250 BIDcoins</h3>
+                    <p>2.5 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="250">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>500 BIDcoins</h3>
+                    <p>4 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="500">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>750 BIDcoins</h3>
+                    <p>5.5 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="750">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-margin-large-top uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>1000 BIDcoins</h3>
+                    <p>7 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="1000">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-margin-large-top uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>1500 BIDcoins</h3>
+                    <p>10 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="1500">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-margin-large-top uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>2000 BIDcoins</h3>
+                    <p>13 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="2000">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+                <div class="uk-card uk-margin-large-top uk-card-default uk-card-body uk-text-center uk-margin">
+                    <h3>5000 BIDcoins</h3>
+                    <p>30 €</p>
+                    <form th:action="@{/utilisateurs/crediter}" method="post">
+                        <input type="hidden" name="montant" value="5000">
+                        <button type="submit" class="btn-achat">Acheter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

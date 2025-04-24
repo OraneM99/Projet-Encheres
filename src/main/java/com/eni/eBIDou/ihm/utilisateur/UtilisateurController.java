@@ -1,8 +1,9 @@
 package com.eni.eBIDou.ihm.utilisateur;
 
-import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
-import com.eni.eBIDou.utilisateurs.UtilisateurService;
+import com.eni.eBIDou.utilisateurs.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,17 +17,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
+    private final UtilisateurMapper mapper;
 
-    // Récupère l'utilisateur connecté à partir du contexte de sécurité
+
     private UtilisateurDTO getConnectedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication == null || !authentication.isAuthenticated() ||
-                "anonymousUser".equals(authentication.getName())) {
+                "anonymousUser".equals(authentication.getPrincipal())) {
             return null;
         }
 
-        return utilisateurService.findByPseudo(authentication.getName());
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof CustomUserDetails userDetails) {
+            return utilisateurService.findById(userDetails.getUtilisateur().getNoUtilisateur());
+        }
+
+        return null;
     }
+
 
     // Affiche le profil de l'utilisateur connecté
     @GetMapping("/profil")
@@ -110,4 +119,38 @@ public class UtilisateurController {
         model.addAttribute("isSelfProfile", isSelfProfile);
         return "profil";
     }
+
+    @PostMapping("/crediter")
+    public String crediterBIDcoins(@RequestParam int montant, RedirectAttributes redirectAttributes) {
+        UtilisateurDTO utilisateurDTO = getConnectedUser();
+        if (utilisateurDTO == null) {
+            return "redirect:/login";
+        }
+
+        // 💰 Met à jour le crédit
+        UtilisateurDTO updated = utilisateurService.updateCredit(
+                utilisateurDTO.getNoUtilisateur(),
+                utilisateurDTO.getCredit() + montant
+        );
+
+        // 🔁 Rafraîchir le SecurityContext avec les nouveaux crédits
+        UtilisateurBO utilisateurBO = mapper.toBo(updated);
+        CustomUserDetails updatedDetails = new CustomUserDetails(utilisateurBO);
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                updatedDetails,
+                null,
+                updatedDetails.getAuthorities()
+        );
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
+        redirectAttributes.addFlashAttribute("successMessage", montant + " BIDcoins ajoutés à votre compte.");
+        return "redirect:/utilisateurs/profil";
+    }
+
+
+
+
+
+
 }

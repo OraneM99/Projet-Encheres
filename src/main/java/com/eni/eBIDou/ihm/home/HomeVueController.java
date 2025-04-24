@@ -117,4 +117,10 @@ public class HomeVueController {
         model.addAttribute("message", "Vous êtes déconnecté");
         return "redirect:/accueil";
     }
+
+    @GetMapping("/bidcoins")
+    public String bidcoinsPage() {
+        return "bidcoins";
+    }
+
 }
