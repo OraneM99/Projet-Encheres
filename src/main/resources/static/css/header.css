@@ -180,6 +180,94 @@
 }
 
 /* ===========================
+   MOBILE/DESKTOP VISIBILITY
+=========================== */
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: flex;
+}
+
+/* ===========================
+   BIDCOINS MOBILE
+=========================== */
+.bidcoins-mobile {
+    padding: 15px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 5px;
+    background-color: var(--primary-color);
+}
+
+.credit-box-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+.credit-box-mobile span {
+    color: var(--white);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.credit-box-mobile strong {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.bidcoin-icon-mobile {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+
+.bidcoins-link {
+    padding: 8px 15px !important;
+    background-color: var(--secondary-color);
+    color: white !important;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: inline-block !important;
+    width: auto !important;
+    height: auto !important;
+    border-bottom: none !important;
+}
+
+.bidcoins-link:hover {
+    background-color: var(--tertiary-color);
+}
+
+.bidcoins-link::after {
+    display: none;
+}
+
+.logout-button-mobile {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.logout-button-mobile:hover {
+    background-color: var(--tertiary-color);
+}
+
+/* ===========================
    RESPONSIVE
 =========================== */
 @media (max-width: 768px) {
@@ -209,6 +297,7 @@
         transition: right 0.3s ease-in-out;
         z-index: 1000;
         padding-top: 80px;
+        overflow-y: auto;
     }
 
     .main-nav.open {
@@ -254,6 +343,14 @@
 
     .overlay.active {
         display: block;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+
+    .desktop-only {
+        display: none;
     }
 }
 

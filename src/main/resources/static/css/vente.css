@@ -155,14 +155,12 @@
 }
 
 .btn-success {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
+    background-color: var(--success-color);
     color: var(--white);
 }
 
 .btn-success:hover {
-    background-color: #218838;
-    border-color: #218838;
+    background-color: var(--primary-color);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     text-decoration: none;
@@ -171,14 +169,15 @@
 
 /* Style du bouton Annuler Vente */
 .btn-danger {
-    background-color: var(--secondary-color);
+    background-color: var(--danger-color);
+    border-color: var(--error-color);
     color: var(--white);
+    margin-top: 10px;
 }
 
 .btn-danger:hover {
-    background-color: var(--danger-color);
-    border-color: var(--error-color);
-    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    background-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     text-decoration: none;
     color: var(--white);
 }
