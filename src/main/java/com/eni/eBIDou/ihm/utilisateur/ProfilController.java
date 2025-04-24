@@ -29,8 +29,14 @@ public class ProfilController {
     @GetMapping("/profil")
     public String afficherProfil(Model model) {
         // Ajouter l'utilisateur connecté au modèle
-
         return "profil";
+    }
+
+    @GetMapping("/profil/{id}")
+    public String afficherProfilParId(@PathVariable Long id, Model model) {
+        UtilisateurDTO utilisateur = utilisateurService.findById(id);
+        model.addAttribute("utilisateur", utilisateur);
+        return "profil-autre";
     }
 
     @GetMapping("/modifier-profil")

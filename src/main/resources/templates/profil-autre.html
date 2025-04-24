@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères - Profil</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/profil.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+</head>
+
+<body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-content">
+            <section>
+                <h2 class="profile-title" th:if="${#authorization.expression('isAuthenticated()')}" th:text="${utilisateur.pseudo}">Pseudo Utilisateur</h2>
+                <h2 class="profile-title" th:unless="${#authorization.expression('isAuthenticated()')}">Utilisateur inconnu</h2>
+
+                <div class="profile-view">
+                    <div class="profile-item">
+                        <div class="profile-label">Nom :</div>
+                        <div class="profile-value" th:text="${utilisateur.nom}"></div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Prénom :</div>
+                        <div class="profile-value" th:text="${utilisateur.prenom}">Prénom</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Email :</div>
+                        <div class="profile-value" th:text="${utilisateur.email}">Email</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Téléphone :</div>
+                        <div class="profile-value" th:text="${utilisateur.telephone}">Téléphone</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Rue :</div>
+                        <div class="profile-value" th:text="${utilisateur.rue}">Rue</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Code postal :</div>
+                        <div class="profile-value" th:text="${utilisateur.codePostal}">Code postal</div>
+                    </div>
+
+                    <div class="profile-item">
+                        <div class="profile-label">Ville :</div>
+                        <div class="profile-value" th:text="${utilisateur.ville}">Ville</div>
+                    </div>
+                </div>
+
+                <div class="profile-actions uk-margin-medium-top">
+                    <div class="button-wrapper">
+                        <button type="button" class="eni-button" onclick="history.back();">Retour</button>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"></script>
+</body>
+</html>
+
+

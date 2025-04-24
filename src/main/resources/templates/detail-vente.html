@@ -54,7 +54,10 @@
                         <div class="auction-info-value" >
                             <span th:if="${enchere != null}" th:text="${enchere.montant_enchere}">Aucune enchère</span>
                             <span th:unless="${enchere != null}">Aucune enchère</span>
-                            <span th:if="${encherisseur != null}" th:text="|par : ${encherisseur.pseudo}|"></span>
+                            <span th:if="${encherisseur != null}">
+                            par :
+                            <a class="uk-link-text btn-profil" th:text="${encherisseur.pseudo}" th:href="@{/profil/{id}(id=${encherisseur.getNoUtilisateur()})}"></a>
+                            </span>
 
                         </div>
                     </div>
@@ -85,7 +88,7 @@
                     <div class="auction-info-row">
                         <div class="auction-info-label">Vendeur :</div>
                         <div class="auction-info-value">
-                            <span th:text="${vendeur.pseudo}"></span>
+                            <a class="uk-link-text btn-profil" th:text="${vendeur.pseudo}" th:href="@{/profil/{id}(id=${vendeur.getNoUtilisateur()})}"></a>
                         </div>
                     </div>
 
