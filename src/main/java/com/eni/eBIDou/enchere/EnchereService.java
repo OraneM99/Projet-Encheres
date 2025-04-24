@@ -94,7 +94,7 @@ public class EnchereService {
 
         //Vérifier que l'acheteur potentiel a assez de crédit
         if (acheteurPotent.getCredit() < montant) {
-            return ServiceResponse.buildResponse(CD_ERR_TCH, "L'acheteur n'a pas assez de crédit pour cette article", null);
+            return ServiceResponse.buildResponse(CD_ERR_TCH, "L'acheteur n'a pas assez de crédit pour cet article", null);
         }
 
         //Trouver l'enchère la plus élevée sur l'article ciblé.
@@ -160,7 +160,7 @@ public class EnchereService {
         ServiceResponse<Article> articleRecherche = articleService.getArticleById(idArticle);
 
         if (articleRecherche.getData().getEncheres().isEmpty()) {
-            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun enchère n'existe sur cet article", null);
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère n'existe sur cet article", null);
         }
 
         Enchere bestEnchere = articleRecherche.getData().getEncheres().stream().max(Comparator.comparing(Enchere::getMontant_enchere)).get();
