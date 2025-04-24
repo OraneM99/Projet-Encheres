@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mot de passe oublié</title>
-    <link rel="stylesheet" href="/uikit/uikit.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENI-Enchères - Mot de passe oublié</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/mot-de-passe-oublie.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
 </head>
+
 <body>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
 <div class="uk-container uk-margin-large-top uk-width-1-2@m">
     <h2>Mot de passe oublié</h2>
     <form action="/mot-de-passe-oublie" method="post" class="uk-form-stacked">
@@ -18,5 +27,8 @@
         <button class="uk-button uk-button-primary">Envoyer le lien</button>
     </form>
 </div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
