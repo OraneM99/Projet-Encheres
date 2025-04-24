@@ -2,9 +2,12 @@ package com.eni.eBIDou.article;
 
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.data.EtatVente;
+import com.eni.eBIDou.enchere.Enchere;
+import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.service.ServiceResponse;
+import com.eni.eBIDou.utilisateurs.UtilisateurBO;
+import com.eni.eBIDou.utilisateurs.UtilisateurService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -20,28 +23,42 @@ public class ArticleService {
     private final ArticleIDAO daoArticle;
     private final ArticleRepository articleRepository;
 
+
     public ArticleService(ArticleIDAO daoArticle, ArticleRepository articleRepository) {
         this.daoArticle = daoArticle;
         this.articleRepository = articleRepository;
+
     }
 
-//    @Transactional
-//    public void verifierEtMettreAjourEtatVente() {
-//        //Recuperer la date du jour
-//        LocalDate today = LocalDate.now();
-//        //récupérer tous les articles
-//        List<Article> articles = articleRepository.findAll();
-//
-//        //Pour chaque article
-//        for (Article article : articles) {
-//            //on recupère l'état
-//            EtatVente etat = article.getEtatVente();
-//
-//            if(etat == EtatVente.CREEE && !today.isBefore(article.getDateDebutEncheres())) {
-//                article
-//            }
-//        }
-//    }
+    @Transactional
+    public ServiceResponse<List<Article>> verifierEtMettreAjourEtatVente() {
+        //Recuperer la date du jour
+        LocalDate today = LocalDate.now();
+        //récupérer tous les articles
+        List<Article> articles = articleRepository.findAll();
+        if(articles.isEmpty()) {
+            return ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucun article récupéré pour être mis à jour", null);
+        }
+
+        //Pour chaque article
+        for (Article article : articles) {
+            //on récupère l'état
+            EtatVente etat = article.getEtatVente();
+
+
+            if (etat == EtatVente.CREEE && !today.isBefore(article.getDateDebutEncheres())) {
+                article.setEtatVente(EtatVente.EN_COURS);
+            }
+            if (etat == EtatVente.EN_COURS && today.isAfter(article.getDateFinEncheres())) {
+                article.setEtatVente(EtatVente.TERMINEE);
+            }
+
+        }
+        articleRepository.saveAll(articles);
+        return ServiceResponse.buildResponse(CD_SUCCESS, "Les articles ont bien été mis à jour", articles);
+    }
+
+    //######################################## METHODE DE RECUPERATION #################################
 
     // Récupère tous les articles
     public ServiceResponse<List<Article>> getAll() {
@@ -81,6 +98,9 @@ public class ArticleService {
         return articleOptional.map(article -> ServiceResponse.buildResponse(CD_SUCCESS, "Article récupéré avec succès", article)).orElseGet(() -> ServiceResponse.buildResponse(CD_ERR_NOT_FOUND, "Aucune enchère trouvée.", null));
         
     }
+
+
+    //###################################### METHODE CRUD ##############################################
 
     // Ajoute un nouvel article
     public ServiceResponse<Article> addArticle(Article article) {

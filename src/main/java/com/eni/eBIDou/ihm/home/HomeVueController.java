@@ -41,8 +41,10 @@ public class HomeVueController {
                               @RequestParam(required = false) String nomArticle,
                               @RequestParam(required = false) Long categorieId) {
 
-        // Récupérer tous les articles
-        List<Article> articles = articleService.getAll().getData();
+        // Récupérer tous les articles dont l'etat est En_Cours
+        List<Article> articles = articleService.getAll().getData().stream()
+                .filter(article -> article.getEtatVente() == EtatVente.EN_COURS)
+                .collect(Collectors.toList());
 
         // Récupérer toutes les enchères
         ServiceResponse<List<Enchere>> enchereResponse = enchereService.getAll();
@@ -89,9 +91,7 @@ public class HomeVueController {
         }
 
         // Récupérer les articles en vedette (enchères en cours)
-        List<Article> articlesEnVedette = articleService.getAll().getData().stream()
-                .filter(a -> a.getEtatVente() == EtatVente.EN_COURS)
-                .filter(a -> a.getDateFinEncheres().isAfter(LocalDate.now()))
+        List<Article> articlesEnVedette = articles.stream()
                 .limit(3) // Limiter à 3 articles pour la page d'accueil
                 .collect(Collectors.toList());
 

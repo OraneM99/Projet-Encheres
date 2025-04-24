@@ -5,6 +5,7 @@ import com.eni.eBIDou.article.ArticlePaginationService;
 import com.eni.eBIDou.article.ArticleService;
 import com.eni.eBIDou.categorie.Categorie;
 import com.eni.eBIDou.categorie.CategorieService;
+import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.enchere.Enchere;
 import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.pagination.PaginatedResult;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Profile("jpa")
@@ -56,7 +58,7 @@ public class EnchereController {
             }
             
             ServiceResponse<PaginatedResult<Article>> serviceResponse =
-                    articlePaginationService.rechercherArticlesPaginated(nomArticle, categorie, page);
+                    articlePaginationService.getAllEncheresEnCoursPaginated(page);
             PaginatedResult<Article> paginatedResult = serviceResponse.getData();
 
             // Si aucun résultat avec des données de pagination correctes, initialiser un résultat vide
