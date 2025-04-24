@@ -1,223 +1,431 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ENI-Enchères</title>
-    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" crossorigin="anonymous" />
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/accueil.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- Header -->
-<div th:replace="~{fragments/header :: header}"></div>
-
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="hero-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-container">
         <div class="hero-content">
-            <h1 th:utext="#{accueil.hero.titre}">Trouvez des <span class='accent'>trésors</span> aux enchères</h1>
-            <p class="hero-description" th:text="#{accueil.hero.description}">Plateforme d'enchères en ligne pour objets de seconde main</p>
+          <h1 th:utext="#{accueil.hero.titre}">
+            Trouvez des <span class="accent">trésors</span> aux enchères
+          </h1>
+          <p class="hero-description" th:text="#{accueil.hero.description}">
+            Plateforme d'enchères en ligne pour objets de seconde main
+          </p>
 
-            <div class="search-container">
-                <form th:action="@{/accueil}" method="get" class="unified-search-form">
-                    <div class="unified-search-wrapper">
-                        <input type="text" name="nomArticle" th:value="${nomArticle}" th:placeholder="#{accueil.search.placeholder}" class="unified-search-input" />
+          <div class="search-container">
+            <form
+              th:action="@{/accueil}"
+              method="get"
+              class="unified-search-form"
+            >
+              <div class="unified-search-wrapper">
+                <input
+                  type="text"
+                  name="nomArticle"
+                  th:value="${nomArticle}"
+                  th:placeholder="#{accueil.search.placeholder}"
+                  class="unified-search-input"
+                />
 
-                        <div class="search-divider"></div>
+                <div class="search-divider"></div>
 
-                        <select name="categorieId" class="unified-search-select">
-                            <option value="0" th:text="#{accueil.search.all}">Toutes catégories</option>
-                            <option th:each="categorie : ${categories}"
-                                    th:value="${categorie.noCategorie}"
-                                    th:text="${categorie.libelle}"
-                                    th:selected="${categorieId != null && categorieId == categorie.noCategorie}">
-                            </option>
-                        </select>
+                <select name="categorieId" class="unified-search-select">
+                  <option value="0" th:text="#{accueil.search.all}">
+                    Toutes catégories
+                  </option>
+                  <option
+                    th:each="categorie : ${categories}"
+                    th:value="${categorie.noCategorie}"
+                    th:text="${categorie.libelle}"
+                    th:selected="${categorieId != null && categorieId == categorie.noCategorie}"
+                  ></option>
+                </select>
 
-                        <button type="submit" class="unified-search-button" aria-label="Rechercher">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <button
+                  type="submit"
+                  class="unified-search-button"
+                  aria-label="Rechercher"
+                >
+                  <svg
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
 
-            <div class="hero-cta">
-                <a th:href="@{/encheres}" class="cta-button primary" th:text="#{accueil.cta.encheres}">Voir les enchères</a>
-                <a th:href="@{/register}" class="cta-button secondary" th:text="#{accueil.cta.inscription}">S'inscrire</a>
-            </div>
+          <div class="hero-cta">
+            <a
+              th:href="@{/encheres}"
+              class="cta-button primary"
+              th:text="#{accueil.cta.encheres}"
+              >Voir les enchères</a
+            >
+            <a
+              th:href="@{/register}"
+              class="cta-button secondary"
+              th:text="#{accueil.cta.inscription}"
+              >S'inscrire</a
+            >
+          </div>
         </div>
 
         <div class="hero-image">
-            <img th:src="@{/images/tresor.png}" alt="Enchères en ligne" />
+          <img th:src="@{/images/tresor.png}" alt="Enchères en ligne" />
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Résultats de recherche -->
-<section class="search-results-section" th:if="${nomArticle != null || (categorieId != null && categorieId > 0)}">
-    <div class="search-results-container">
+    <!-- Résultats de recherche -->
+    <section
+      class="search-results-section"
+      th:if="${nomArticle != null || (categorieId != null && categorieId > 0)}"
+    >
+      <div class="search-results-container">
         <div class="search-results-header">
-            <h2 class="search-results-title">
-                <span th:if="${nomArticle != null && !nomArticle.isEmpty()}" th:text="'#{accueil.resultats.titre} ' + ${nomArticle}"></span>
-                <span th:if="${categorieId != null && categorieId > 0 && categorieNom != null}" th:text="'#{accueil.resultats.categorie} ' + ${categorieNom}"></span>
-                <span class="results-count" th:text="${articles.size()}"></span>
-            </h2>
+          <h2 class="search-results-title">
+            <span
+              th:if="${nomArticle != null && !nomArticle.isEmpty()}"
+              th:text="'#{accueil.resultats.titre} ' + ${nomArticle}"
+            ></span>
+            <span
+              th:if="${categorieId != null && categorieId > 0 && categorieNom != null}"
+              th:text="'#{accueil.resultats.categorie} ' + ${categorieNom}"
+            ></span>
+            <span class="results-count" th:text="${articles.size()}"></span>
+          </h2>
         </div>
 
         <div th:if="${articles.isEmpty()}" class="no-results">
-            <div class="no-results-icon">🔍</div>
-            <p class="no-results-text" th:text="#{accueil.resultats.vide}">Aucun article ne correspond à votre recherche</p>
-            <p class="no-results-suggestion" th:text="#{accueil.resultats.suggestion}">Essayez avec d'autres termes ou parcourez nos catégories</p>
+          <div class="no-results-icon">🔍</div>
+          <p class="no-results-text" th:text="#{accueil.resultats.vide}">
+            Aucun article ne correspond à votre recherche
+          </p>
+          <p
+            class="no-results-suggestion"
+            th:text="#{accueil.resultats.suggestion}"
+          >
+            Essayez avec d'autres termes ou parcourez nos catégories
+          </p>
         </div>
 
         <div class="modern-grid" th:if="${!articles.isEmpty()}">
-            <div class="modern-card" th:each="article : ${articles}">
-                <div class="modern-card-image">
-                    <img th:src="${article.urlImage}" alt="Image de l'article"
-                         class="modern-card-img" style="object-fit: cover; width: 100%; height: 200px;" />
-                </div>
-                <div class="modern-card-content">
-                    <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
-                    <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' points'">Prix</p>
-                    <div class="modern-card-info">
-                        <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
-                        <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
-                    </div>
-                    <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button" th:text="#{accueil.bouton.voir}">Voir l'article</a>
-                </div>
+          <div class="modern-card" th:each="article : ${articles}">
+            <div class="modern-card-image">
+              <img
+                th:src="${article.urlImage}"
+                alt="Image de l'article"
+                class="modern-card-img"
+                style="object-fit: cover; width: 100%; height: 200px"
+              />
             </div>
+            <div class="modern-card-content">
+              <span
+                class="modern-card-category"
+                th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}"
+                >Catégorie</span
+              >
+              <h3 class="modern-card-title" th:text="${article.nomArticle}">
+                Nom de l'article
+              </h3>
+              <p
+                class="modern-card-price"
+                th:text="${article.miseAPrix} + ' points'"
+              >
+                Prix
+              </p>
+              <div class="modern-card-info">
+                <span
+                  th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}"
+                  >Date de fin</span
+                >
+                <span
+                  th:if="${article.vendeur != null}"
+                  th:text="${article.vendeur.pseudo}"
+                  >Vendeur</span
+                >
+              </div>
+              <a
+                th:href="@{/detail-vente/{id}(id=${article.noArticle})}"
+                class="modern-card-button"
+                th:text="#{accueil.bouton.voir}"
+                >Voir l'article</a
+              >
+            </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Enchères en cours -->
-<section class="encheres-current-section">
-    <div class="section-container">
-        <h2 class="section-title" th:text="#{accueil.encheres.titre}">Enchères en cours</h2>
+    <!-- Enchères en cours -->
+    <section class="encheres-current-section">
+      <div class="section-container">
+        <h2 class="section-title" th:text="#{accueil.encheres.titre}">
+          Enchères en cours
+        </h2>
         <div class="modern-grid">
-            <div class="modern-card" th:each="article, articleStat : ${articles}" th:if="${articleStat.index < 3}">
-                <div class="modern-card-image">
-                    <img th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
-                         alt="Image de l'article"
-                         style="object-fit: cover; width: 100%; height: 200px;"
-                         onerror="this.src='/images/placeholder.png';" />
-                </div>
-                <div class="modern-card-content">
-                    <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
-                    <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' points'">Prix</p>
-                    <div class="modern-card-info">
-                        <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
-                        <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
-                    </div>
-                    <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}" class="modern-card-button" th:text="#{accueil.bouton.voir}">Voir l'article</a>
-                </div>
+          <div
+            class="modern-card"
+            th:each="article, articleStat : ${articles}"
+            th:if="${articleStat.index < 3}"
+          >
+            <div class="modern-card-image">
+              <img
+                th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
+                alt="Image de l'article"
+                style="object-fit: cover; width: 100%; height: 200px"
+                onerror="this.src='/images/placeholder.png';"
+              />
             </div>
+            <div class="modern-card-content">
+              <span
+                class="modern-card-category"
+                th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}"
+                >Catégorie</span
+              >
+              <h3 class="modern-card-title" th:text="${article.nomArticle}">
+                Nom de l'article
+              </h3>
+              <p
+                class="modern-card-price"
+                th:text="${article.miseAPrix} + ' points'"
+              >
+                Prix
+              </p>
+              <div class="modern-card-info">
+                <span
+                  th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}"
+                  >Date de fin</span
+                >
+                <span
+                  th:if="${article.vendeur != null}"
+                  th:text="${article.vendeur.pseudo}"
+                  >Vendeur</span
+                >
+              </div>
+              <a
+                th:href="@{/detail-vente/{id}(id=${article.noArticle})}"
+                class="modern-card-button"
+                th:text="#{accueil.bouton.voir}"
+                >Voir l'article</a
+              >
+            </div>
+          </div>
 
-            <div class="modern-card" th:if="${articles == null || articles.isEmpty() || articles.size() < 3}"
-                 th:each="i : ${#numbers.sequence(1, articles == null || articles.isEmpty() ? 3 : 3 - articles.size())}">
-                <div class="modern-card-image">
-                    <img th:src="@{/images/placeholder.png}" alt="Article non disponible"
-                         style="object-fit: cover; width: 100%; height: 200px;" />
-                </div>
-                <div class="modern-card-content">
-                    <span class="modern-card-category" th:text="#{accueil.encheres.vide}">Non disponible</span>
-                    <h3 class="modern-card-title" th:text="#{accueil.encheres.vide}">Article non disponible</h3>
-                    <p class="modern-card-price">0 points</p>
-                    <div class="modern-card-info">
-                        <span th:text="#{accueil.encheres.rien}">Aucune enchère en cours</span>
-                    </div>
-                    <a th:href="@{/encheres}" class="modern-card-button" th:text="#{accueil.encheres.voir}">Voir les enchères</a>
-                </div>
+          <div
+            class="modern-card"
+            th:if="${articles == null || articles.isEmpty() || articles.size() < 3}"
+            th:each="i : ${#numbers.sequence(1, articles == null || articles.isEmpty() ? 3 : 3 - articles.size())}"
+          >
+            <div class="modern-card-image">
+              <img
+                th:src="@{/images/placeholder.png}"
+                alt="Article non disponible"
+                style="object-fit: cover; width: 100%; height: 200px"
+              />
             </div>
+            <div class="modern-card-content">
+              <span
+                class="modern-card-category"
+                th:text="#{accueil.encheres.vide}"
+                >Non disponible</span
+              >
+              <h3 class="modern-card-title" th:text="#{accueil.encheres.vide}">
+                Article non disponible
+              </h3>
+              <p class="modern-card-price">0 points</p>
+              <div class="modern-card-info">
+                <span th:text="#{accueil.encheres.rien}"
+                  >Aucune enchère en cours</span
+                >
+              </div>
+              <a
+                th:href="@{/encheres}"
+                class="modern-card-button"
+                th:text="#{accueil.encheres.voir}"
+                >Voir les enchères</a
+              >
+            </div>
+          </div>
         </div>
         <div class="view-all-container">
-            <a th:href="@{/encheres}" class="view-all-link" th:text="#{accueil.encheres.voir}">Voir toutes les enchères <span uk-icon="arrow-right"></span></a>
+          <a
+            th:href="@{/encheres}"
+            class="view-all-link"
+            th:text="#{accueil.encheres.voir}"
+            >Voir toutes les enchères <span uk-icon="arrow-right"></span
+          ></a>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Featured Categories -->
-<section class="categories-section">
-    <div class="section-container">
-        <h2 class="section-title" th:text="#{accueil.categories.titre}">Nos catégories populaires</h2>
+    <!-- Featured Categories -->
+    <section class="categories-section">
+      <div class="section-container">
+        <h2 class="section-title" th:text="#{accueil.categories.titre}">
+          Nos catégories populaires
+        </h2>
         <div class="categories-grid">
-            <div class="category-card" th:each="categorie, categoryStat : ${categories}" th:if="${categoryStat.index < 3}">
-                <div class="category-icon">
-                    <span th:if="${categorie.libelle == 'Informatique'}">
-                        <img th:src="@{/images/informatique.svg}" alt="Informatique" width="60" height="40">
-                    </span>
-                    <span th:if="${categorie.libelle == 'Ameublement'}">
-                        <img th:src="@{/images/ameublement.svg}" alt="Ameublement" width="70" height="40">
-                    </span>
-                    <span th:if="${categorie.libelle == 'Vêtement'}">
-                        <img th:src="@{/images/vetement.svg}" alt="Vêtement" width="50" height="40">
-                    </span>
-                    <span th:if="${categorie.libelle == 'Sport & Loisirs'}">
-                        <img th:src="@{/images/sport.svg}" alt="Sport & Loisirs" width="50" height="40">
-                    </span>
-                    <span th:unless="${categorie.libelle == 'Informatique' || categorie.libelle == 'Ameublement' || categorie.libelle == 'Vêtement' || categorie.libelle == 'Sport & Loisirs'}" uk-icon="icon: tag; ratio: 2"></span>
-                </div>
-                <h3 class="category-title" th:text="${categorie.libelle}">Nom de la catégorie</h3>
-                <p class="category-description" th:text="#{accueil.categories.description}">Articles de qualité à prix avantageux</p>
-                <a th:href="@{/accueil?categorieId={id}(id=${categorie.noCategorie})}" class="category-link" th:text="#{accueil.categories.decouvrir}">Découvrir</a>
+          <div
+            class="category-card"
+            th:each="categorie, categoryStat : ${categories}"
+            th:if="${categoryStat.index < 3}"
+          >
+            <div class="category-icon">
+              <span th:if="${categorie.libelle == 'Informatique'}">
+                <img
+                  th:src="@{/images/informatique.svg}"
+                  alt="Informatique"
+                  width="60"
+                  height="40"
+                />
+              </span>
+              <span th:if="${categorie.libelle == 'Ameublement'}">
+                <img
+                  th:src="@{/images/ameublement.svg}"
+                  alt="Ameublement"
+                  width="70"
+                  height="40"
+                />
+              </span>
+              <span th:if="${categorie.libelle == 'Vêtement'}">
+                <img
+                  th:src="@{/images/vetement.svg}"
+                  alt="Vêtement"
+                  width="50"
+                  height="40"
+                />
+              </span>
+              <span th:if="${categorie.libelle == 'Sport & Loisirs'}">
+                <img
+                  th:src="@{/images/sport.svg}"
+                  alt="Sport & Loisirs"
+                  width="50"
+                  height="40"
+                />
+              </span>
+              <span
+                th:unless="${categorie.libelle == 'Informatique' || categorie.libelle == 'Ameublement' || categorie.libelle == 'Vêtement' || categorie.libelle == 'Sport & Loisirs'}"
+                uk-icon="icon: tag; ratio: 2"
+              ></span>
             </div>
+            <h3 class="category-title" th:text="${categorie.libelle}">
+              Nom de la catégorie
+            </h3>
+            <p
+              class="category-description"
+              th:text="#{accueil.categories.description}"
+            >
+              Articles de qualité à prix avantageux
+            </p>
+            <a
+              th:href="@{/accueil?categorieId={id}(id=${categorie.noCategorie})}"
+              class="category-link"
+              th:text="#{accueil.categories.decouvrir}"
+              >Découvrir</a
+            >
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- How it works -->
-<section class="how-section">
-    <div class="section-container">
-        <h2 class="section-title" th:text="#{accueil.how.titre}">Comment ça marche</h2>
+    <!-- How it works -->
+    <section class="how-section">
+      <div class="section-container">
+        <h2 class="section-title" th:text="#{accueil.how.titre}">
+          Comment ça marche
+        </h2>
         <div class="steps-container">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3 class="step-title" th:text="#{accueil.how.1}">Inscrivez-vous</h3>
-                <p class="step-description" th:text="#{accueil.how.1.desc}">Créez un compte gratuit en quelques clics</p>
-            </div>
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3 class="step-title" th:text="#{accueil.how.1}">
+              Inscrivez-vous
+            </h3>
+            <p class="step-description" th:text="#{accueil.how.1.desc}">
+              Créez un compte gratuit en quelques clics
+            </p>
+          </div>
 
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3 class="step-title" th:text="#{accueil.how.2}">Parcourez les enchères</h3>
-                <p class="step-description" th:text="#{accueil.how.2.desc}">Trouvez des articles qui vous intéressent</p>
-            </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3 class="step-title" th:text="#{accueil.how.2}">
+              Parcourez les enchères
+            </h3>
+            <p class="step-description" th:text="#{accueil.how.2.desc}">
+              Trouvez des articles qui vous intéressent
+            </p>
+          </div>
 
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3 class="step-title" th:text="#{accueil.how.3}">Enchérissez</h3>
-                <p class="step-description" th:text="#{accueil.how.3.desc}">Faites votre offre et suivez les enchères</p>
-            </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title" th:text="#{accueil.how.3}">Enchérissez</h3>
+            <p class="step-description" th:text="#{accueil.how.3.desc}">
+              Faites votre offre et suivez les enchères
+            </p>
+          </div>
 
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3 class="step-title" th:text="#{accueil.how.4}">Gagnez et récupérez</h3>
-                <p class="step-description" th:text="#{accueil.how.4.desc}">Payez et récupérez votre article</p>
-            </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h3 class="step-title" th:text="#{accueil.how.4}">
+              Gagnez et récupérez
+            </h3>
+            <p class="step-description" th:text="#{accueil.how.4.desc}">
+              Payez et récupérez votre article
+            </p>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Call to action final -->
-<section class="cta-section">
-    <div class="cta-container">
-        <h2 class="cta-title" th:text="#{accueil.cta.final.titre}">Prêt à vendre vos objets ?</h2>
-        <p class="cta-description" th:text="#{accueil.cta.final.desc}">Mettez en vente facilement vos objets et touchez de nouveaux acheteurs</p>
-        <a th:href="@{/nouvelle-vente}" class="cta-button primary" th:text="#{accueil.cta.final.bouton}">Créer une vente</a>
-    </div>
-</section>
+    <!-- Call to action final -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <h2 class="cta-title" th:text="#{accueil.cta.final.titre}">
+          Prêt à vendre vos objets ?
+        </h2>
+        <p class="cta-description" th:text="#{accueil.cta.final.desc}">
+          Mettez en vente facilement vos objets et touchez de nouveaux acheteurs
+        </p>
+        <a
+          th:href="@{/nouvelle-vente}"
+          class="cta-button primary"
+          th:text="#{accueil.cta.final.bouton}"
+          >Créer une vente</a
+        >
+      </div>
+    </section>
 
-<!-- Footer -->
-<div th:replace="~{fragments/footer :: footer}"></div>
-
-</body>
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+  </body>
 </html>

@@ -1,109 +1,264 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="#{vente.titre.page}">ENI-Enchères</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css" />
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css"
+    />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
-</head>
+  </head>
 
-<body>
-<div th:replace="~{fragments/header :: header}"></div>
+  <body>
+    <div th:replace="~{fragments/header :: header}"></div>
 
-<section class="hero-section">
-    <div class="hero-container">
+    <section class="hero-section">
+      <div class="hero-container">
         <div class="hero-content">
-            <main>
-                <h2 class="title-vendre" th:text="#{vente.titre}">Vendre un article</h2>
-                <div class="uk-card uk-card-default uk-card-body uk-width-1-1 eni-card">
-
-                    <form class="uk-form-stacked" th:action="@{/creer}" th:object="${articleForm}" method="post" enctype="multipart/form-data">
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="nomArticle" th:text="#{vente.nom}">Nom de l'article :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{article.nomArticle}" id="nomArticle" name="nomArticle" required>
-                        </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="categorieArticle" th:text="#{vente.categorie}">Catégorie</label>
-                            <select class="uk-select eni-input" th:field="*{article.categorieArticle}" id="categorieArticle" required>
-                                <option value="" disabled selected th:text="#{vente.categorie.placeholder}">Sélectionnez une catégorie</option>
-                                <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
-                            </select>
-                        </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="description" th:text="#{vente.description}">Description :</label>
-                            <textarea class="uk-textarea eni-textarea" th:field="*{article.description}" id="description" rows="4" required></textarea>
-                        </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="image" th:text="#{vente.image}">Photo de l'article</label>
-                            <input class="uk-input eni-input" type="file" name="image" id="image" accept="image/*">
-                        </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="miseAPrix" th:text="#{vente.prix}">Prix initial :</label>
-                            <div class="uk-flex prix-container">
-                                <input class="uk-input eni-input" type="number" th:field="*{article.miseAPrix}" id="miseAPrix" name="miseAPrix" required>
-                                <div class="prix-controls">
-                                    <button class="prix-up" type="button" uk-icon="icon: chevron-up; ratio: 0.8"></button>
-                                    <button class="prix-down" type="button" uk-icon="icon: chevron-down; ratio: 0.8"></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="dateDebutEncheres" th:text="#{vente.debut}">Début de l'enchère</label>
-                            <div class="uk-inline uk-width-1-1 date-group">
-                                <input class="uk-input eni-input date-input" th:field="*{article.dateDebutEncheres}" type="datetime-local" id="dateDebutEncheres" required>
-                                <button class="uk-button uk-button-default calendar-button" type="button">
-                                    <span uk-icon="icon: calendar"></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="dateFinEncheres" th:text="#{vente.fin}">Fin de l'enchère :</label>
-                            <div class="uk-inline uk-width-1-1 date-group">
-                                <input class="uk-input eni-input date-input" th:field="*{article.dateFinEncheres}" type="datetime-local" id="dateFinEncheres" required>
-                                <button class="uk-button uk-button-default calendar-button" type="button">
-                                    <span uk-icon="icon: calendar"></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <h3 class="title-retrait" th:text="#{vente.retrait.titre}">Définir un point de retrait :</h3>
-
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="retrait.rue" th:text="#{vente.retrait.rue}">Rue :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{retrait.rue}" />
-                        </div>
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="retrait.codePostal" th:text="#{vente.retrait.codepostal}">Code Postal :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{retrait.codePostal}" />
-                        </div>
-                        <div class="uk-margin">
-                            <label class="uk-form-label eni-form-label" for="retrait.ville" th:text="#{vente.retrait.ville}">Ville :</label>
-                            <input class="uk-input eni-input" type="text" th:field="*{retrait.ville}" />
-                        </div>
-
-                        <div class="uk-flex uk-flex-between uk-margin-medium-top">
-                            <button class="uk-button uk-button-primary eni-button-primary" type="submit" th:text="#{vente.bouton.enregistrer}">Enregistrer</button>
-                            <a th:href="@{/accueil}">
-                                <button class="uk-button uk-button-default eni-button" type="button" th:text="#{vente.bouton.annuler}">Annuler</button>
-                            </a>
-                        </div>
-                    </form>
-
+          <main>
+            <h2 class="title-vendre" th:text="#{vente.titre}">
+              Vendre un article
+            </h2>
+            <div
+              class="uk-card uk-card-default uk-card-body uk-width-1-1 eni-card"
+            >
+              <form
+                class="uk-form-stacked"
+                th:action="@{/creer}"
+                th:object="${articleForm}"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="nomArticle"
+                    th:text="#{vente.nom}"
+                    >Nom de l'article :</label
+                  >
+                  <input
+                    class="uk-input eni-input"
+                    type="text"
+                    th:field="*{article.nomArticle}"
+                    id="nomArticle"
+                    name="nomArticle"
+                    required
+                  />
                 </div>
-            </main>
+
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="categorieArticle"
+                    th:text="#{vente.categorie}"
+                    >Catégorie</label
+                  >
+                  <select
+                    class="uk-select eni-input"
+                    th:field="*{article.categorieArticle}"
+                    id="categorieArticle"
+                    required
+                  >
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      th:text="#{vente.categorie.placeholder}"
+                    >
+                      Sélectionnez une catégorie
+                    </option>
+                    <option
+                      th:each="categorie : ${categories}"
+                      th:value="${categorie.noCategorie}"
+                      th:text="${categorie.libelle}"
+                    ></option>
+                  </select>
+                </div>
+
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="description"
+                    th:text="#{vente.description}"
+                    >Description :</label
+                  >
+                  <textarea
+                    class="uk-textarea eni-textarea"
+                    th:field="*{article.description}"
+                    id="description"
+                    rows="4"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="image"
+                    th:text="#{vente.image}"
+                    >Photo de l'article</label
+                  >
+                  <input
+                    class="uk-input eni-input"
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                  />
+                </div>
+
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="miseAPrix"
+                    th:text="#{vente.prix}"
+                    >Prix initial :</label
+                  >
+                  <div class="uk-flex prix-container">
+                    <input
+                      class="uk-input eni-input"
+                      type="number"
+                      th:field="*{article.miseAPrix}"
+                      id="miseAPrix"
+                      name="miseAPrix"
+                      required
+                    />
+                    <div class="prix-controls">
+                      <button
+                        class="prix-up"
+                        type="button"
+                        uk-icon="icon: chevron-up; ratio: 0.8"
+                      ></button>
+                      <button
+                        class="prix-down"
+                        type="button"
+                        uk-icon="icon: chevron-down; ratio: 0.8"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="dateDebutEncheres"
+                    th:text="#{vente.debut}"
+                    >Début de l'enchère</label
+                  >
+                  <div class="uk-inline uk-width-1-1 date-group">
+                    <input
+                      class="uk-input eni-input date-input"
+                      th:field="*{article.dateDebutEncheres}"
+                      type="datetime-local"
+                      id="dateDebutEncheres"
+                      required
+                    />
+                    <button
+                      class="uk-button uk-button-default calendar-button"
+                      type="button"
+                    >
+                      <span uk-icon="icon: calendar"></span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="uk-margin">
+                  <label
+                    class="uk-form-label eni-form-label"
+                    for="dateFinEncheres"
+                    th:text="#{vente.fin}"
+                    >Fin de l'enchère :</label
+                  >
+                  <div class="uk-inline uk-width-1-1 date-group">
+                    <input
+                      class="uk-input eni-input date-input"
+                      th:field="*{article.dateFinEncheres}"
+                      type="datetime-local"
+                      id="dateFinEncheres"
+                      required
+                    />
+                    <button
+                      class="uk-button uk-button-default calendar-button"
+                      type="button"
+                    >
+                      <span uk-icon="icon: calendar"></span>
+                    </button>
+                  </div>
+                </div>
+
+                <h3 class="title-retrait" th:text="#{vente.retrait.titre}">
+                  Définir un point de retrait :
+                </h3>
+
+                <div class="uk-margin retrait-section">
+                  <h3 class="title-retrait">Définir un point de retrait</h3>
+                  <div>
+                    <label class="uk-form-label eni-form-label">Rue :</label>
+                    <div class="uk-form-controls">
+                      <input
+                        class="uk-input eni-input"
+                        type="text"
+                        th:field="*{retrait.rue}"
+                        placeholder="Rue"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="uk-form-label eni-form-label"
+                      >Code Postal :</label
+                    >
+                    <div class="uk-form-controls">
+                      <input
+                        class="uk-input eni-input"
+                        type="text"
+                        th:field="*{retrait.codePostal}"
+                        placeholder="Code postal"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="uk-form-label eni-form-label">Ville :</label>
+                    <div class="uk-form-controls">
+                      <input
+                        class="uk-input eni-input"
+                        type="text"
+                        th:field="*{retrait.ville}"
+                        placeholder="Ville"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="uk-flex uk-flex-between uk-margin-medium-top">
+                  <button
+                    class="uk-button uk-button-primary eni-button-primary"
+                    type="submit"
+                    th:text="#{vente.bouton.enregistrer}"
+                  >
+                    Enregistrer
+                  </button>
+                  <a th:href="@{/accueil}">
+                    <button
+                      class="uk-button uk-button-default eni-button"
+                      type="button"
+                      th:text="#{vente.bouton.annuler}"
+                    >
+                      Annuler
+                    </button>
+                  </a>
+                </div>
+              </form>
+            </div>
+          </main>
         </div>
-    </div>
-</section>
-</body>
+      </div>
+    </section>
+  </body>
 </html>

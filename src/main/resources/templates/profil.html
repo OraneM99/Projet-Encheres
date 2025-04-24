@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="#{profil.page.titre}">ENI-Enchères - Profil</title>
-    <link rel="shortcut icon" th:href="@{images/favicon.ico}" />
+    <title>ENI-Enchères - Profil</title>
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+    <!-- UIkit CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css"
@@ -24,14 +25,14 @@
           <main>
             <h2
               class="profile-title"
-              th:if="${#authorization.expression('isAuthenticated()')}"
+              th:if="${utilisateurConnecte != null}"
               th:text="${utilisateurConnecte.pseudo}"
             >
               Pseudo Utilisateur
             </h2>
             <h2
               class="profile-title"
-              th:if="${#authorization.expression('isAuthenticated()')}"
+              th:if="${utilisateurConnecte == null}"
               th:text="#{profil.utilisateur.inconnu}"
             >
               Utilisateur inconnu
@@ -42,7 +43,7 @@
                 <div class="profile-label" th:text="#{profil.nom}">Nom :</div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.nom}"
+                  th:text="${utilisateurConnecte.nom}"
                 ></div>
               </div>
               <div class="profile-item">
@@ -51,7 +52,7 @@
                 </div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.prenom}"
+                  th:text="${utilisateurConnecte.prenom}"
                 ></div>
               </div>
               <div class="profile-item">
@@ -60,7 +61,7 @@
                 </div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.email}"
+                  th:text="${utilisateurConnecte.email}"
                 ></div>
               </div>
               <div class="profile-item">
@@ -69,14 +70,14 @@
                 </div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.telephone}"
+                  th:text="${utilisateurConnecte.telephone}"
                 ></div>
               </div>
               <div class="profile-item">
                 <div class="profile-label" th:text="#{profil.rue}">Rue :</div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.rue}"
+                  th:text="${utilisateurConnecte.rue}"
                 ></div>
               </div>
               <div class="profile-item">
@@ -85,7 +86,7 @@
                 </div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.codePostal}"
+                  th:text="${utilisateurConnecte.codePostal}"
                 ></div>
               </div>
               <div class="profile-item">
@@ -94,7 +95,7 @@
                 </div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.ville}"
+                  th:text="${utilisateurConnecte.ville}"
                 ></div>
               </div>
               <div class="profile-item">
@@ -103,7 +104,7 @@
                 </div>
                 <div
                   class="profile-value"
-                  th:text="${authentication.principal.utilisateur.credit}"
+                  th:text="${utilisateurConnecte.credit}"
                 ></div>
               </div>
             </div>
@@ -180,7 +181,7 @@
                     Annuler
                   </button>
                   <form
-                    th:action="@{/profil/supprimer/{id}(id=${authentication.principal.utilisateur.noUtilisateur})}"
+                    th:action="@{/profil/supprimer/{id}(id=${utilisateurConnecte.noUtilisateur})}"
                     method="post"
                     class="inline-form"
                   >
