@@ -15,9 +15,8 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/admin/header :: header-admin}"></div>
-
-
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
 
 <div class="uk-section-small">
     <div class="uk-container uk-container-large">
@@ -39,8 +38,6 @@
                 </div>
             </div>
 
-            <!-- Tu peux ajouter d'autres cards ici de la même façon -->
-
         </div>
     </div>
 </div>
@@ -57,6 +54,9 @@
 <script src="js/charts.js"></script>
 <!-- Sample Notifications -->
 <script src="js/notification.js"></script>
+
+<!-- Header -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

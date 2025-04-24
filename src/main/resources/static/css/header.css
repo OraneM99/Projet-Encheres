@@ -103,52 +103,65 @@
 /* ===========================
    MENU BURGER (Mobile)
 =========================== */
-.menu-toggle {
+.label-check {
     display: none;
-    background: none;
-    border: none;
+}
+
+.hamburger-label {
+    display: none;
+    width: 40px;
+    height: 32px;
     cursor: pointer;
-    padding: 10px;
-    z-index: 1001;
-}
-
-.hamburger {
-    display: block;
+    transition: 0.3s;
     position: relative;
-    width: 24px;
-    height: 2px;
-    background-color: var(--primary-color);
-    transition: all 0.3s ease-in-out;
+    z-index: 1010;
 }
 
-.hamburger::before,
-.hamburger::after {
-    content: '';
+.hamburger-label div {
+    width: 40px;
+    height: 4px;
+    background-color: var(--secondary-color);
     position: absolute;
-    width: 24px;
-    height: 2px;
-    background-color: var(--primary-color);
+    border-radius: 2px;
     transition: all 0.3s ease-in-out;
 }
 
-.hamburger::before {
-    transform: translateY(-8px);
+.line1 {
+    transition: all 0.3s;
+    top: 0;
 }
 
-.hamburger::after {
-    transform: translateY(8px);
+.line2 {
+    transition: 0.3s;
+    top: 14px;
 }
 
-.menu-toggle.active .hamburger {
-    background-color: transparent;
+.line3 {
+    transition: 0.3s;
+    top: 28px;
 }
 
-.menu-toggle.active .hamburger::before {
-    transform: rotate(45deg);
+/* Animation pour pointer vers le bas avec rotation à 180 degrés */
+#label-check:checked + .hamburger-label {
+    transform: rotate(90deg);
 }
 
-.menu-toggle.active .hamburger::after {
-    transform: rotate(-45deg);
+#label-check:checked + .hamburger-label .line1 {
+    transform: rotate(35deg) scaleX(0.55) translate(39px, -4.5px);
+    border-radius: 50px 50px 50px 0;
+    width: 40px;
+}
+
+#label-check:checked + .hamburger-label .line2 {
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    width: 45px;
+}
+
+#label-check:checked + .hamburger-label .line3 {
+    transform: rotate(-35deg) scaleX(0.55) translate(39px, 4.5px);
+    border-radius: 0 50px 50px 50px;
+    width: 40px;
 }
 
 /* ===========================
@@ -159,9 +172,14 @@
         flex-direction: row;
     }
 
-    .menu-toggle {
+    .hamburger-label {
         display: block;
-        order: 2; /* Met le burger après le logo */
+        order: 2;
+        margin-left: auto;
+    }
+
+    #label-check:checked ~ .main-nav {
+        right: 0;
     }
 
     .main-nav {
@@ -183,7 +201,7 @@
     }
 
     .logo img {
-        height: 60px;
+        height: 70px;
     }
 
     .nav-links {
@@ -231,6 +249,6 @@
     }
 
     .logo img {
-        height: 50px;
+        height: 70px;
     }
 }
