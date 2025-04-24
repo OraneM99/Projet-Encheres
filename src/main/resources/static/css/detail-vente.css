@@ -1,14 +1,14 @@
-/* Styles generaux */
-
+/* Styles généraux */
 .hero-section {
     padding: 20px 0;
     width: 100%;
     position: relative;
     overflow: hidden;
+    background-color: var(--light-bg);
 }
 
 .hero-container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     background-color: var(--white);
     border-radius: var(--border-radius);
@@ -20,24 +20,18 @@
 
 .hero-content {
     padding: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 }
 
 /* Titre de l'article */
 .article-title {
-    font-size: 24px;
+    font-size: 2.5rem;
     font-weight: bold;
     color: var(--primary-color);
-    margin-bottom: 20px;
-    text-align: center;
-    position: relative;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    line-height: 1.2;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .article-title::after {
@@ -46,47 +40,60 @@ main {
     position: relative;
 }
 
-/* Layout principal */
-main {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+/* Sous-titre descriptif */
+.description-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #555;
 }
 
+/* Layout principal */
 @media (min-width: 768px) {
     main {
-        grid-template-columns: minmax(300px, 40%) 1fr;
-        grid-template-rows: auto 1fr auto;
+        display: grid;
+        grid-template-columns: 45% 55%;
+        gap: 30px;
     }
 
-    .article-title {
-        grid-column: 1 / -1;
+    .left-column {
+        grid-column: 1;
     }
 
-    .action-buttons {
+    .right-column {
+        grid-column: 2;
+    }
+
+    .full-width {
         grid-column: 1 / -1;
     }
 }
 
-/* Photo de l'article */
+/* Photo de l'article - À gauche */
 .photo-container {
+    width: 100%;
     aspect-ratio: 1/1;
-    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--white);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     overflow: hidden;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    border: 1px solid #eaeaea;
 }
 
-/* Détails de l'enchère */
+.photo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Détails de l'enchère - À droite */
 .auction-details {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-right: 20px;
 }
 
 .auction-info-row {
@@ -94,6 +101,12 @@ main {
     grid-template-columns: 150px 1fr;
     align-items: start;
     gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.auction-info-row:last-child {
+    border-bottom: none;
 }
 
 .auction-info-label {
@@ -106,92 +119,96 @@ main {
 }
 
 .description-value {
-    max-height: 100px;
-    overflow-y: auto;
+    margin-bottom: 20px;
+    line-height: 1.5;
 }
 
 /* Section d'enchère */
 .bid-row {
-    margin-top: 10px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-bottom: none;
 }
 
 .bid-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    width: 100%;
 }
 
 .bid-input-container {
-    display: flex;
-    align-items: center;
+    flex: 1;
 }
 
 .bid-input {
-    width: 100px;
-    padding: 8px;
+    width: 100%;
+    padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    transition: var(--transition);
+    font-size: 1.1rem;
 }
 
-.bid-input:focus {
-    outline: none;
-    border-color: var(--secondary-color);
-}
-
-.bid-controls {
-    display: flex;
-    flex-direction: column;
-    margin-left: -1px;
-}
-
-/* Boutons */
-.eni-button {
-    display: inline-block;
-    padding: 12px 25px;
-    border-radius: 30px;
+/* Bouton d'enchère */
+.bid-button,
+.eni-button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border-radius: 4px;
     font-weight: 600;
     font-size: 1rem;
     text-align: center;
-    transition: var(--transition);
     background-color: var(--secondary-color);
     color: var(--white);
     border: none;
     cursor: pointer;
+    margin-top: 20px;
+    margin-right: 20px;
+    text-transform: uppercase;
 }
 
-.eni-button:hover {
+.bid-button:hover,
+.eni-button[type="submit"]:hover {
     background-color: var(--primary-color);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(108, 110, 255, 0.3);
 }
 
-.bid-button {
-    background-color: var(--secondary-color);
-    color: var(--white);
-}
-
-/* Action buttons */
+/* Bouton retour */
 .action-buttons {
+    margin-top: 30px;
     display: flex;
-    justify-content: flex-start;
-    margin-top: 20px;
 }
 
-.single-button-left {
-    justify-content: flex-start;
-}
-
-/* Message de retrait effectué */
-.retrait-effectue {
-    display: inline-block;
-    border: 2px solid var(--primary-color);
+.action-buttons .eni-button {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
     padding: 10px 20px;
-    margin-top: 20px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: var(--border-radius);
-    background-color: var(--white);
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.action-buttons .eni-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Pour les écrans mobiles */
+@media (max-width: 767px) {
+    .article-title {
+        font-size: 1.8rem;
+    }
+
+    .auction-info-row {
+        grid-template-columns: 130px 1fr;
+    }
+
+    .bid-container {
+        flex-direction: column;
+    }
+
+    .bid-input-container,
+    .bid-button {
+        width: 100%;
+    }
 }

@@ -54,8 +54,7 @@
                             <!-- Bouton Annuler Vente -->
                             <form th:if="${#authentication.principal.utilisateur != null and article.vendeur != null and #authentication.principal.utilisateur.noUtilisateur == article.vendeur.noUtilisateur}"
                                   method="post"
-                                  th:action="@{'/desactiverArticle/'+${article.noArticle}}"
-                                  style="display: inline-block; margin-left: 5px;">
+                                  th:action="@{'/desactiverArticle/'+${article.noArticle}}">
                                 <button class="btn btn-sm btn-danger" type="submit">Annuler Vente</button>
                             </form>
 

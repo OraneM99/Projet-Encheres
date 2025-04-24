@@ -12,13 +12,13 @@
             </div>
 
             <!-- Bouton burger pour mobile -->
-                <input type="checkbox" id="label-check" class="label-check" />
-                <label class="hamburger-label" for="label-check">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                    <label></label>
-                </label>
+            <input type="checkbox" id="label-check" class="label-check" />
+            <label class="hamburger-label" for="label-check">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+                <label></label>
+            </label>
 
             <!-- Navigation -->
             <nav class="main-nav" id="mainNav">
@@ -30,9 +30,25 @@
                     </th:block>
 
                     <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                        <!-- Affichage des BIDcoins dans le menu mobile -->
+                        <li class="nav-item mobile-only bidcoins-mobile">
+                            <div class="credit-box-mobile">
+                                <span>
+                                    <strong th:text="${#authentication.principal.utilisateur.credit}">0</strong>
+                                    BIDcoins
+                                </span>
+                                <img th:src="@{/images/BIDcoins.png}" alt="BIDcoins" class="bidcoin-icon-mobile">
+                                <a th:href="@{/bidcoins}" class="nav-link bidcoins-link">Acheter des BIDcoins</a>
+                            </div>
+                        </li>
                         <li class="nav-item"><a th:href="@{/vente}" class="nav-link">Mes Ventes</a></li>
                         <li class="nav-item"><a th:href="@{/nouvelle-vente}" class="nav-link">Vendre un article</a></li>
                         <li class="nav-item"><a th:href="@{/profil}" class="nav-link">Mon profil</a></li>
+                        <li class="nav-item mobile-only">
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="logout-button-mobile">Déconnexion</button>
+                            </form>
+                        </li>
                     </th:block>
 
                     <th:block th:if="${#authorization.expression('isAnonymous()')}">
@@ -44,17 +60,14 @@
             </nav>
 
             <!-- Zone droite : crédits + bouton + déconnexion -->
-            <div class="header-right uk-flex uk-flex-left uk-gap-small">
+            <div class="header-right uk-flex uk-flex-left uk-gap-small desktop-only">
                 <th:block th:if="${#authorization.expression('isAuthenticated()')}">
                     <div class="credit-box uk-flex uk-flex-middle uk-gap-small">
-
                         <span>
                             <strong th:text="${#authentication.principal.utilisateur.credit}">0</strong>
-                         </span>
+                        </span>
                         <img th:src="@{/images/BIDcoins.png}" alt="BIDcoins" style="margin-left: 2px; width: 24px; height: 24px;">
                         <a th:href="@{/bidcoins}" class="uk-button">Acheter des BIDcoins</a>
-
-
                     </div>
 
                     <form th:action="@{/logout}" method="post">
@@ -63,62 +76,8 @@
                 </th:block>
             </div>
         </div>
-
-
-
     </header>
 
-
-<!-- JavaScript pour le menu mobile -->
-<script th:inline="javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        const labelCheck = document.getElementById('label-check');
-        const mainNav = document.getElementById('mainNav');
-        const overlay = document.querySelector('.overlay');
-
-        // Gestion du menu mobile avec la checkbox
-        labelCheck.addEventListener('change', function() {
-            if (this.checked) {
-                mainNav.classList.add('open');
-                overlay.classList.add('active');
-                document.body.classList.add('menu-open');
-            } else {
-                mainNav.classList.remove('open');
-                overlay.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            }
-        });
-
-        // Fermer le menu quand on clique sur l'overlay
-        overlay.addEventListener('click', function() {
-            labelCheck.checked = false;
-            mainNav.classList.remove('open');
-            overlay.classList.remove('active');
-            document.body.classList.remove('menu-open');
-        });
-
-        // Fermer le menu lorsqu'un lien est cliqué
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                labelCheck.checked = false;
-                mainNav.classList.remove('open');
-                overlay.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            });
-        });
-
-        const currentPath = window.location.pathname;
-        const navItems = document.querySelectorAll('.nav-link');
-
-        navItems.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href === currentPath ||
-                (currentPath.startsWith('/admin') && href === '/admin/dashboard') ||
-                (currentPath === '/' && href === '/')) {
-                link.classList.add('active');
-            }
-        });
-    });
-</script>
+<!-- Script pour Menu Mobile -->
+<script th:src="@{/js/detail-vente.js}"></script>
 </div>
