@@ -87,7 +87,7 @@ public class EnchereService {
         //Determiner la date du jour
         LocalDate aujourdHui = LocalDate.now();
 
-        //si la date du jour et avant la date de début d'enchere du produit - l'enchere n'est pas accessible
+        //si la date du jour et avant la date de début d'enchere ou apres la date de fin - l'enchere n'est pas accessible
         if (aujourdHui.isBefore(articleTarget.getDateDebutEncheres()) || aujourdHui.isAfter(articleTarget.getDateFinEncheres())) {
             return ServiceResponse.buildResponse(CD_ERR_TCH, "Enchères non ouvertes pour cet article", null);
         }
