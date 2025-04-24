@@ -1,7 +1,8 @@
 <div th:fragment="header">
     <div class="overlay"></div>
     <header class="header">
-        <div class="header-container">
+        <div class="header-container uk-flex uk-flex-middle uk-flex-between">
+
             <!-- Logo -->
             <div class="logo">
                 <a th:href="@{/}">
@@ -21,7 +22,7 @@
 
             <!-- Navigation -->
             <nav class="main-nav" id="mainNav">
-                <ul class="nav-links">
+                <ul class="nav-links uk-flex uk-flex-center">
 
                     <!-- Si l'utilisateur est connecté -->
                     <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
@@ -32,10 +33,8 @@
                         <li class="nav-item"><a th:href="@{/vente}" class="nav-link">Mes Ventes</a></li>
                         <li class="nav-item"><a th:href="@{/nouvelle-vente}" class="nav-link">Vendre un article</a></li>
                         <li class="nav-item"><a th:href="@{/profil}" class="nav-link">Mon profil</a></li>
-                        <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Se déconnecter</a></li>
                     </th:block>
 
-                    <!-- Si l'utilisateur n'est pas connecté -->
                     <th:block th:if="${#authorization.expression('isAnonymous()')}">
                         <li class="nav-item"><a th:href="@{/encheres}" class="nav-link">Enchères</a></li>
                         <li class="nav-item"><a th:href="@{/login}" class="nav-link">Se connecter</a></li>
@@ -43,7 +42,30 @@
                     </th:block>
                 </ul>
             </nav>
+
+            <!-- Zone droite : crédits + bouton + déconnexion -->
+            <div class="header-right uk-flex uk-flex-left uk-gap-small">
+                <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                    <div class="credit-box uk-flex uk-flex-middle uk-gap-small">
+
+                        <span>
+                            <strong th:text="${#authentication.principal.utilisateur.credit}">0</strong>
+                         </span>
+                        <img th:src="@{/images/BIDcoins.png}" alt="BIDcoins" style="margin-left: 2px; width: 24px; height: 24px;">
+                        <a th:href="@{/bidcoins}" class="uk-button">Acheter des BIDcoins</a>
+
+
+                    </div>
+
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="logout-button">Déconnexion</button>
+                    </form>
+                </th:block>
+            </div>
         </div>
+
+
+
     </header>
 
 

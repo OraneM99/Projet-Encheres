@@ -66,6 +66,11 @@
                         <div class="profile-value" th:text="${#authentication.principal.utilisateur.credit}">0</div>
                     </div>
                 </div>
+                <div th:if="${successMessage}" class="message-achat-success" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p th:text="${successMessage}"></p>
+                </div>
+
 
                 <div class="profile-actions uk-margin-medium-top">
                     <div class="button-wrapper">

@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
+                        .deleteCookies("JSESSIONID", "remember-me")
                         .permitAll()
                 )
                 //.csrf(AbstractHttpConfigurer::disable) // à réactiver en prod !

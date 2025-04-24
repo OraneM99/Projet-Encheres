@@ -64,7 +64,7 @@ public class ProfilController {
             throw new AccessDeniedException("Action non autorisée");
         }
 
-        utilisateurService.delete(id);
+        utilisateurService.toggleActivation(id);
         new SecurityContextLogoutHandler().logout(request, response, null);
         return "redirect:/accueil";
     }

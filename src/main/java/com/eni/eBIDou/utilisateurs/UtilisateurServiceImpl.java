@@ -227,4 +227,6 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 
         return new CustomUserDetails(utilisateur);
     }
+
+
 }
