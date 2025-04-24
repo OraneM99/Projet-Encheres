@@ -31,6 +31,7 @@
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     padding: 40px;
+    height: 400px;
 }
 
 /* Alertes */
@@ -144,11 +145,6 @@ label {
     transition: var(--transition);
 }
 
-/* Se souvenir de moi */
-.remember-me {
-    margin-bottom: 30px;
-}
-
 .checkbox-container {
     display: flex;
     align-items: center;
@@ -207,11 +203,6 @@ label {
     transform: rotate(45deg);
 }
 
-/* Bouton de connexion */
-.form-actions {
-    margin-top: 20px;
-}
-
 .login-button {
     background-color: var(--secondary-color);
     color: var(--white);
@@ -240,4 +231,47 @@ label {
 
 .login-button:hover .button-icon {
     transform: translateX(3px);
+}
+
+/* Flip Card Styles */
+.flip-container {
+    perspective: 1000px;
+}
+
+.flip-container .flipper {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.flip-container.flipped .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container,
+.front,
+.back {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.front,
+.back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+}
+
+.front {
+    transform: rotateY(0deg);
+    z-index: 2;
+}
+
+.back {
+    transform: rotateY(180deg);
 }
