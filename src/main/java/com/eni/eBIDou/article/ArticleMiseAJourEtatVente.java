@@ -15,8 +15,8 @@ public class ArticleMiseAJourEtatVente {
         this.articleService = articleService;
     }
 
-    //@Scheduled(cron = "0 0 0 * * *") // Tous les jours à minuit
-    @Scheduled(fixedRate = 10000) // toutes les 10 secondes
+    @Scheduled(cron = "0 0 0 * * *") // Tous les jours à minuit
+    //@Scheduled(fixedRate = 10000) // toutes les 10 secondes
     public void mettreAJourEtatsArticles() {
         System.out.println("Mise à jour des articles en cours...");
         ServiceResponse<List<Article>> articles = articleService.verifierEtMettreAjourEtatVente();

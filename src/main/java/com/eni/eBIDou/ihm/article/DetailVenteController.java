@@ -2,6 +2,7 @@ package com.eni.eBIDou.ihm.article;
 
 import com.eni.eBIDou.article.Article;
 import com.eni.eBIDou.article.ArticleService;
+import com.eni.eBIDou.data.EtatVente;
 import com.eni.eBIDou.enchere.Enchere;
 import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.retrait.Retrait;
@@ -38,11 +39,37 @@ public class DetailVenteController {
     }
 
     @GetMapping("/detail-vente/{id}")
-    public String detailVente(@PathVariable long id, Model model) {
+    public String detailVente(@PathVariable long id, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         //Récupérer l'article
         ServiceResponse<Article> article = articleService.getArticleById(id);
         Article articleAVendre = article.getData();
+
+        //MODIF
+        if(articleAVendre.getEtatVente() == EtatVente.TERMINEE || articleAVendre.getEtatVente() == EtatVente.RETRAIT_EFFECTUE){
+
+            UtilisateurBO utilisateur = customUserDetails.getUtilisateur();
+
+            ServiceResponse<Enchere> enchereResponse = enchereService.trouverMeilleureEnchere(articleAVendre.getNoArticle());
+            Enchere meilleureEnchere = enchereResponse.getData();
+
+            UtilisateurBO gagnant = meilleureEnchere != null ? meilleureEnchere.getEncherisseur() : null;
+
+            //Si gagnant enchère
+            if(gagnant != null && utilisateur.getNoUtilisateur().equals(gagnant.getNoUtilisateur())){
+                return "redirect:/detail-vente/" + id + "/fin";
+            }
+
+            //Si vendeur
+            if(utilisateur.getNoUtilisateur().equals(articleAVendre.getVendeur().getNoUtilisateur())){
+                return "redirect:/detail-vente/" + id + "/fin";
+            }
+
+            //Si ni vendeur ni gagnant
+            return "redirect:/accueil";
+
+        }
+
 
         //Récupérer le vendeur lié à l'article
         long idVendeur = articleAVendre.getVendeur().getNoUtilisateur();
@@ -97,7 +124,7 @@ public class DetailVenteController {
         return "redirect:/accueil";
     }
 
-    @GetMapping("/article/{id}/fin")
+    @GetMapping("/detail-vente/{id}/fin")
     public String afficherFinEnchere(@PathVariable Long id, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         ServiceResponse<Article> articleData = articleService.getArticleById(id);
         Article article = articleData.getData();
@@ -111,6 +138,7 @@ public class DetailVenteController {
         model.addAttribute("article", article);
         model.addAttribute("vendeur", vendeur);
         model.addAttribute("encherisseur", gagnant);
+        model.addAttribute("enchere", meilleureEnchere);
 
         if(gagnant != null) {
             if (utilisateurConnecte.getNoUtilisateur().equals(gagnant.getNoUtilisateur())) {
@@ -124,7 +152,7 @@ public class DetailVenteController {
         return "redirect:/accueil";
     }
 
-    @PostMapping("/articles/{id}/retrait-effectue")
+    @PostMapping("/detail-vente/{id}/retrait-effectue")
     public String retraitEffectue(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Article article = articleService.getArticleById(id).getData();
 
