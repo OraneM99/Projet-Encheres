@@ -8,7 +8,6 @@ import com.eni.eBIDou.service.ServiceResponse;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +22,12 @@ public class ArticleService {
 
     private final ArticleIDAO daoArticle;
     private final ArticleRepository articleRepository;
-    private final EnchereService enchereService;
-    private final UtilisateurService utilisateurService;
 
-    public ArticleService(ArticleIDAO daoArticle, ArticleRepository articleRepository, EnchereService enchereService, UtilisateurService utilisateurService) {
+
+    public ArticleService(ArticleIDAO daoArticle, ArticleRepository articleRepository) {
         this.daoArticle = daoArticle;
         this.articleRepository = articleRepository;
-        this.enchereService = enchereService;
-        this.utilisateurService = utilisateurService;
+
     }
 
     @Transactional
@@ -59,29 +56,6 @@ public class ArticleService {
         }
         articleRepository.saveAll(articles);
         return ServiceResponse.buildResponse(CD_SUCCESS, "Les articles ont bien été mis à jour", articles);
-    }
-
-    @Transactional
-    public  ServiceResponse<Article>marquerRetraitEffectue(Long articleId) {
-
-        Article article = daoArticle.selectById(articleId);
-
-        if (article.getEtatVente() != EtatVente.TERMINEE) {
-            return ServiceResponse.buildResponse(CD_ERR_TCH, "Le retrait ne peut être confirmé que pour une enchère terminée.", null );
-        }
-        // récupérer l'enchere gagnante de l'article
-        ServiceResponse<Enchere> EnchereResponse = enchereService.trouverMeilleureEnchere(articleId);
-        Enchere meilleureEnchere = EnchereResponse.getData();
-        int montant = meilleureEnchere.getMontant_enchere();
-
-        //recuperer le vendeur pour lui virer la somme
-        UtilisateurBO vendeur = article.getVendeur();
-        utilisateurService.updateCredit(vendeur.getNoUtilisateur(), montant);
-
-
-        article.setEtatVente(EtatVente.RETRAIT_EFFECTUE);
-        articleRepository.save(article);
-        return ServiceResponse.buildResponse(CD_SUCCESS, "L'etat vente de l'article a bien été mis à jour par le retrait effectué", article);
     }
 
 

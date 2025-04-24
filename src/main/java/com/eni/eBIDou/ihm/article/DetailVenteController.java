@@ -8,6 +8,7 @@ import com.eni.eBIDou.enchere.EnchereService;
 import com.eni.eBIDou.retrait.Retrait;
 import com.eni.eBIDou.retrait.RetraitService;
 import com.eni.eBIDou.service.ServiceResponse;
+import com.eni.eBIDou.service.TransactionVenteService;
 import com.eni.eBIDou.utilisateurs.CustomUserDetails;
 import com.eni.eBIDou.utilisateurs.UtilisateurBO;
 import com.eni.eBIDou.utilisateurs.UtilisateurDTO;
@@ -30,12 +31,14 @@ public class DetailVenteController {
     private final EnchereService enchereService;
     private final UtilisateurService utilisateurService;
     private ArticleService articleService;
+    private final TransactionVenteService  transactionVenteService;
 
-    public DetailVenteController(ArticleService articleService, RetraitService retraitService, EnchereService enchereService, UtilisateurService utilisateurService) {
+    public DetailVenteController(ArticleService articleService, RetraitService retraitService, EnchereService enchereService, UtilisateurService utilisateurService, TransactionVenteService transactionVenteService) {
         this.articleService = articleService;
         this.retraitService = retraitService;
         this.enchereService = enchereService;
         this.utilisateurService = utilisateurService;
+        this.transactionVenteService = transactionVenteService;
     }
 
     @GetMapping("/detail-vente/{id}")
@@ -160,7 +163,7 @@ public class DetailVenteController {
             return "redirect:/accueil";
         }
 
-        articleService.marquerRetraitEffectue(id);
+        transactionVenteService.traiterRetrait(id);
 
         // Redirection vers la même page, ou une autre vue de confirmation
         return "redirect:/article/" + id + "/fin";

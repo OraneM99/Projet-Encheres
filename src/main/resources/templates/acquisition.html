@@ -51,10 +51,13 @@
                                 <td class="uk-text-bold label">Fin de l'enchère :</td>
                                 <td class="value" th:text="${article.dateFinEncheres}">09/10/2018</td>
                             </tr>
-                            <tr>
+                            <tr th:if="${article.etatVente.name() != 'RETRAIT_EFFECTUE'}">
                                 <td class="uk-text-bold label">Retrait :</td>
                                 <td th:text="${article.lieuRetrait.rue}"></td>
                                 <td th:text="|${article.lieuRetrait.codePostal} ${article.lieuRetrait.ville} |"></td>
+                            </tr>
+                            <tr th:if="${article.etatVente.name() == 'RETRAIT_EFFECTUE'}">
+                                <td colspan="3" class="uk-text-success uk-text-bold">✔ Le retrait a bien été effectué</td>
                             </tr>
                             <tr>
                                 <td class="uk-text-bold label">Vendeur :</td>
@@ -64,16 +67,18 @@
                         </table>
                     </div>
 
-                    <!-- Actions -->
-                    <form th:action="@{'/detail-vente/' + ${article.noArticle} + '/retrait-effectue'}" method="post">
-                        <button type="submit" class="eni-button">Retrait effectué</button>
-                    </form>
+                    <div th:if="${article.etatVente.name() != 'RETRAIT_EFFECTUE'}">
+                        <!-- Actions -->
+                        <form th:action="@{'/detail-vente/' + ${article.noArticle} + '/retrait-effectue'}" method="post">
+                            <button type="submit" class="eni-button">Retrait effectué</button>
+                        </form>
 
-                    <!-- Bouton de Contact -->
-                    <div class="action-buttons single-button-left">
-                        <a th:href="@{/profil/{id}(id=${vendeur.getNoUtilisateur()})}">
-                            <button class="eni-button"   th:text="|Contacter ${vendeur.pseudo}|"></button>
-                        </a>
+                        <!-- Bouton de Contact -->
+                        <div class="action-buttons single-button-left">
+                            <a th:href="@{/profil/{id}(id=${vendeur.getNoUtilisateur()})}">
+                                <button class="eni-button"   th:text="|Contacter ${vendeur.pseudo}|"></button>
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Bouton de retour -->
