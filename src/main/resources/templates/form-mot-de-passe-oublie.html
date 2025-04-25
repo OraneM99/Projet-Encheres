@@ -6,7 +6,6 @@
     <title>ENI-Enchères - Mot de passe oublié</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/mot-de-passe-oublie.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
 </head>
@@ -15,20 +14,96 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div class="uk-container uk-margin-large-top uk-width-1-2@m">
+<!-- Contenu principal -->
+<div class="forgot-password-container">
     <h2>Mot de passe oublié</h2>
-    <form action="/mot-de-passe-oublie" method="post" class="uk-form-stacked">
+    <form action="/mot-de-passe-oublie" method="post" class="forgot-password-form">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-        <div class="uk-margin">
-            <label class="uk-form-label">Adresse email</label>
-            <input class="uk-input" type="email" name="email" required>
+        <div class="form-group">
+            <label for="email">Adresse email</label>
+            <input type="email" name="email" id="email" required placeholder="ex : moi@email.com" />
         </div>
-        <button class="uk-button uk-button-primary">Envoyer le lien</button>
+
+        <button type="submit">Envoyer le lien</button>
     </form>
 </div>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Style interne -->
+<style>
+    .forgot-password-container {
+        max-width: 500px;
+        margin: 60px auto;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 40px;
+    }
+
+    .forgot-password-container h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .forgot-password-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .forgot-password-form label {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+        color: var(--text-color);
+    }
+
+    .forgot-password-form input[type="email"] {
+        height: 45px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 0 15px;
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+
+    .forgot-password-form input[type="email"]:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 2px rgba(108, 110, 255, 0.2);
+    }
+
+    .forgot-password-form input::placeholder {
+        color: #aaa;
+    }
+
+    .forgot-password-form button {
+        background-color: var(--secondary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 30px;
+        padding: 14px 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .forgot-password-form button:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 110, 255, 0.3);
+    }
+</style>
+
 </body>
 </html>
