@@ -61,6 +61,18 @@ public class EnchereController {
                     articlePaginationService.getAllEncheresEnCoursPaginated(page);
             PaginatedResult<Article> paginatedResult = serviceResponse.getData();
 
+            for (Article article : paginatedResult.getContent()) {
+                ServiceResponse<Enchere> enchereResponse = enchereService.trouverMeilleureEnchere(article.getNoArticle());
+
+                if (enchereResponse.getData() != null) {
+                    article.setMontantEnCours(enchereResponse.getData().getMontant_enchere());
+                } else {
+                    article.setMontantEnCours(article.getMiseAPrix()); // fallback si pas d'enchère
+                }
+            }
+
+
+
             // Si aucun résultat avec des données de pagination correctes, initialiser un résultat vide
             if (paginatedResult == null) {
                 paginatedResult = new PaginatedResult<>(new ArrayList<>(), page, 6, 0, 0);

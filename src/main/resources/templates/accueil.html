@@ -104,7 +104,7 @@
                 <div class="modern-card-content">
                     <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
                     <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' points'">Prix</p>
+                    <p class="modern-card-price" th:text="${article.montantEnCours} + ' BIDcoins'">Prix</p>
                     <div class="modern-card-info">
                         <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
                         <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>
@@ -133,7 +133,7 @@
                 <div class="modern-card-content">
                     <span class="modern-card-category" th:text="${article.categorieArticle != null ? article.categorieArticle.libelle : 'Non catégorisé'}">Catégorie</span>
                     <h3 class="modern-card-title" th:text="${article.nomArticle}">Nom de l'article</h3>
-                    <p class="modern-card-price" th:text="${article.miseAPrix} + ' points'">Prix</p>
+                    <p class="modern-card-price" th:text="${article.montantEnCours} + ' BIDcoins'">Prix</p>
                     <div class="modern-card-info">
                         <span th:text="'Fin : ' + ${#temporals.format(article.dateFinEncheres, 'dd/MM/yyyy')}">Date de fin</span>
                         <span th:if="${article.vendeur != null}" th:text="${article.vendeur.pseudo}">Vendeur</span>

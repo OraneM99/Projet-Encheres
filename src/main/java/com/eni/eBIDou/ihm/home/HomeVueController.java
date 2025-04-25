@@ -46,6 +46,17 @@ public class HomeVueController {
                 .filter(article -> article.getEtatVente() == EtatVente.EN_COURS)
                 .collect(Collectors.toList());
 
+        for (Article article : articles) {
+            Enchere meilleureEnchere = enchereService.trouverMeilleureEnchere(article.getNoArticle()).getData();
+
+            if (meilleureEnchere != null) {
+                article.setMontantEnCours(meilleureEnchere.getMontant_enchere());
+            } else {
+                article.setMontantEnCours(article.getMiseAPrix());
+            }
+        }
+
+
         // Récupérer toutes les enchères
         ServiceResponse<List<Enchere>> enchereResponse = enchereService.getAll();
         List<Enchere> encheres = CD_SUCCESS.equals(enchereResponse.code)
