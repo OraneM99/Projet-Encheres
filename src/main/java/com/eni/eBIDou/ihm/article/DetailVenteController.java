@@ -48,7 +48,7 @@ public class DetailVenteController {
         ServiceResponse<Article> article = articleService.getArticleById(id);
         Article articleAVendre = article.getData();
 
-        //MODIF
+        //MODIF pour ne pas afficher le détail si l'enchère est terminée.
         if(articleAVendre.getEtatVente() == EtatVente.TERMINEE || articleAVendre.getEtatVente() == EtatVente.RETRAIT_EFFECTUE){
 
             UtilisateurBO utilisateur = customUserDetails.getUtilisateur();
