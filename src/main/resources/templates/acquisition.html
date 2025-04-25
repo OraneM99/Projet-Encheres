@@ -17,78 +17,95 @@
 <body>
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
+
 <section class="hero-section">
     <div class="hero-container">
         <div class="hero-content">
-            <!-- Contenu principal -->
-            <!-- Contenu principal -->
-            <main class="uk-margin-medium-top">
-                <div class="uk-card uk-card-default uk-card-body eni-card">
-                    <!-- Titre de l'article -->
-                    <h3 class="uk-text-bold uk-margin-remove-top article-title" th:text="|Félicitations vous avez remportée l'enchère pour : ${article.nomArticle}|"></h3>
 
+            <main>
+                <!-- Titre de l'article -->
+                <h3 class="article-title"
+                    th:text="|Félicitations, vous avez remporté l&#39;enchère pour : ${article.nomArticle}|">
+                </h3>
+
+                <!-- Colonne gauche -->
+                <div class="left-column">
                     <!-- Image de l'article -->
                     <div class="photo-container">
-                        <img th:src="${article.urlImage != null && !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
+                        <img th:src="${article.urlImage != null and !article.urlImage.isEmpty() ? article.urlImage : '/images/placeholder.png'}"
                              alt="Image de l'article"
-                             style="object-fit: cover; width: 100%; height: 200px;"
                              onerror="this.src='/images/placeholder.png';" />
                     </div>
+                </div>
 
+                <!-- Colonne droite -->
+                <div class="right-column">
                     <!-- Détails de l'enchère -->
-                    <div class="uk-margin-medium">
-                        <table class="uk-table uk-table-middle uk-table-divider auction-info-table">
-                            <tbody>
-                            <tr>
-                                <td class="uk-text-bold label">Meilleure offre :</td>
-                                <td class="value" th:text="|${enchere.montant_enchere} pts par ${encherisseur.pseudo}|"></td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold label">Mise à prix :</td>
-                                <td class="value" th:text="|${article.miseAPrix} pts|"></td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold label">Fin de l'enchère :</td>
-                                <td class="value" th:text="${article.dateFinEncheres}">09/10/2018</td>
-                            </tr>
-                            <tr th:if="${article.etatVente.name() != 'RETRAIT_EFFECTUE'}">
-                                <td class="uk-text-bold label">Retrait :</td>
-                                <td th:text="${article.lieuRetrait.rue}"></td>
-                                <td th:text="|${article.lieuRetrait.codePostal} ${article.lieuRetrait.ville} |"></td>
-                            </tr>
-                            <tr th:if="${article.etatVente.name() == 'RETRAIT_EFFECTUE'}">
-                                <td colspan="3" class="uk-text-success uk-text-bold">✔ Le retrait a bien été effectué</td>
-                            </tr>
-                            <tr>
-                                <td class="uk-text-bold label">Vendeur :</td>
-                                <td class="value" th:text="${article.vendeur.pseudo}">NineJea</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Meilleure offre :</div>
+                        <div class="auction-info-value">
+                            <span th:text="|${enchere.montant_enchere} BIDcoins par ${encherisseur.pseudo}|"></span>
+                        </div>
+                    </div>
+
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Mise à prix :</div>
+                        <div class="auction-info-value">
+                            <span th:text="|${article.miseAPrix} BIDcoins|"></span>
+                        </div>
+                    </div>
+
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Fin de l'enchère :</div>
+                        <div class="auction-info-value">
+                            <span th:text="${#temporals.format(article.dateFinEncheres, 'dd/MM/yy HH:mm')}"></span>
+                        </div>
+                    </div>
+
+                    <div class="auction-info-row" th:if="${article.etatVente.name() != 'RETRAIT_EFFECTUE'}">
+                        <div class="auction-info-label">Retrait :</div>
+                        <div class="auction-info-value">
+                            <span th:text="${article.lieuRetrait.rue}"></span>
+                            <span th:text="|${article.lieuRetrait.codePostal} ${article.lieuRetrait.ville}|"></span>
+                        </div>
+                    </div>
+
+                    <div class="auction-info-row" th:if="${article.etatVente.name() == 'RETRAIT_EFFECTUE'}">
+                        <span class="uk-text-success uk-text-bold">✔ Le retrait a bien été effectué</span>
+                    </div>
+
+                    <div class="auction-info-row">
+                        <div class="auction-info-label">Vendeur :</div>
+                        <div class="auction-info-value">
+                            <a class="uk-link-text btn-profil"
+                               th:text="${vendeur.pseudo}"
+                               th:href="@{/profil/{id}(id=${vendeur.noUtilisateur})}"></a>
+                        </div>
                     </div>
 
                     <div th:if="${article.etatVente.name() != 'RETRAIT_EFFECTUE'}">
-                        <!-- Actions -->
+                        <!-- Action : Retrait effectué -->
                         <form th:action="@{'/detail-vente/' + ${article.noArticle} + '/retrait-effectue'}" method="post">
                             <button type="submit" class="eni-button">Retrait effectué</button>
                         </form>
 
-                        <!-- Bouton de Contact -->
+                        <!-- Bouton de contact -->
                         <div class="action-buttons single-button-left">
-                            <a th:href="@{/profil/{id}(id=${vendeur.getNoUtilisateur()})}">
-                                <button class="eni-button"   th:text="|Contacter ${vendeur.pseudo}|"></button>
+                            <a th:href="@{/profil/{id}(id=${vendeur.noUtilisateur})}">
+                                <button type="button" class="eni-button" th:text="|Contacter ${vendeur.pseudo}|"></button>
                             </a>
                         </div>
                     </div>
 
                     <!-- Bouton de retour -->
                     <div class="action-buttons single-button-left">
-                        <a th:href="@{/accueil}">
-                            <button class="eni-button">Back</button>
+                        <a th:href="@{/vente}">
+                            <button type="button" class="eni-button">Back</button>
                         </a>
                     </div>
                 </div>
             </main>
+
         </div>
     </div>
 </section>
