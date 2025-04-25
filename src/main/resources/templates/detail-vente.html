@@ -12,6 +12,8 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -136,7 +138,65 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <!-- Script encherir -->
-<script th:src="@{/js/detail-vente.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const enchereForm = document.querySelector('form[action^="/encherir/"]');
+
+        if (enchereForm) {
+            enchereForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(this);
+                const actionUrl = this.getAttribute('action');
+
+                fetch(actionUrl, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur réseau');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const htmlDoc = parser.parseFromString(data, 'text/html');
+
+                        const meilleureOffre = htmlDoc.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:first-child');
+                        const encherisseur = htmlDoc.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:last-child');
+
+                        if (meilleureOffre) {
+                            document.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:first-child').textContent = meilleureOffre.textContent;
+                        }
+
+                        if (encherisseur) {
+                            document.querySelector('.auction-info-row:nth-child(3) .auction-info-value span:last-child').textContent = encherisseur.textContent;
+                        }
+
+                        Swal.fire({
+                            title: '🎉 Enchère validée !',
+                            text: 'Votre enchère a bien été enregistrée.',
+                            icon: 'success',
+                            confirmButtonText: 'Super !'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        Swal.fire({
+                            title: 'Oops...',
+                            text: 'Une erreur est survenue lors de la soumission de votre enchère.',
+                            icon: 'error',
+                            confirmButtonText: 'Fermer'
+                        });
+                    });
+            });
+        }
+    });
+
+</script>
 
 </body>
 </html>
