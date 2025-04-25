@@ -109,8 +109,6 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
         existing.setRue(dto.getRue());
         existing.setCodePostal(dto.getCodePostal());
         existing.setVille(dto.getVille());
-        existing.setAdministrateur(dto.isAdministrateur());
-        existing.setActif(dto.isActif());
 
         // Optionnel : mise à jour du mot de passe uniquement s'il est fourni
         if (dto.getMotDePasse() != null && !dto.getMotDePasse().isBlank()) {

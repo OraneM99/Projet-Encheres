@@ -51,6 +51,10 @@ public class Article {
 
     private String urlImage;
 
+    @Transient
+    private Integer montantEnCours;
+
+
 
     public Article(long noArticle, String nomArticle, String description, LocalDate dateDebutEncheres, int miseAPrix) {
         this.noArticle = noArticle;
